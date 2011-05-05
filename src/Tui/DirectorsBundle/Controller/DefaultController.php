@@ -8,12 +8,12 @@ class DefaultController extends Controller
 {
   
     /**
-     * @extra:Route('/', name="home")
+     * @extra:Route("/", name="home")
      * @extra:Template()
      */
   
     public function indexAction()
     {
-
+      return array();
     }
 }
