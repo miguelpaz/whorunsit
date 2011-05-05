@@ -1,4 +1,4 @@
-# directors:
-#     resource: "@TuiDirectorsBundle/Controller/DefaultController.php"
-#     type:     annotation
-# 
+directors:
+    resource: "@TuiDirectorsBundle/Controller/DefaultController.php"
+    type:     annotation
+
