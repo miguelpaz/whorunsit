@@ -1,4 +1,5 @@
 <?php
+umask(0007);
 
 use Symfony\Component\ClassLoader\UniversalClassLoader;
 
