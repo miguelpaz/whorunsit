@@ -1,7 +1,17 @@
 {% extends "::base.html.twig" %}
 
+{% block title %}UK Company Directors{% endblock %}
+
+{% block stylesheets %}
+  <link rel="stylesheet" type="text/css" href="{{ asset('css/blueprint/screen.css') }}" />
+  <link rel="stylesheet" type="text/css" href="{{ asset('css/blueprint/print.css') }}" />
+  <!--[if lt IE 8]>
+    <link rel="stylesheet" href="{{ asset('css/blueprint/ie.css') }}" type="text/css" media="screen, projection" />
+  <![endif]-->
+{% endblock %} 
+
 {% block body %}
-
-Hello!
-
+  <div id="container">
+    Hello!
+  </div>
 {% endblock %}
