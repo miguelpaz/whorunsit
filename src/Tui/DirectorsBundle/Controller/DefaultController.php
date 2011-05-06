@@ -63,9 +63,7 @@ class DefaultController extends Controller
 
           $ex = $em->getExpressionBuilder();
           $q = $em->createQuery('SELECT a FROM TuiDirectorsBundle:Appointee a WHERE '.$ex->in('a.id', $ids));
-          $appointees = $q->getArrayResult();
-          
-          $appointees = array_map(function($v){ if ($v['dateOfBirth']) $v['dateOfBirth'] = $v['dateOfBirth']->format('Y'); return $v; }, $appointees);
+          $appointees = $q->getResult();
         }
 
 
@@ -81,7 +79,7 @@ class DefaultController extends Controller
 
           $ex = $em->getExpressionBuilder();
           $q = $em->createQuery('SELECT c FROM TuiDirectorsBundle:Company c WHERE '.$ex->in('c.id', $ids));
-          $companies = $q->getArrayResult();
+          $companies = $q->getResult();
         }
 
 
