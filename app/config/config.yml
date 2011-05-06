@@ -56,3 +56,12 @@ swiftmailer:
 jms_security_extra:
     secure_controllers:  true
     secure_all_services: false
+
+
+services:
+    search:
+        class: SphinxClient
+        calls:
+            - [setArrayResult, [true]]
+            - [setLimits, [0, 100, 100]]
+

@@ -20,6 +20,7 @@ $loader->registerPrefixes(array(
     'Twig_Extensions_' => __DIR__.'/../vendor/twig-extensions/lib',
     'Twig_'            => __DIR__.'/../vendor/twig/lib',
     'Swift_'           => __DIR__.'/../vendor/swiftmailer/lib/classes',
+    'Sphinx'           => __DIR__.'/../vendor/sphinx-client',
 ));
 $loader->register();
 $loader->registerPrefixFallback(array(
