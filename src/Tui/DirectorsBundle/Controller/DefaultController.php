@@ -17,4 +17,14 @@ class DefaultController extends Controller
         return array();
     }
     
+    /**
+     * @extra:Route("/privacy", name="privacy")
+     * @extra:Template()
+     */
+  
+    public function privacyAction()
+    {
+        return array();
+    }
+    
 }
