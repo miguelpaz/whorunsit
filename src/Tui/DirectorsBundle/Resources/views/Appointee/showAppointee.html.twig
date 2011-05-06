@@ -71,7 +71,6 @@
  
     <h4>Locations</h4> 
  	
- 	{# TODO: hook these up to the real mappings #}
-    <p><a href="/appointees/{{ appointee.id }}.json">JSON</a> <a href="/appointees/{{ appointee.id }}.rdf">RDF</a></p>    </div> 
+	<p>Alternative presentations: <a href="{{ url('appointee_show', {'id': appointee.id ,'_format': 'json'} ) }}">JSON</a></p> 
     
 {% endblock %}

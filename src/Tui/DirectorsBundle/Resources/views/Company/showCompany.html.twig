@@ -2,6 +2,43 @@
 
 {% block content %}
 
-    <h1>{{ company.name }}</h1>
-    
+    <h2>{{ company.name }}</h2> 
+ 
+	<h3>Details</h3> 
+ 
+	<div class="item"> 
+  		<span class="key">Status:</span> 
+  		<span class="value">{{ company.status }}</span> 
+	</div> 
+ 
+	<div class="item"> 
+  		<span class="key">Officers:</span> 
+  		<span class="value">{{ company.officers }}</span> 
+	</div> 
+
+	{% if company.status not in ['Converted/closed', 'Dissolved'] %}
+		<div class="item">
+			<span class="key">OpenCorporates entry:</span> 
+			<span class="value"><a href="http://opencorporates.com/companies/uk/{{ company.id }}">OpenCorporates</a></span>
+ 		</div>
+ 	{% endif %}
+ 
+	<h3>Appointments</h3> 
+		<ul>
+		 	{# TODO: sort the array by appointedOn #}
+			{% for appointment in company.companyAppointments %} 
+  
+  				<li>{{ appointment.appointedOn|date("Y-m-d") }}: <a href="{{ url('appointee_show', { 'id':  appointment.appointee.id  }) }}">{{ appointment.appointee.forenames }} {{ appointment.appointee.surname }}</a> is {{ appointment.type }} (source: {{ appointment.appointmentDateSource }})</li>    
+			
+			{% endfor %}
+		</ul> 
+ 
+ 	<h3>Annotations</h3> 
+	<p>Coming soon</p> 
+ 
+	<hr>
+	
+	<p>Alternative presentations: <a href="{{ url('company_show', {'id': company.id ,'_format': 'json'} ) }}">JSON</a></p>
+
+	
 {% endblock %}

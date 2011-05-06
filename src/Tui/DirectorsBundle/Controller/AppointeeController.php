@@ -10,7 +10,7 @@ class AppointeeController extends Controller
 {
 
     /**
-     * @extra:Route("/appointees/{id}", name="appointee_show")
+     * @extra:Route("/appointees/{id}.{_format}", name="appointee_show", defaults={"_format" = "html"})
      * @extra:ParamConverter("id", class="TuiDirectorsBundle:Appointee")
      * @extra:Template()
      */
