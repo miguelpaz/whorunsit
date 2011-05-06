@@ -144,6 +144,13 @@ class Appointee
      * @orm:Column(name="residence", type="string", length=160, nullable=true)
      */
     private $residence;
+    
+    /**
+     * @var CompanyAppointment
+     *
+     * @orm:OneToMany(targetEntity="CompanyAppointment", mappedBy="appointee")
+     */
+    private $companyAppointments;
 
 
 
@@ -525,5 +532,29 @@ class Appointee
     public function getResidence()
     {
         return $this->residence;
+    }
+    public function __construct()
+    {
+        $this->companyAppointments = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add companyAppointments
+     *
+     * @param Tui\DirectorsBundle\Entity\CompanyAppointment $companyAppointments
+     */
+    public function addCompanyAppointments(\Tui\DirectorsBundle\Entity\CompanyAppointment $companyAppointments)
+    {
+        $this->companyAppointments[] = $companyAppointments;
+    }
+
+    /**
+     * Get companyAppointments
+     *
+     * @return Doctrine\Common\Collections\Collection $companyAppointments
+     */
+    public function getCompanyAppointments()
+    {
+        return $this->companyAppointments;
     }
 }

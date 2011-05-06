@@ -4,6 +4,7 @@ namespace Tui\DirectorsBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Tui\DirectorsBundle\Entity\Appointee;
+use Tui\DirectorsBundle\Entity\CompanyAppointment;
 
 class AppointeeController extends Controller
 {
@@ -15,6 +16,13 @@ class AppointeeController extends Controller
      */
     public function showAppointeeAction(Appointee $appointee)
     {
-      return array('appointee' => $appointee);
+      
+      $trimmedPostcode = rtrim(substr($appointee->getPostcode(), 0, strpos($appointee->getPostcode(), ' ')));
+            
+      return array(
+      	'appointee' => $appointee,
+      	'trimmedPostcode' => $trimmedPostcode,
+      	);
+    
     }
 }
