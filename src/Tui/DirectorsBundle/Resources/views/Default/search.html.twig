@@ -18,7 +18,12 @@
       </a>
       &nbsp;
       <span class="quiet small">
-        ({{ a.dateOfBirth | default('') }}, {{ a.postcode | truncate(4) }})
+        (
+        {% if a.dateOfBirth is not none %}
+          {{ a.dateOfBirth | date('Y') }}, 
+        {% endif %}
+        {{ a.postcode | truncate(4) }}
+        )
       </span>    
     </li>
   {% endfor %}
