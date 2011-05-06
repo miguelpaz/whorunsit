@@ -3,6 +3,8 @@
 namespace Tui\DirectorsBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
+
 
 class DefaultController extends Controller
 {
@@ -39,7 +41,7 @@ class DefaultController extends Controller
         $dbh   = $this->get('database_connection');
         $em    = $this->get('doctrine.orm.entity_manager');
         $query = $this->get('request')->get('q');
-        
+                
         if (!trim($query))
         {
             return $this->redirect($this->generateUrl('home'));
@@ -80,6 +82,58 @@ class DefaultController extends Controller
           $ex = $em->getExpressionBuilder();
           $q = $em->createQuery('SELECT c FROM TuiDirectorsBundle:Company c WHERE '.$ex->in('c.id', $ids));
           $companies = $q->getResult();
+        }
+
+
+
+
+        if ($this->get('request')->getRequestFormat() == 'json')
+        {
+          $out = array('appointees' => null, 'companies' => null);
+          
+          if ($appointees)
+          {
+            $out['appointees'] = array();
+            foreach($appointees as $a)
+            {
+              $out['appointees'][] = array(
+                'url'           => $this->generateUrl('appointee_show', array('_format' => 'json', 'id' => $a->getId()), true),
+                'id'            => $a->getId(),
+                'title'         => $a->getTitle(),
+                'forenames'     => $a->getForenames(),
+                'surname'       => $a->getSurname(),
+                'honours'       => $a->getHonours(),
+                'date_of_birth' => $a->getDateOfBirth() instanceof \Datetime ? $a->getDateOfBirth()->format('Y') : null,
+                'postcode'      => substr($a->getPostcode(),0,strpos($a->getPostcode(' '))),
+          
+              );
+            }
+          }
+          
+          
+          if ($companies)
+          {
+            $out['companies'] = array();
+            foreach($companies as $c)
+            {
+              $out['companies'][] = array(
+                'id'   => $c->getId(),
+                'url'  => $this->generateUrl('company_show', array('_format' => 'json', 'id' => $c->getId()), true),
+                'name' => $c->getName(),
+              );
+            }
+          
+          }
+          
+          
+          if ($this->get('request')->get('callback',false))
+          {
+            $callback = filter_var($this->get('request')->get('callback'));
+            
+            return new Response($callback.'('.json_encode($out).')');
+          }
+          
+          return new Response(json_encode($out));
         }
 
 
