@@ -40,6 +40,12 @@ class Company
      */
     private $name;
 
+	/**
+     * @var CompanyAppointment     
+     *
+     * @orm:OneToMany(targetEntity="CompanyAppointment", mappedBy="company")
+     */
+    private $companyAppointments;
 
 
     /**
@@ -120,5 +126,29 @@ class Company
     public function getName()
     {
         return $this->name;
+    }
+    public function __construct()
+    {
+        $this->companyAppointments = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add companyAppointments
+     *
+     * @param Tui\DirectorsBundle\Entity\CompanyAppointment $companyAppointments
+     */
+    public function addCompanyAppointments(\Tui\DirectorsBundle\Entity\CompanyAppointment $companyAppointments)
+    {
+        $this->companyAppointments[] = $companyAppointments;
+    }
+
+    /**
+     * Get companyAppointments
+     *
+     * @return Doctrine\Common\Collections\Collection $companyAppointments
+     */
+    public function getCompanyAppointments()
+    {
+        return $this->companyAppointments;
     }
 }

@@ -9,12 +9,14 @@ class CompanyController extends Controller
 {
 
     /**
-     * @extra:Route("/company/{id}", name="company_show")
+     * @extra:Route("/companies/{id}.{_format}", name="company_show", defaults={"_format" = "html"})
      * @extra:ParamConverter("id", class="TuiDirectorsBundle:Company")
      * @extra:Template()
      */
     public function showCompanyAction(Company $company)
     {
-      return array('company' => $company);
+    	
+     	return array('company' => $company);
+   
     }
 }
