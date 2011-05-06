@@ -49,13 +49,15 @@
             </tr> 
         </thead> 
         <tbody> 
-        	
+    
         	{% for appointment in appointee.companyAppointments %}
- 				
- 				<td>{{ appointment.appointedOn|date("Y-m-d") }}</td>
- 				<td>{{ appointment.type }}</td>
-				<td><A href="{{ url( 'company_show', { 'id': appointment.companyId }) }}">{{ appointment.company.name }}</a></td>
-	
+ 			
+ 				<tr>			
+ 					<td>{{ appointment.appointedOn|date("Y-m-d") }}</td>
+ 					<td>{{ appointment.type }}</td>
+					<td><A href="{{ url( 'company_show', { 'id': appointment.companyId }) }}">{{ appointment.company.name }}</a></td>
+				</tr>
+				
  			{% endfor %} 
                   
         </tbody> 
@@ -68,7 +70,8 @@
     <h4>Websites</h4> 
  
     <h4>Locations</h4> 
- 
-    <p><!-- TODO: when feeds complete: Alternative presentations: <a href="/appointees/00006571.json">JSON</a> <a href="/appointees/00006571.rdf">RDF</a>--></p>    </div> 
+ 	
+ 	{# TODO: hook these up to the real mappings #}
+    <p><a href="/appointees/{{ appointee.id }}.json">JSON</a> <a href="/appointees/{{ appointee.id }}.rdf">RDF</a></p>    </div> 
     
 {% endblock %}
