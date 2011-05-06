@@ -1,0 +1,40 @@
+{% extends "TuiDirectorsBundle:Default:base.html.twig" %}
+
+
+{% block content %}
+<h2>Search results</h2>
+
+
+<h3>Appointments</h3>
+<p>Showing first 100 records:</p>
+
+<ul>
+  {% for a in appointees %}
+    <li><a href="{{ url('appointee_show', { 'id': a.id })}}">
+      {{ a.title }}
+      {{ a.forenames }}
+      {{ a.surname }}
+      {{ a.honours }}
+      </a>
+      &nbsp;
+      <span class="quiet small">
+        ({{ a.dateOfBirth | default('') }}, {{ a.postcode | truncate(4) }})
+      </span>    
+    </li>
+  {% endfor %}
+</ul>
+
+
+<h3>Companies</h3>
+<p>Showing first 100 records:</p>
+<ul>
+  {% for c in companies %}
+    <li><a href="{{ url('company_show', {'id': c.id}) }}">{{ c.name }}</a></li>
+  {% endfor %}
+</ul>
+
+
+
+<hr>
+<p>Alternative presentations: <a href="{{ url('search_all', {'_format': 'json'} ) }}?q={{ query | url_encode }}">JSON</a></p>
+{% endblock %}
