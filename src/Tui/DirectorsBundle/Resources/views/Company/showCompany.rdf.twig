@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+      xmlns:foaf="http://xmlns.com/foaf/0.1/"
+      xmlns:fc="http://xmlns.com/foaf/corp#"
+      xmlns:ch="http://example.com/ch#"
+      xmlns:dc="http://purl.org/dc/elements/1.1/"
+      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+      xmlns:vcard="http://www.w3.org/2006/vcard/ns#"
+
+>
+
+<rdf:Description rdf:about="{{ url('company_show', { 'id': company.id, '_format': 'rdf' }) }}">
+<rdfs:label>Description of the company {{ company.name }}</rdfs:label>
+<foaf:primaryTopic rdf:resource="{{ url('company_show', { 'id': company.id }) }}#company"/>
+</rdf:Description>
+
+<fc:Company rdf:about="{{ url('company_show', { 'id': company.id }) }}#company">
+<ch:name>{{ company.name }}</ch:name>
+<ch:status>{{ company.status }}</ch:status>
+<ch:currentOfficers>{{ company.officers }}</ch:currentOfficers>
+<ch:chCompanyID>{{ company.id }}</ch:chCompanyID>
+
+{% if company.status not in ['Converted/closed', 'Dissolved'] %}
+<rdfs:seeAlso rdf:resource="http://opencorporates.com/companies/uk/{{ company.id }}"/>
+{% endif %}
+
+{% for appointment in company.companyAppointments %} 
+  <ch:appointment>
+   <foaf:Person rdf:about="{{ url('appointee_show', { 'id': appointment.appointee.id }) }}#person">
+     <vcard:adr>
+       <vcard:Address>
+        <vcard:postal-code>{{ appointment.appointee.postcode }}</vcard:postal-code>
+       </vcard:Address>
+     </vcard:adr>
+     <vcard:bday>{{ appointment.appointee.dateOfBirth|date("Y-m-d") }}</vcard:bday>
+   </foaf:Person>
+  </ch:appointment>
+{% endfor %}
+
+</fc:Company>
+</rdf:RDF>

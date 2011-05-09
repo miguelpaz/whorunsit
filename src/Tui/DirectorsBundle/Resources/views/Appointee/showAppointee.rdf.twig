@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+      xmlns:foaf="http://xmlns.com/foaf/0.1/"
+      xmlns:fc="http://xmlns.com/foaf/corp#"
+      xmlns:ch="http://example.com/ch#"
+      xmlns:dc="http://purl.org/dc/elements/1.1/"
+      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+      xmlns:vcard="http://www.w3.org/2006/vcard/ns#"
+      xmlns:doac="http://ramonantonio.net/doac/0.1/"
+>
+
+<rdf:Description rdf:about="{{ url('appointee_show', { 'id': appointee.id, '_format': 'rdf' }) }}">
+<rdfs:label>Description of the person {{ appointee.title }} {{ appointee.forenames }} {{ appointee.surname }} {{ appointee.honours }}</rdfs:label>
+<foaf:primaryTopic rdf:resource="{{ url('appointee_show', { 'id': appointee.id }) }}#person"/>
+</rdf:Description>
+
+<foaf:Person rdf:about="{{ url('appointee_show', { 'id': appointee.id }) }}#person">
+   <vcard:adr>
+     <vcard:Address>
+      <vcard:postal-code>{{ trimmedPostcode }}</vcard:postal-code>
+      <vcard:country-name>{{ appointee.country }}</vcard:country-name>
+     </vcard:Address>
+   </vcard:adr>
+   <vcard:bday>{{ appointee.dateOfBirth|date("Y-m-d") }}</vcard:bday>
+
+   <foaf:honorificPrefix>{{ appointee.title }}</foaf:honorificPrefix>
+   <foaf:name>{{ appointee.forenames }} {{ appointee.surname }}</foaf:name>
+   <foaf:givenName>{{ appointee.forenames }}></foaf:givenName>
+   <foaf:familyName>{{ appointee.surname }}</foaf:familyName>
+
+   <ch:nationality>{{ appointee.nationality }}</ch:nationality>
+
+   <doac:experience>
+   
+   {% for appointment in appointee.companyAppointments %} 
+     <ch:Appointment>
+      <doac:organisation rdf:resource="{{ url('company_show', { 'id': appointment.companyId }) }}#company"/>
+      <doac:position>{{ appointment.type }}</doac:position>
+      <doac:date-starts>{{ appointment.appointedOn|date('Y-m-d') }}</doac:date-starts>
+      <doac:date-ends></doac:date-ends>
+      <ch:current>YES</ch:current>
+      <ch:appointment_date_source>{{ appointment.appointmentDateSource }}></ch:appointment_date_source>
+     </ch:Appointment>    
+   {% endfor %}
+   
+   </doac:experience>
+
+</foaf:Person>
+</rdf:RDF>
