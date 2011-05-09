@@ -1,4 +1,4 @@
-{% extends "TuiDirectorsBundle:Default:base.html.twig" %}
+{% extends "TuiDirectorsBundle::base.html.twig" %}
 
 {% block content %}
     
@@ -71,6 +71,6 @@
  
     <h4>Locations</h4> 
  	
-	<p>Alternative presentations: <a href="{{ url('appointee_show', {'id': appointee.id ,'_format': 'json'} ) }}">JSON</a></p> 
+	<p>Alternative presentations: <a href="{{ url('appointee_show', {'id': appointee.id ,'_format': 'json'} ) }}">JSON</a>, <a href="{{ url('appointee_show', {'id': appointee.id ,'_format': 'rdf'} ) }}">RDF</a></p> 
     
 {% endblock %}

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        
+        <title>{% block title %}UK Company Directors{% endblock %}</title>
+       	
+       	{% block stylesheets %}
+  			<link rel="stylesheet" media="screen, projection" type="text/css" href="{{ asset('css/blueprint/screen.css') }}" />
+  			<link rel="stylesheet" media="print" type="text/css" href="{{ asset('css/blueprint/print.css') }}" />
+  			<!--[if lt IE 8]>
+    			<link rel="stylesheet" href="{{ asset('css/blueprint/ie.css') }}" type="text/css" media="screen, projection" />
+  			<![endif]-->
+		{% endblock %} 
+        
+        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+    
+    </head>
+    
+    
+    <body>
+        
+        {% block body %}
+  		
+  		<div class="container">
+   			
+   			<div class="span-18">
+      			<h1><a href="{{ url("home") }}">{% block pagetitle %}UK Company Directors{% endblock %}</a></h1>
+    		</div>
+    
+    		<div class="span-6 last">&nbsp;</div>
+
+    		<br class="clear">
+
+    		<form action="{{ url('search_all') }}" method="get" accept-charset="utf-8">
+      			<p>
+        			<label for="search">Search:</label> <input type="text" name="q" value="" id="search">
+        			<input type="submit" value="Continue &rarr;">
+      			</p>
+    		</form>
+
+    		<hr>
+    
+    		<div id="content">
+      		
+      			{% block content %}{% endblock %}
+    
+    		</div>
+  
+  		</div>
+
+		{% endblock %}
+        
+        
+        {% block javascripts %}{% endblock %}
+        
+        <hr>
+        
+        <div id="footer" class="container">
+          <p class="small">
+            A product of the Yes|No machine. Companies House data is Crown Copyright, used under licence. <br>
+            <a href="{{ url('privacy') }}">Privacy policy</a>
+          </p>
+        </div>
+
+        <script type="text/javascript">
+        var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+        document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+        </script>
+        <script type="text/javascript">
+        try {
+        var pageTracker = _gat._getTracker("UA-2290063-3");
+        pageTracker._trackPageview();
+        } catch(err) {}</script>
+    </body>
+</html>
