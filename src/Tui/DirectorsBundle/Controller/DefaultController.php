@@ -40,9 +40,9 @@ class DefaultController extends Controller
     {
         $dbh   = $this->get('database_connection');
         $em    = $this->get('doctrine.orm.entity_manager');
-        $query = $this->get('request')->get('q');
-                
-        if (!trim($query))
+        $query = trim(filter_var($this->get('request')->get('q'), FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES));
+        
+        if (!$query)
         {
             return $this->redirect($this->generateUrl('home'));
         }
@@ -54,7 +54,7 @@ class DefaultController extends Controller
 
 
         // Gather appointee document ids, turn them into appointee ids
-        $appointee_ids = array();
+        $appointee_ids = array(); $appointees = array();
         if ($appointees['total_found'])
         {
           $appointee_ids = array_map(function($v){return $v['id'];}, $appointees['matches']);
@@ -70,7 +70,7 @@ class DefaultController extends Controller
 
 
         // Gather company document ids, turn them into company ids
-        $company_ids = array();
+        $company_ids = array(); $companies = array();
         if ($companies['total_found'])
         {
           $company_ids = array_map(function($v){return $v['id'];}, $companies['matches']);
@@ -82,9 +82,7 @@ class DefaultController extends Controller
           $ex = $em->getExpressionBuilder();
           $q = $em->createQuery('SELECT c FROM TuiDirectorsBundle:Company c WHERE '.$ex->in('c.id', $ids));
           $companies = $q->getResult();
-        }
-
-
+        } 
 
 
         if ($this->get('request')->getRequestFormat() == 'json')
