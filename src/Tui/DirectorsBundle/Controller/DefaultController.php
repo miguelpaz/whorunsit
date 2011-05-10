@@ -48,16 +48,16 @@ class DefaultController extends Controller
         }
         
         // Get the search service and execute the query
-        $sphinx     = $this->get('search');
-        $appointees = $sphinx->Query($query, 'appointees');
-        $companies  = $sphinx->Query($query, 'companies');
+        $sphinx             = $this->get('search');
+        $appointees_results = $sphinx->Query($query, 'appointees');
+        $companies_results  = $sphinx->Query($query, 'companies');
 
 
         // Gather appointee document ids, turn them into appointee ids
-        $appointee_ids = array(); $appointees = array();
-        if ($appointees['total_found'])
+        $appointee_ids = array();
+        if ($appointees_results['total_found'])
         {
-          $appointee_ids = array_map(function($v){return $v['id'];}, $appointees['matches']);
+          $appointee_ids = array_map(function($v){return $v['id'];}, $appointees_results['matches']);
 
           $ids = $dbh->fetchAll('SELECT ch_number FROM sphinx_appointee_index WHERE document_id IN ('.join($appointee_ids,',').')');
 
@@ -70,10 +70,10 @@ class DefaultController extends Controller
 
 
         // Gather company document ids, turn them into company ids
-        $company_ids = array(); $companies = array();
-        if ($companies['total_found'])
+        $company_ids = array();
+        if ($companies_results['total_found'])
         {
-          $company_ids = array_map(function($v){return $v['id'];}, $companies['matches']);
+          $company_ids = array_map(function($v){return $v['id'];}, $companies_results['matches']);
 
           $ids = $dbh->fetchAll('SELECT ch_number FROM sphinx_company_index WHERE document_id IN ('.join($company_ids,',').')');
 
