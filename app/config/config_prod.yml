@@ -11,3 +11,19 @@ monolog:
             type:  stream
             path:  %kernel.logs_dir%/%kernel.environment%.log
             level: debug
+
+doctrine:
+    orm:
+        auto_generate_proxy_classes:    false
+        
+        entity_managers:
+            default:
+                connection:                     default
+                mappings: # Required
+                    TuiDirectorsBundle: ~
+                # All cache drivers have to be array, apc, xcache or memcache
+                metadata_cache_driver:  apc
+                query_cache_driver:     apc     
+                    # type:           memcache
+                    # host:           localhost
+                    # port:           11211
