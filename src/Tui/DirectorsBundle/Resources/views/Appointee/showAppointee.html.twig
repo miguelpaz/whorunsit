@@ -38,8 +38,35 @@
  
     <h3>Appointments</h3> 
  
-    <p>Showing all {{ appointee.companyAppointments|length }} appointments.</p> 
- 
+    {# if all the appointments could be displayed on one page #}
+    
+    {% if companyAppointments|length == totalCompanyAppointments %}
+        <p>Showing all {{ totalCompanyAppointments }} appointments.</p> 
+    
+    {% else %}
+        <p>Showing {{ offset + 1 }} - 
+            
+            {# check in case the last appointment is on this page #}
+            
+            {% if (offset + numAppointments) < totalCompanyAppointments %} {{ offset + numAppointments }}
+            {% else %} {{ totalCompanyAppointments }} {% endif %}
+                                  
+        of {{ totalCompanyAppointments }} appointments.
+        
+        {# render pager #}
+        
+        {% if not offset == 0 %}
+            <a href="{{ url('appointee_show', {'id': appointee.id, 'page': ((offset + numAppointments) / numAppointments) - 1 } )}}">« Previous</a>&nbsp;&nbsp;
+        {% endif %}
+
+        {% if (offset + numAppointments) < totalCompanyAppointments %}
+            <a href="{{ url('appointee_show', {'id': appointee.id, 'page': ((offset + numAppointments) / numAppointments) + 1 } )}}">Next »</a>
+        {% endif %}
+        
+        </p>
+        
+    {% endif %}
+        
     <table id="appointments"> 
         <thead> 
             <tr> 
@@ -50,7 +77,7 @@
         </thead> 
         <tbody> 
     
-        	{% for appointment in appointee.companyAppointments %}
+        	{% for appointment in companyAppointments %}
  			
  				<tr>			
  					<td>{{ appointment.appointedOn|date("Y-m-d") }}</td>
@@ -71,6 +98,6 @@
  
     <h4>Locations</h4> 
  	
-	<p>Alternative presentations: <a href="{{ url('appointee_show', {'id': appointee.id ,'_format': 'json'} ) }}">JSON</a>, <a href="{{ url('appointee_show', {'id': appointee.id ,'_format': 'rdf'} ) }}">RDF</a></p> 
+	<p>Alternative presentations: <a href="{{ url('appointee_show', {'id': appointee.id ,'_format': 'json', 'page': ((offset + numAppointments) / numAppointments)}) }}">JSON</a>, <a href="{{ url('appointee_show', {'id': appointee.id ,'_format': 'rdf', 'page': ((offset + numAppointments) / numAppointments)})}}">RDF</a></p> 
     
 {% endblock %}

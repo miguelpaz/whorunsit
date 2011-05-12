@@ -33,7 +33,7 @@
 
    <doac:experience>
    
-   {% for appointment in appointee.companyAppointments %} 
+   {% for appointment in companyAppointments %} 
      <ch:Appointment>
       <doac:organisation rdf:resource="{{ url('company_show', { 'id': appointment.companyId }) }}#company"/>
       <doac:position>{{ appointment.type }}</doac:position>

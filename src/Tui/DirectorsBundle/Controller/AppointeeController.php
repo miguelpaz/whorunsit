@@ -5,6 +5,7 @@ namespace Tui\DirectorsBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Tui\DirectorsBundle\Entity\Appointee;
+use Tui\DirectorsBundle\Entity\CompanyAppointment;
 
 class AppointeeController extends Controller
 {
@@ -14,10 +15,38 @@ class AppointeeController extends Controller
      * @extra:ParamConverter("id", class="TuiDirectorsBundle:Appointee")
      * @extra:Template()
      */
-    public function showAppointeeAction(Appointee $appointee, $_format)
+    public function showAppointeeAction(Appointee $appointee, $_format, $offset = 0, $numAppointments = 100)
     {
       
       $trimmedPostcode = rtrim(substr($appointee->getPostcode(), 0, strpos($appointee->getPostcode(), ' ')));
+      
+      // Get the total number of appointments
+      $em = $this->get('doctrine')->getEntityManager();   
+      $qc = $em->createQuery("SELECT COUNT(a.companyId) FROM TuiDirectorsBundle:CompanyAppointment a WHERE a.appointeeId = :appointee");
+      $qc->setParameter('appointee', $appointee->getId());
+      $totalCompanyApps = array_shift($qc->getSingleResult());
+      
+      // Set the offset via page query
+      $page = (int)$this->get('request')->query->get('page');     
+      
+      if ($page <= (int)ceil($totalCompanyApps/$numAppointments) && $page > 1 )
+        $offset = ($page - 1) * $numAppointments;
+       
+      
+      // Get all the appointments for this page
+      $qb = $em->createQueryBuilder();
+      
+      $qb->add('select', 'a')
+        ->add('from', 'TuiDirectorsBundle:CompanyAppointment a')
+        ->add('where', 'a.appointeeId = :appointee')
+        ->add('orderBy', 'a.appointedOn DESC')
+        ->setParameter('appointee', $appointee->getId())
+        ->setFirstResult( $offset )
+        ->setMaxResults( $numAppointments );
+      
+      $companyAppointments = $qb->getQuery()->getResult();
+    
+      
       
       if ($_format == 'json')
       {
@@ -40,7 +69,7 @@ class AppointeeController extends Controller
       		"url"				=> $this->generateUrl('appointee_show', array('id' => $appointee->getId(), '_format' => 'json'), TRUE),
       	);
   		
-      	foreach ($appointee->getCompanyAppointments() as $appointment)
+      	foreach ($companyAppointments as $appointment)
       	{
       		$company = $appointment->getCompany();
       	
@@ -61,7 +90,9 @@ class AppointeeController extends Controller
       		);
       	}
       	
-      	$output["appointment_count"] = count($output["company_appointments"]);
+      	$output["appointment_count"] = count($totalCompanyApps);
+      	$output["appointment_page_num"] = (int)($offset / $numAppointments) + 1;
+      	$output["appointment_page_count"] = (int)ceil($totalCompanyApps/$numAppointments);
       	
       	return new Response(json_encode($output));
       
@@ -71,6 +102,10 @@ class AppointeeController extends Controller
       return array(
       	'appointee' => $appointee,
       	'trimmedPostcode' => $trimmedPostcode,
+      	'companyAppointments' => $companyAppointments,
+      	'totalCompanyAppointments' => $totalCompanyApps,
+      	'numAppointments' => $numAppointments,
+      	'offset' => $offset,
       );
     
     }
