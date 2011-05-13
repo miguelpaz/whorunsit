@@ -21,7 +21,7 @@
                 <span id="appointee-occupation">{{ appointee.occupation }}</span><br> 
  
                 <strong>Date of birth:</strong> 
-                <span id="appointee-birthdate">{{ appointee.dateOfBirth|date("Y-m-d") }}</span><br> 
+                <span id="appointee-birthdate">{% if not appointee.dateOfBirth is empty %}{{ appointee.dateOfBirth|date("Y-m") }}{% endif %}</span><br> 
  
                 <strong>Postcode:</strong> 
                 <span id="appointee-postcode"><a href="http://maps.google.com/?q={{ trimmedPostcode|url_encode }}">{{ trimmedPostcode }}</a></span> 

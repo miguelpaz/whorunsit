@@ -22,7 +22,7 @@
       <vcard:country-name>{{ appointee.country }}</vcard:country-name>
      </vcard:Address>
    </vcard:adr>
-   <vcard:bday>{{ appointee.dateOfBirth|date("Y-m-d") }}</vcard:bday>
+   <vcard:bday>{% if not appointee.dateOfBirth is empty %}{{ appointee.dateOfBirth|date("Y-m") }}{% endif %}</vcard:bday>
 
    <foaf:honorificPrefix>{{ appointee.title }}</foaf:honorificPrefix>
    <foaf:name>{{ appointee.forenames }} {{ appointee.surname }}</foaf:name>
