@@ -4,6 +4,7 @@ imports:
 
 parameters:
     appointments_page_length: 100
+    ch_database_date: March 4th 2010
         
 
 framework:

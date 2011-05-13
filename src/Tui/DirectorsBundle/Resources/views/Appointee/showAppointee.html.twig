@@ -56,11 +56,11 @@
         {# render pager #}
         
         {% if not offset == 0 %}
-            <a href="{{ url('appointee_show', {'id': appointee.id, 'page': ((offset + numAppointments) / numAppointments) - 1 } )}}">« Previous</a>&nbsp;&nbsp;
+            <a href="{{ url('appointee_show', {'id': appointee.id, 'page': page - 1 } )}}">« Previous</a>&nbsp;&nbsp;
         {% endif %}
 
         {% if (offset + numAppointments) < totalCompanyAppointments %}
-            <a href="{{ url('appointee_show', {'id': appointee.id, 'page': ((offset + numAppointments) / numAppointments) + 1 } )}}">Next »</a>
+            <a href="{{ url('appointee_show', {'id': appointee.id, 'page': page + 1 } )}}">Next »</a>
         {% endif %}
         
         </p>
