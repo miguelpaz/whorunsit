@@ -39,7 +39,7 @@ class DefaultController extends Controller
     public function searchAction()
     {
         $dbh   = $this->get('database_connection');
-        $em    = $this->get('doctrine.orm.entity_manager');
+        $em    = $this->get('doctrine')->getEntityManager();
         $query = trim(filter_var($this->get('request')->get('q'), FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES));
         
         if (!$query)
