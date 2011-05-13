@@ -24,17 +24,16 @@ class AppointeeRepository extends EntityRepository
 
     public function getAppointments(Appointee $appointee, $limit = 100, $offset = 0)
     {
-      $qb = $this->_em->createQueryBuilder();
+        $q = $this->_em->createQuery('SELECT a, c 
+            FROM TuiDirectorsBundle:CompanyAppointment a 
+            JOIN a.company c
+            WHERE a.appointeeId = :appointee
+            ORDER BY a.appointedOn DESC');
+        $q->setParameter('appointee', $appointee->getId());
+        $q->setFirstResult( $offset );
+        $q->setMaxResults( $limit );
       
-      $qb->add('select', 'a')
-        ->add('from', 'TuiDirectorsBundle:CompanyAppointment a')
-        ->add('where', 'a.appointeeId = :appointee')
-        ->add('orderBy', 'a.appointedOn DESC')
-        ->setParameter('appointee', $appointee->getId())
-        ->setFirstResult( $offset )
-        ->setMaxResults( $limit );
-      
-      return $qb->getQuery()->getResult();
+      return $q->getResult();
     }
  
  
