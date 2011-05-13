@@ -6,7 +6,7 @@ namespace Tui\DirectorsBundle\Entity;
  * Tui\DirectorsBundle\Entity\Appointee
  *
  * @orm:Table(name="appointee")
- * @orm:Entity
+ * @orm:Entity(repositoryClass="Tui\DirectorsBundle\Repositories\AppointeeRepository")
  */
 class Appointee
 {
