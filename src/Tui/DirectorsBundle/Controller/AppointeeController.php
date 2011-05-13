@@ -109,8 +109,7 @@ class AppointeeController extends Controller
       
         }
 
-        $format = $this->get('request')->getRequestFormat();
-        $response->setContent($this->renderView("TuiDirectorsBundle:Appointee:showAppointee.$format.twig", array(
+        $response->setContent($this->renderView("TuiDirectorsBundle:Appointee:showAppointee.$_format.twig", array(
             'appointee'                => $appointee,
             'trimmedPostcode'          => $trimmedPostcode,
             'companyAppointments'      => $companyAppointments,
