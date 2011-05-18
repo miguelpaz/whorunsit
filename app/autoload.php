@@ -13,7 +13,8 @@ $loader->registerNamespaces(array(
     'Doctrine'         => __DIR__.'/../vendor/doctrine/lib',
     'Monolog'          => __DIR__.'/../vendor/monolog/src',
     'Assetic'          => __DIR__.'/../vendor/assetic/src',
-
+    'FOS'              => __DIR__.'/../vendor/bundles',
+    
     'Tui'              => __DIR__.'/../src',
 ));
 $loader->registerPrefixes(array(

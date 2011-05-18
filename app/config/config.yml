@@ -69,3 +69,11 @@ services:
             - [setArrayResult, [true]]
             - [setLimits, [0, 100, 100]]
 
+
+fos_user:
+    db_driver:     orm
+    firewall_name: main
+    class:
+        model:
+            user:  Tui\DirectorsBundle\Entity\User
+
