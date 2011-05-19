@@ -6,7 +6,7 @@ namespace Tui\DirectorsBundle\Entity;
  * Tui\DirectorsBundle\Entity\Company
  *
  * @orm:Table(name="company")
- * @orm:Entity
+ * @orm:Entity(repositoryClass="Tui\DirectorsBundle\Repositories\CompanyRepository")
  */
 class Company
 {

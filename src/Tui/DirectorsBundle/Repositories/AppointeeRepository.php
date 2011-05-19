@@ -35,6 +35,24 @@ class AppointeeRepository extends EntityRepository
       
       return $q->getResult();
     }
- 
+
+
+    /**
+     * Get limited companyAppointments
+     *
+     * @return Doctrine\Common\Collections\Collection $companyAppointments
+     */
+    public function getAbbreviatedCompanies(Appointee $appointee, $limit = 5)
+    {
+          $q = $this->_em->createQuery('SELECT c 
+              FROM TuiDirectorsBundle:Company c 
+              JOIN c.companyAppointments a
+              WHERE a.appointeeId = :appointee
+              ORDER BY a.appointedOn DESC');
+          $q->setParameter('appointee', $appointee->getId());
+          $q->setMaxResults( $limit );
+
+        return $q->getResult();
+    }
  
 }
