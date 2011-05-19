@@ -91,9 +91,7 @@ class DefaultController extends Controller
           $ex = $em->getExpressionBuilder();
           $q = $em->createQuery('SELECT a
               FROM TuiDirectorsBundle:Appointee a
-              WHERE '.$ex->in('a.id', $ids).'
-              ORDER BY a.surname, a.forenames
-              ');
+              WHERE '.$ex->in('a.id', $ids));
           $appointees = $q->getResult();
         }
 
