@@ -22,8 +22,8 @@ source companies
 
   # some straightforward parameters for SQL source types
   sql_host        = localhost
-  sql_user        = [USER]
-  sql_pass        = [PASS]
+  sql_user        = directors
+  sql_pass        = [PASSWORD]
   sql_db          = directors
   sql_port        = 3306  # optional, default is 3306
 
@@ -100,8 +100,8 @@ source appointees
 
   # some straightforward parameters for SQL source types
   sql_host        = localhost
-  sql_user        = [USER]
-  sql_pass        = [PASS]
+  sql_user        = directors
+  sql_pass        = [PASSWORD]
   sql_db          = directors
   sql_port        = 3306  # optional, default is 3306
 
@@ -123,11 +123,13 @@ source appointees
   # multi-value, optional, default is empty list of queries
   #
   sql_query_pre     = SET NAMES utf8
-  sql_query_pre     = SET SESSION query_cache_type=OFF
+  sql_query_pre     = SET autocommit=0
   sql_query_pre     = DROP TABLE IF EXISTS sphinx_appointee_index
-  sql_query_pre     = CREATE TABLE sphinx_appointee_index ( document_id int not null auto_increment primary key, ch_number char(8) not null, index ch_number_idx(ch_number) ) Engine=MyISAM;
-  sql_query_pre     = INSERT INTO sphinx_appointee_index SELECT null, id FROM appointee;
-
+  sql_query_pre     = CREATE TABLE sphinx_appointee_index ( document_id int not null auto_increment primary key, ch_number char(8) not null, index ch_number_idx(ch_number) ) Engine=MyISAM
+  sql_query_pre     = LOCK TABLES appointee WRITE, sphinx_appointee_index WRITE
+  sql_query_pre     = INSERT INTO sphinx_appointee_index (ch_number) SELECT id FROM appointee
+  sql_query_pre     = UNLOCK TABLES
+  sql_query_pre     = SET autocommit=1
 
   # main document fetch query
   # mandatory, integer document ID field MUST be the first selected column
@@ -326,7 +328,7 @@ searchd
 
 	# query log file, all search queries are logged here
 	# optional, default is empty (do not log queries)
-	query_log			= /opt/local/var/sphinx/query.log
+	# query_log			= /opt/local/var/sphinx/query.log
 
 	# client read timeout, seconds
 	# optional, default is 5
@@ -334,7 +336,8 @@ searchd
 
 	# maximum amount of children to fork (concurrent searches to run)
 	# optional, default is 0 (unlimited)
-	max_children		= 30
+	max_children		= 5
+	# was 30 (2011-04-28)
 
 	# PID file, searchd process ID file name
 	# mandatory
