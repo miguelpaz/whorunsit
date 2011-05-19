@@ -98,6 +98,8 @@
     <div class="item">
         <span class="key">Alternative presentations:</span>
         <span class="value"><a href="{{ url('company_show', {'id': company.id ,'_format': 'json'} ) }}">JSON</a>, <a href="{{ url('company_show', {'id': company.id ,'_format': 'rdf'} ) }}">RDF</a></span>
+        <div class="small">Please read the <a href="{{ url('api') }}">API notes</a></div>
+        
     </div>
 	
 {% endblock %}

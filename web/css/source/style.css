@@ -112,3 +112,11 @@ tbody tr:nth-child(even) td, tbody tr.even td {
 thead th {
     background: #DDD;
 }
+
+#footer
+{
+  width: 980px;
+  margin: 10px auto;
+  font-size: 80%;
+  color: #999;
+}
