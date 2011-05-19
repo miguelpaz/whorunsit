@@ -24,7 +24,7 @@
                 <span id="appointee-birthdate">{% if not appointee.dateOfBirth is empty %}{{ appointee.dateOfBirth|date("Y-m") }}{% endif %}</span><br> 
  
                 <strong>Postcode:</strong> 
-                <span id="appointee-postcode"><a href="http://maps.google.com/?q={{ trimmedPostcode|url_encode }}">{{ trimmedPostcode }}</a></span> 
+                <span id="appointee-postcode"><a href="http://maps.google.com/?q={{ trimmedPostcode|url_encode }}%20{{ appointee.country|url_encode }}">{{ trimmedPostcode }}</a></span> 
                 <span class="small quiet">(Google Maps link is APPROXIMATE, based on partial postcode only)</span>
     
                 <br> 
