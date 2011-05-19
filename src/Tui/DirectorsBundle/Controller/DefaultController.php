@@ -121,18 +121,16 @@ class DefaultController extends Controller
               FROM TuiDirectorsBundle:Appointee a
               WHERE '.$ex->in('a.id', $ids));
           $appointees = $q->getResult();
-        }
+          
+          // Get truncated companies for appointees
+          $r = $em->getRepository('TuiDirectorsBundle:Appointee');
 
-
-        // Get truncated companies for appointees
-        $r = $em->getRepository('TuiDirectorsBundle:Appointee');
-        
-        $appointee_companies = array();
-        foreach($appointees as $a)
-        {
-            $appointee_companies[ $a->getId() ] = $r->getAbbreviatedCompanies($a, 5);
+          $appointee_companies = array();
+          foreach($appointees as $a)
+          {
+              $appointee_companies[ $a->getId() ] = $r->getAbbreviatedCompanies($a, 5);
+          }
         }
-        
 
 
 
@@ -150,17 +148,18 @@ class DefaultController extends Controller
           $ex = $em->getExpressionBuilder();
           $q = $em->createQuery('SELECT c FROM TuiDirectorsBundle:Company c WHERE '.$ex->in('c.id', $ids));
           $companies = $q->getResult();
+
+
+          // Get truncated appointees for companies
+          $r = $em->getRepository('TuiDirectorsBundle:Company');
+
+          $company_appointees = array();
+          foreach($companies as $c)
+          {
+              $company_appointees[ $c->getId() ] = $r->getAbbreviatedAppointees($c, 5);
+          }
         } 
 
-
-        // Get truncated appointees for companies
-        $r = $em->getRepository('TuiDirectorsBundle:Company');
-        
-        $company_appointees = array();
-        foreach($companies as $c)
-        {
-            $company_appointees[ $c->getId() ] = $r->getAbbreviatedAppointees($c, 5);
-        }
 
 
 

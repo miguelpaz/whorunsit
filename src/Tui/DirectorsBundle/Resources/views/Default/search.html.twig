@@ -62,12 +62,12 @@
 
 </div>
 
-<p class="clear">
+<p class="clear large center">
     {% if page_info.page > 1 %}
         <a href="{{ url('search_all', { 'q' : page_info.query, 'page' : page_info.page - 1 }) }}">« Previous</a>&nbsp;
     {% endif %}
     {% if page_info.has_more_pages %}
-        <a href="{{ url('search_all', { 'q' : page_info.query, 'page' : page_info.page + 1 }) }}">Next »</a>
+        <a href="{{ url('search_all', { 'q' : page_info.query, 'page' : page_info.page + 1 }) }}">More results »</a>
     {% endif %}
 </p>
 
