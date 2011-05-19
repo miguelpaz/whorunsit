@@ -4,7 +4,7 @@
         
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         
-        <title>{% block title %}UK Company Directors{% endblock %}</title>
+        <title>{% block title %}Who runs it?{% endblock %}</title>
        	
        	{% block stylesheets %}
   			<link rel="stylesheet" media="screen, projection" type="text/css" href="{{ asset('css/blueprint/screen.css') }}" />
@@ -12,6 +12,7 @@
   			<!--[if lt IE 8]>
     			<link rel="stylesheet" href="{{ asset('css/blueprint/ie.css') }}" type="text/css" media="screen, projection" />
   			<![endif]-->
+            <link rel="stylesheet" media="screen, projection" type="text/css" href="{{ asset('css/source/style.css') }}" />
 		{% endblock %} 
         
         <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
@@ -25,28 +26,42 @@
   		
   		<div class="container">
    			
-   			<div class="span-9">
-      			<h1><a href="{{ url("home") }}">{% block pagetitle %}UK Company Directors{% endblock %}</a></h1>
+   			<div class="span-8">
+      			<h1><a href="{{ url("home") }}">{% block pagetitle %}<img src="{{ asset('images/logo.png') }}" alt="" />{% endblock %}</a></h1>
     		</div>
+    		
+    		<div class="span-3 last">
+    		  &nbsp;
+    		{% block headersearch %}
+    		      <form action="{{ url('search_all') }}" method="get" accept-charset="utf-8" class="" id="right-col-search">
+      			           <p>
+                            <!--<label for="search">Search:</label>--> <input type="text" name="q" value="Person / Company" id="search" class="" onfocus="if(this.value==this.defaultValue) { this.value=''; this.style.color='#000'; }">
+        			         <input type="submit" class="success" value="Search" />
+      			           </p>
+    		      </form>
+            {% endblock %}
+            </div>
+            
+        	<div class="span-3 last prepend-8">
+        	   <span id="internal-links"><a href="{{ url('aboutus') }}">About Us</a> | <a href="{{ url('faq') }}">FAQ</a> | <a href="{{ url('api') }}">API</a></span>
+            </div>
+        
+                  		
+      		{% block content %}
+      		  
+      		  {% block contentheader %}
+      		  {% endblock %}
+      		   
+      		    <div class="span-7 column prepend-1 prepend-top">
+      		       {% block leftcol %}
+      		       {% endblock %}
+      		    </div>
+      		    <div class="span-3 column prepend-top last"> 
+                    {% block rightcol %}
+      		        {% endblock %}
+      		   </div>
+      		{% endblock %} 
     
-    		<div class="span-3 last">&nbsp;</div>
-
-    		<br class="clear">
-
-    		<form action="{{ url('search_all') }}" method="get" accept-charset="utf-8">
-      			<p>
-        			<label for="search">Search:</label> <input type="text" name="q" value="" id="search">
-        			<input type="submit" value="Continue &rarr;">
-      			</p>
-    		</form>
-
-    		<hr>
-    
-    		<div id="content">
-      		
-      			{% block content %}{% endblock %}
-    
-    		</div>
   
   		</div>
 
@@ -55,14 +70,6 @@
         
         {% block javascripts %}{% endblock %}
         
-        <hr>
-        
-        <div id="footer" class="container">
-          <p class="small">
-            A product of the Yes|No machine. Companies House data is Crown Copyright, used under licence. <br>
-            <a href="{{ url('privacy') }}">Privacy policy</a>
-          </p>
-        </div>
 
         <script type="text/javascript">
         var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");

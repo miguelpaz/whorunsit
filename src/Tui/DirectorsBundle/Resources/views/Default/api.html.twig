@@ -1,0 +1,22 @@
+{% extends "TuiDirectorsBundle::base.html.twig" %}
+
+{% block title %}API | Who runs it?{% endblock %}
+
+{% block leftcol %}
+<h2>Scraping and API access</h2> 
+  <ul> 
+    <li><p>Please limit automated requests to 1 request per second. If you go significantly over this limit, your IP may be automatically banned.</p></li> 
+    <li><p>Check for and respect <kbd>robots.txt</kbd>. It's empty right now, mind you.</p></li> 
+    <li><p>Always set a meaningful User-Agent when making HTTP requests. It should contain an <kbd>http:</kbd> or <kbd>mailto:</kbd> URL in case we need to contact you.</p></li> 
+    <li><p>Person and Company numbers are non-sequential, and many are non-numeric. Don't waste your time counting from 00000000 to 99999999.</p></li> 
+    <li><p>If you have questions, <a href="http://inanimatt.com/contact.php">contact Matt</a></p></li> 
+  </ul> 
+  
+  <h2>Other notes</h2> 
+  <ul> 
+    <li><p>This is an unstable, early release. More of a proof of concept, really. Expect more features, but also more disruption later.</p></li> 
+    <li><p>HTML, RDF and JSON outputs exist. Follow the links on each page, or change the URL extension to .rdf to get RDF output, and .json to get JSON output. You can also add a '&amp;callback=myFunc' parameter to return JSONP instead.</p></li> 
+    <li><p>Many thanks to <a href="http://www.nicecupoftea.org">Libby Miller</a> for the RDF output.</p></li> 
+    <li><p>Please <a href="http://inanimatt.com/contact.php">get in touch!</a></p></li> 
+  </ul> 
+{% endblock %}

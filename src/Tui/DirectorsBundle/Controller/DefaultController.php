@@ -30,6 +30,34 @@ class DefaultController extends Controller
     }
 
 
+    /**
+     * @extra:Route("/faq", name="faq")
+     * @extra:Template()
+     */
+    public function faqAction()
+    {
+        return array();
+    }
+
+    /**
+     * @extra:Route("/about-us", name="aboutus")
+     * @extra:Template()
+     */
+    public function aboutUsAction()
+    {
+        return array();
+    }
+        
+    /**
+     * @extra:Route("/api", name="api")
+     * @extra:Template()
+     */
+    public function apiAction()
+    {
+        return array();
+    }
+
+
     
     /**
      * @extra:Route("/search/all.{_format}", name="search_all", defaults={"_format" = "html"})
