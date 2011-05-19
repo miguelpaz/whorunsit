@@ -26,7 +26,7 @@
   		
   		<div class="container">
    			
-   			<div class="span-8">
+   			<div class="span-8 prepend-top">
       			<h1><a href="{{ url("home") }}">{% block pagetitle %}<img src="{{ asset('images/logo.png') }}" alt="" />{% endblock %}</a></h1>
     		</div>
     		
@@ -35,7 +35,7 @@
     		{% block headersearch %}
     		      <form action="{{ url('search_all') }}" method="get" accept-charset="utf-8" class="" id="right-col-search">
       			           <p>
-                            <!--<label for="search">Search:</label>--> <input type="text" name="q" value="Person / Company" id="search" class="" onfocus="if(this.value==this.defaultValue) { this.value=''; this.style.color='#000'; }">
+                            <!--<label for="search">Search:</label>--> <input type="text" name="q" placeholder="Person / Company" id="search" class="" />
         			         <input type="submit" class="success" value="Search" />
       			           </p>
     		      </form>
@@ -46,21 +46,27 @@
         	   <span id="internal-links"><a href="{{ url('aboutus') }}">About Us</a> | <a href="{{ url('faq') }}">FAQ</a> | <a href="{{ url('api') }}">API</a></span>
             </div>
         
-                  		
-      		{% block content %}
-      		  
-      		  {% block contentheader %}
-      		  {% endblock %}
+            <br class="clear" />
+            
+            
+            {% block contentheader %}
+      		{% endblock %}
+            
+            <div class="span-10 prepend-1 prepend-top">      		
+      		    {% block content %}
       		   
-      		    <div class="span-7 column prepend-1 prepend-top">
-      		       {% block leftcol %}
-      		       {% endblock %}
-      		    </div>
-      		    <div class="span-3 column prepend-top last"> 
-                    {% block rightcol %}
-      		        {% endblock %}
-      		   </div>
-      		{% endblock %} 
+      		        <div class="span-7 column">
+      		            {% block leftcol %}
+      		            {% endblock %}
+      		        </div>
+      		    
+      		        <div class="span-3 column last"> 
+                        {% block rightcol %}
+      		            {% endblock %}
+      		        </div>
+      		   
+      		    {% endblock %} 
+      		</div>
     
   
   		</div>

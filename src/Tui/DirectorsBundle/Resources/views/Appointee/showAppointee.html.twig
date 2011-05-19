@@ -1,40 +1,62 @@
 {% extends "TuiDirectorsBundle::base.html.twig" %}
 
+{% block title %}{{ appointee.forenames|title }} {{ appointee.surname|title }} - Who runs it?{% endblock %}
+
 {% block content %}
     
-    <div id="appointee-details"> 
-        
-        <h3>Personal details</h3> 
-            
-            <p> 
-                <strong>Full name:</strong> 
-                <span id="appointee-name"> {{ appointee.forenames }} {{ appointee.surname }} </span> 
-                (<span id="appointee-id">{{ appointee.id }}</span>)<br> 
+    <h2>{{ appointee.forenames|title }} {{ appointee.surname|title }}</h2>
     
-                <strong title="Sometimes another company can be appointed to the role of company secretary or director">Type:</strong> 
-                <span id="appointee-type">{% if appointee.isCorporate %}Corporate{% else %}Individual{% endif %}</span><br>
- 
-                <strong title="This is the Companies House revision number of the person's information">Revision:</strong> 
-                <span id="appointee-revision">{{ appointee.revision }}</span><br> 
- 
-                <strong>Occupation:</strong> 
-                <span id="appointee-occupation">{{ appointee.occupation }}</span><br> 
- 
-                <strong>Date of birth:</strong> 
-                <span id="appointee-birthdate">{% if not appointee.dateOfBirth is empty %}{{ appointee.dateOfBirth|date("Y-m") }}{% endif %}</span><br> 
- 
-                <strong>Postcode:</strong> 
-                <span id="appointee-postcode"><a href="http://maps.google.com/?q={{ trimmedPostcode|url_encode }}%20{{ appointee.country|url_encode }}">{{ trimmedPostcode }}</a></span> 
+    <div id="appointee-details" class="append-bottom span-5"> 
+            <div class="item">
+                <span class="key" title="Sometimes another company can be appointed to the role of company secretary or director">Type:</span>
+                <span class="value" id="appointee-type">{% if appointee.isCorporate %}Corporate{% else %}Individual{% endif %}</span>
+            </div>
+            <div class="item">
+                <span class="key" title="This is the Companies House revision number of the person's information">Revision:</span>
+                <span class="value" id="appointee-revision">{{ appointee.revision }}</span>
+            </div>
+            <div class="item">
+                <span class="key">Occupation:</span>
+                <span class="value" id="appointee-occupation">{{ appointee.occupation|title}}</span>
+            </div>
+            <div class="item">
+                <span class="key">Date of birth:</span>
+                <span class="value" id="appointee-birthdate">{% if not appointee.dateOfBirth is empty %}{{ appointee.dateOfBirth|date("Y-m") }}{% endif %}</span>
+            </div>            
+            <div class="item">
+                <span class="key">Postcode:</span>
+                <span class="value" id="appointee-postcode"><a href="http://maps.google.com/?q={{ trimmedPostcode|url_encode }}%20{{ appointee.country|url_encode }}">{{ trimmedPostcode }}</a></span> 
                 <span class="small quiet">(Google Maps link is APPROXIMATE, based on partial postcode only)</span>
+            </div>             
+            <div class="item">
+                <span class="key" title="This is the country of the appointee's service address, not necessarily their country of residence or nationality.">Country:</span>
+                <span class="value" id="appointee-country">{{ appointee.country | title}}</span>
+            </div>   
+    </div>
     
-                <br> 
+    <div id="additional-details" class="append-bottom span-5 last">
+          <div class="item">
+             <span class="key">Bio:</span>
+             <span class="value">Coming soon</span>
+         </div>
+         
+         <div class="item">
+             <span class="key">Websites:</span>
+             <span class="value">Coming soon</span>
+         </div>
+        
+         <div class="item">
+             <span class="key">Non-executive directorships:</span>
+             <span class="value">Coming soon</span>
+         </div>
+         
+         <div class="item">
+             <span class="key">Related people:</span>
+             <span class="value">Coming soon</span>
+         </div>
+    </div>
  
-                <strong title="This is the country of the appointee's service address, not necessarily their country of residence or nationality.">Country:</strong> 
-                <span id="appointee-country">{{ appointee.country }}</span><br> 
-            </p> 
-
-    </div> 
- 
+    <br class="clear">
  
     <h3>Appointments</h3> 
  
@@ -82,22 +104,19 @@
  				<tr>			
  					<td>{{ appointment.appointedOn|date("Y-m-d") }}</td>
  					<td>{{ appointment.type }}</td>
-					<td><A href="{{ url( 'company_show', { 'id': appointment.companyId }) }}">{{ appointment.company.name }}</a></td>
+					<td><A href="{{ url( 'company_show', { 'id': appointment.companyId }) }}">{{ appointment.company.name | title}}</a></td>
 				</tr>
 				
  			{% endfor %} 
                   
         </tbody> 
     </table> 
- 
-    <h3>Annotations</h3> 
- 
-    <h4>Corrections</h4> 
- 
-    <h4>Websites</h4> 
- 
-    <h4>Locations</h4> 
+    
+    <br><hr> 
  	
-	<p>Alternative presentations: <a href="{{ url('appointee_show', {'id': appointee.id ,'_format': 'json', 'page': ((offset + numAppointments) / numAppointments)}) }}">JSON</a>, <a href="{{ url('appointee_show', {'id': appointee.id ,'_format': 'rdf', 'page': ((offset + numAppointments) / numAppointments)})}}">RDF</a></p> 
+    <div class="item"> 	
+	   <span class="key">Alternative presentations:</span>
+	   <span class="value"><a href="{{ url('appointee_show', {'id': appointee.id ,'_format': 'json', 'page': ((offset + numAppointments) / numAppointments)}) }}">JSON</a>, <a href="{{ url('appointee_show', {'id': appointee.id ,'_format': 'rdf', 'page': ((offset + numAppointments) / numAppointments)})}}">RDF</a></span>
+    </div>
     
 {% endblock %}
