@@ -21,7 +21,7 @@
             </div>
             <div class="item">
                 <span class="key">Date of birth:</span>
-                <span class="value" id="appointee-birthdate">{% if not appointee.dateOfBirth is empty %}{{ appointee.dateOfBirth|date("Y-m") }}{% endif %}</span>
+                <span class="value" id="appointee-birthdate">{% if not appointee.dateOfBirth is empty %}{{ appointee.dateOfBirth|date("Y") }}{% endif %}</span>
             </div>            
             <div class="item">
                 <span class="key">Postcode:</span>

@@ -65,7 +65,7 @@ class AppointeeController extends Controller
                 "is_corporate"      => $appointee->getIsCorporate(),
                 "revision"          => $appointee->getRevision(),
                 "postcode"          => $trimmedPostcode,
-                "date_of_birth"     => $appointee->getDateofBirth() ? $appointee->getDateOfBirth()->format('Y-m') : NULL,
+                "date_of_birth"     => $appointee->getDateofBirth() ? $appointee->getDateOfBirth()->format('Y') : NULL,
                 "title"             => $appointee->getTitle(),
                 "forenames"         => $appointee->getForenames(),
                 "surname"           => $appointee->getSurname(),
