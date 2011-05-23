@@ -11,12 +11,11 @@ parameters:
 framework:
     secret:        %secret%
     charset:       UTF-8
-    csrf_protection:
-        enabled: true
     router:        { resource: "%kernel.root_dir%/config/routing.yml" }
-    validation:    { enabled: true, annotations: true }
+    form:            true
+    csrf_protection: true
+    validation:      true
     templating:    { engines: ['twig'] } #assets_version: SomeVersionScheme
-    translator: { fallback: en }
     session:
         default_locale: %locale%
         lifetime:       3600
@@ -59,9 +58,9 @@ swiftmailer:
     username:  %mailer_user%
     password:  %mailer_password%
 
-jms_security_extra:
-    secure_controllers:  true
-    secure_all_services: false
+# jms_security_extra:
+#     secure_controllers:  true
+#     secure_all_services: false
 
 
 services:
@@ -72,10 +71,10 @@ services:
             - [setLimits, [0, %search_page_length%, 1000]]
 
 
-fos_user:
-    db_driver:     orm
-    firewall_name: main
-    class:
-        model:
-            user:  Tui\DirectorsBundle\Entity\User
+# fos_user:
+#     db_driver:     orm
+#     firewall_name: main
+#     class:
+#         model:
+#             user:  Tui\DirectorsBundle\Entity\User
 

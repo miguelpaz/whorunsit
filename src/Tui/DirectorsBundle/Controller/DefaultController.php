@@ -4,14 +4,16 @@ namespace Tui\DirectorsBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 
 class DefaultController extends Controller
 {
   
     /**
-     * @extra:Route("/", name="home")
-     * @extra:Template()
+     * @Route("/", name="home")
+     * @Template()
      */
   
     public function indexAction()
@@ -20,8 +22,8 @@ class DefaultController extends Controller
     }
     
     /**
-     * @extra:Route("/privacy", name="privacy")
-     * @extra:Template()
+     * @Route("/privacy", name="privacy")
+     * @Template()
      */
   
     public function privacyAction()
@@ -31,8 +33,8 @@ class DefaultController extends Controller
 
 
     /**
-     * @extra:Route("/faq", name="faq")
-     * @extra:Template()
+     * @Route("/faq", name="faq")
+     * @Template()
      */
     public function faqAction()
     {
@@ -40,8 +42,8 @@ class DefaultController extends Controller
     }
 
     /**
-     * @extra:Route("/about-us", name="aboutus")
-     * @extra:Template()
+     * @Route("/about-us", name="aboutus")
+     * @Template()
      */
     public function aboutUsAction()
     {
@@ -49,8 +51,8 @@ class DefaultController extends Controller
     }
         
     /**
-     * @extra:Route("/api", name="api")
-     * @extra:Template()
+     * @Route("/api", name="api")
+     * @Template()
      */
     public function apiAction()
     {
@@ -60,8 +62,8 @@ class DefaultController extends Controller
 
     
     /**
-     * @extra:Route("/search/all.{_format}", name="search_all", defaults={"_format" = "html"})
-     * @extra:Template()
+     * @Route("/search/all.{_format}", name="search_all", defaults={"_format" = "html"})
+     * @Template()
      */
   
     public function searchAction()
@@ -107,7 +109,7 @@ class DefaultController extends Controller
         
 
         // Gather appointee document ids, turn them into appointee ids
-        $appointee_ids = array();
+        $appointee_ids = array(); $appointees = null; $appointee_companies = array();
         if (isset($appointees_results['matches']))
         {
           $appointee_ids = array_map(function($v){return $v['id'];}, $appointees_results['matches']);
@@ -125,7 +127,7 @@ class DefaultController extends Controller
           // Get truncated companies for appointees
           $r = $em->getRepository('TuiDirectorsBundle:Appointee');
 
-          $appointee_companies = array();
+          
           foreach($appointees as $a)
           {
               $appointee_companies[ $a->getId() ] = $r->getAbbreviatedCompanies($a, 5);
@@ -136,7 +138,7 @@ class DefaultController extends Controller
 
 
         // Gather company document ids, turn them into company ids
-        $company_ids = array();
+        $company_ids = array(); $companies = null; $company_appointees = array();
         if (isset($companies_results['matches']))
         {
           $company_ids = array_map(function($v){return $v['id'];}, $companies_results['matches']);
@@ -153,7 +155,7 @@ class DefaultController extends Controller
           // Get truncated appointees for companies
           $r = $em->getRepository('TuiDirectorsBundle:Company');
 
-          $company_appointees = array();
+          
           foreach($companies as $c)
           {
               $company_appointees[ $c->getId() ] = $r->getAbbreviatedAppointees($c, 5);

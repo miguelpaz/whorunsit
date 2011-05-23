@@ -1,154 +1,156 @@
 <?php
-
 namespace Tui\DirectorsBundle\Entity;
+
+use Doctrine\ORM\Mapping as orm;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Tui\DirectorsBundle\Entity\Appointee
  *
- * @orm:Table(name="appointee")
- * @orm:Entity(repositoryClass="Tui\DirectorsBundle\Repositories\AppointeeRepository")
+ * @orm\Table(name="appointee")
+ * @orm\Entity(repositoryClass="Tui\DirectorsBundle\Repositories\AppointeeRepository")
  */
 class Appointee
 {
     /**
      * @var string $id
      *
-     * @orm:Column(name="id", type="string", length=8, nullable=false)
-     * @orm:Id
-     * @orm:GeneratedValue(strategy="NONE")
+     * @orm\Column(name="id", type="string", length=8, nullable=false)
+     * @orm\Id
+     * @orm\GeneratedValue(strategy="NONE")
      */
     private $id;
 
     /**
      * @var boolean $isCorporate
      *
-     * @orm:Column(name="is_corporate", type="boolean", nullable=false)
+     * @orm\Column(name="is_corporate", type="boolean", nullable=false)
      */
     private $isCorporate;
 
     /**
      * @var smallint $revision
      *
-     * @orm:Column(name="revision", type="smallint", nullable=true)
+     * @orm\Column(name="revision", type="smallint", nullable=true)
      */
     private $revision;
 
     /**
      * @var string $postcode
      *
-     * @orm:Column(name="postcode", type="string", length=8, nullable=true)
+     * @orm\Column(name="postcode", type="string", length=8, nullable=true)
      */
     private $postcode;
 
     /**
      * @var date $dateOfBirth
      *
-     * @orm:Column(name="date_of_birth", type="date", nullable=true)
+     * @orm\Column(name="date_of_birth", type="date", nullable=true)
      */
     private $dateOfBirth;
 
     /**
      * @var string $title
      *
-     * @orm:Column(name="title", type="string", length=50, nullable=true)
+     * @orm\Column(name="title", type="string", length=50, nullable=true)
      */
     private $title;
 
     /**
      * @var string $forenames
      *
-     * @orm:Column(name="forenames", type="string", length=50, nullable=true)
+     * @orm\Column(name="forenames", type="string", length=50, nullable=true)
      */
     private $forenames;
 
     /**
      * @var string $surname
      *
-     * @orm:Column(name="surname", type="string", length=160, nullable=true)
+     * @orm\Column(name="surname", type="string", length=160, nullable=true)
      */
     private $surname;
 
     /**
      * @var string $honours
      *
-     * @orm:Column(name="honours", type="string", length=50, nullable=true)
+     * @orm\Column(name="honours", type="string", length=50, nullable=true)
      */
     private $honours;
 
     /**
      * @var string $careOf
      *
-     * @orm:Column(name="care_of", type="string", length=100, nullable=true)
+     * @orm\Column(name="care_of", type="string", length=100, nullable=true)
      */
     private $careOf;
 
     /**
      * @var string $poBox
      *
-     * @orm:Column(name="po_box", type="string", length=10, nullable=true)
+     * @orm\Column(name="po_box", type="string", length=10, nullable=true)
      */
     private $poBox;
 
     /**
      * @var string $address1
      *
-     * @orm:Column(name="address_1", type="string", length=50, nullable=true)
+     * @orm\Column(name="address_1", type="string", length=50, nullable=true)
      */
     private $address1;
 
     /**
      * @var string $address2
      *
-     * @orm:Column(name="address_2", type="string", length=50, nullable=true)
+     * @orm\Column(name="address_2", type="string", length=50, nullable=true)
      */
     private $address2;
 
     /**
      * @var string $town
      *
-     * @orm:Column(name="town", type="string", length=50, nullable=true)
+     * @orm\Column(name="town", type="string", length=50, nullable=true)
      */
     private $town;
 
     /**
      * @var string $county
      *
-     * @orm:Column(name="county", type="string", length=50, nullable=true)
+     * @orm\Column(name="county", type="string", length=50, nullable=true)
      */
     private $county;
 
     /**
      * @var string $country
      *
-     * @orm:Column(name="country", type="string", length=50, nullable=true)
+     * @orm\Column(name="country", type="string", length=50, nullable=true)
      */
     private $country;
 
     /**
      * @var string $occupation
      *
-     * @orm:Column(name="occupation", type="string", length=40, nullable=true)
+     * @orm\Column(name="occupation", type="string", length=40, nullable=true)
      */
     private $occupation;
 
     /**
      * @var string $nationality
      *
-     * @orm:Column(name="nationality", type="string", length=40, nullable=true)
+     * @orm\Column(name="nationality", type="string", length=40, nullable=true)
      */
     private $nationality;
 
     /**
      * @var string $residence
      *
-     * @orm:Column(name="residence", type="string", length=160, nullable=true)
+     * @orm\Column(name="residence", type="string", length=160, nullable=true)
      */
     private $residence;
     
     /**
      * @var CompanyAppointment
      *
-     * @orm:OneToMany(targetEntity="CompanyAppointment", mappedBy="appointee")
+     * @orm\OneToMany(targetEntity="CompanyAppointment", mappedBy="appointee")
      */
     private $companyAppointments;
 
