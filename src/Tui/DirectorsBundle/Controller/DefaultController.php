@@ -182,7 +182,7 @@ class DefaultController extends Controller
                 'surname'       => $a->getSurname(),
                 'honours'       => $a->getHonours(),
                 'date_of_birth' => $a->getDateOfBirth() instanceof \Datetime ? $a->getDateOfBirth()->format('Y') : null,
-                'postcode'      => substr($a->getPostcode(),0,strpos($a->getPostcode(' '))),
+                'postcode'      => $a->getPostcode() ? substr($a->getPostcode(),0,strpos($a->getPostcode(), ' ')) : null,
           
               );
             }
