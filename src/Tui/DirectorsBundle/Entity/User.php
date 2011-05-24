@@ -18,7 +18,7 @@ class User extends BaseUser
     protected $id;
     
     /**
-     * @orm\Column(type="boolean", name="contact_me", nullable=false)
+     * @orm:Column(type="boolean", name="contact_me", nullable=false)
      */
     protected $contact_me = false;
     
