@@ -34,15 +34,16 @@ span.key {
 
 /* Search form on most pages */
 #right-col-search #search { 
+    width: 145px;
 }
 
 #right-col-search input.success {
-    padding:1px;
+    padding:5px;
     margin-top: 5px;
     background-color: #DDD;
     background: -webkit-gradient(linear, left top, left bottom, from(#EEE), to(#DDD));
 	background: -moz-linear-gradient(top,  #EEE,  #DDD);
-	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#EEE', endColorstr='#DDD');
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#EEEEEE', endColorstr='#DDDDDD');
 }
 
 #right-col-search p {
@@ -95,6 +96,10 @@ span.key {
     background: -webkit-gradient(linear, left top, left bottom, from(#D8F984), to(#B8D964));
 	background: -moz-linear-gradient(top,  #D8F984,  #B8D964);
 	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#D8F984', endColorstr='#B8D964');
+}
+
+#right-col-search input {
+    padding:5px;
 }
 
 #index-search form input.success,
