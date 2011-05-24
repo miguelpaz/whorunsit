@@ -10,6 +10,7 @@ parameters:
 
 framework:
     secret:        %secret%
+    translator:    { fallback: en }
     charset:       UTF-8
     router:        { resource: "%kernel.root_dir%/config/routing.yml" }
     form:            true
