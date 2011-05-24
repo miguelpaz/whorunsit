@@ -47,7 +47,7 @@
     
     <dl>
       {% for c in companies %}
-        <dt><a href="{{ url('company_show', {'id': c.id}) }}">{{ c.name }}</a></dt>
+        <dt class="status-{{ c.status | lower | replace({' ':'-', '/':'-' }) }}"><a href="{{ url('company_show', {'id': c.id}) }}">{{ c.name }}</a></dt>
         <dd><p>
             {% for a in company_appointees[c.id] %}
                 <span class="search-company-person quiet">{{ a.forenames | title }} {{ a.surname | title }}</span>{% if not loop.last %},{% endif %}{% if loop.index == 5 %}, …{% endif %}

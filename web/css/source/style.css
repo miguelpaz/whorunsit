@@ -120,3 +120,8 @@ thead th {
   font-size: 80%;
   color: #999;
 }
+
+dt.status-dissolved a
+{
+  color: #999;
+}
