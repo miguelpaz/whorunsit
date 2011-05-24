@@ -10,7 +10,6 @@ parameters:
 
 framework:
     secret:        %secret%
-    translator:    { fallback: en }
     charset:       UTF-8
     router:        { resource: "%kernel.root_dir%/config/routing.yml" }
     form:            true
@@ -72,10 +71,10 @@ services:
             - [setLimits, [0, %search_page_length%, 1000]]
 
 
-fos_user:
-    db_driver:     orm
-    firewall_name: main
-    class:
-        model:
-            user:  Tui\DirectorsBundle\Entity\User
+# fos_user:
+#     db_driver:     orm
+#     firewall_name: main
+#     class:
+#         model:
+#             user:  Tui\DirectorsBundle\Entity\User
 
