@@ -1,0 +1,364 @@
+#
+# Sphinx configuration file sample
+#
+# WARNING! While this sample file mentions all available options,
+# it contains (very) short helper descriptions only. Please refer to
+# doc/sphinx.html for details.
+#
+
+#############################################################################
+## data source definition
+#############################################################################
+
+source companies
+{
+  # data source type. mandatory, no default value
+  # known types are 'mysql', 'pgsql', 'xmlpipe', 'xmlpipe2'
+  type          = mysql
+
+  #####################################################################
+  ## SQL settings (for 'mysql' and 'pgsql' types)
+  #####################################################################
+
+  # some straightforward parameters for SQL source types
+  sql_host        = localhost
+  sql_user        = directors
+  sql_pass        = [PASSWORD]
+  sql_db          = directors
+  sql_port        = 3306  # optional, default is 3306
+
+  # UNIX socket name
+  # optional, default is empty (reuse client library defaults)
+  # usually '/var/lib/mysql/mysql.sock' on Linux
+  # usually '/tmp/mysql.sock' on FreeBSD
+  #
+  sql_sock        = /tmp/mysql.sock
+
+
+  # MySQL specific client connection flags
+  # optional, default is 0
+  #
+  # mysql_connect_flags = 32 # enable compression
+
+
+  # pre-query, executed before the main fetch query
+  # multi-value, optional, default is empty list of queries
+  #
+  sql_query_pre     = SET NAMES utf8
+  sql_query_pre     = SET SESSION query_cache_type=OFF
+  sql_query_pre     = DROP TABLE IF EXISTS sphinx_company_index
+  sql_query_pre     = CREATE TABLE sphinx_company_index ( document_id int not null auto_increment primary key, ch_number char(8) not null, index ch_number_idx(ch_number) ) Engine=MyISAM;
+  sql_query_pre     = INSERT INTO sphinx_company_index SELECT null, id FROM company;
+
+
+  # main document fetch query
+  # mandatory, integer document ID field MUST be the first selected column
+  sql_query       = \
+    SELECT si.document_id, c.id AS ch_number, name \
+    FROM company c JOIN sphinx_company_index si ON c.id = si.ch_number
+
+  # range query setup, query that must return min and max ID values
+  # optional, default is empty
+  #
+  # sql_query will need to reference $start and $end boundaries
+  # if using ranged query:
+  #
+  #   sql_query       = \
+  #     SELECT si.document_id, c.id AS ch_number, name \
+  #     FROM company c JOIN sphinx_company_index si ON c.id = si.ch_number
+  #     WHERE si.document_id>=$start AND si.document_id<=$end
+  #   
+  # sql_query_range   = SELECT MIN(document_id),MAX(document_id) FROM sphinx_company_index
+
+
+  # range query step
+  # optional, default is 1024
+  #
+  # sql_range_step    = 1000
+
+
+  # UNIX timestamp attribute declaration
+  # multi-value (an arbitrary number of attributes is allowed), optional
+  # similar to integer, but can also be used in date functions
+  #
+  # sql_attr_timestamp  = posted_ts
+  # sql_attr_timestamp  = last_edited_ts
+  # sql_attr_timestamp    = date_added
+
+}
+
+
+source appointees
+{
+  # data source type. mandatory, no default value
+  # known types are 'mysql', 'pgsql', 'xmlpipe', 'xmlpipe2'
+  type          = mysql
+
+  #####################################################################
+  ## SQL settings (for 'mysql' and 'pgsql' types)
+  #####################################################################
+
+  # some straightforward parameters for SQL source types
+  sql_host        = localhost
+  sql_user        = directors
+  sql_pass        = [PASSWORD]
+  sql_db          = directors
+  sql_port        = 3306  # optional, default is 3306
+
+  # UNIX socket name
+  # optional, default is empty (reuse client library defaults)
+  # usually '/var/lib/mysql/mysql.sock' on Linux
+  # usually '/tmp/mysql.sock' on FreeBSD
+  #
+  sql_sock        = /tmp/mysql.sock
+
+
+  # MySQL specific client connection flags
+  # optional, default is 0
+  #
+  # mysql_connect_flags = 32 # enable compression
+
+
+  # pre-query, executed before the main fetch query
+  # multi-value, optional, default is empty list of queries
+  #
+  sql_query_pre     = SET NAMES utf8
+  sql_query_pre     = SET autocommit=0
+  sql_query_pre     = DROP TABLE IF EXISTS sphinx_appointee_index
+  sql_query_pre     = CREATE TABLE sphinx_appointee_index ( document_id int not null auto_increment primary key, ch_number char(8) not null, index ch_number_idx(ch_number) ) Engine=MyISAM
+  sql_query_pre     = LOCK TABLES appointee WRITE, sphinx_appointee_index WRITE
+  sql_query_pre     = INSERT INTO sphinx_appointee_index (ch_number) SELECT id FROM appointee
+  sql_query_pre     = UNLOCK TABLES
+  sql_query_pre     = SET autocommit=1
+
+  # main document fetch query
+  # mandatory, integer document ID field MUST be the first selected column
+  sql_query       = \
+    SELECT si.document_id, a.id AS ch_number,forenames, surname, care_of AS 'name' \
+    FROM appointee a JOIN sphinx_appointee_index si ON a.id = si.ch_number
+
+  # range query setup, query that must return min and max ID values
+  # optional, default is empty
+  #
+  # sql_query will need to reference $start and $end boundaries
+  # if using ranged query:
+  #
+  #   sql_query       = \
+  #     SELECT si.document_id, a.id AS ch_number, concat_ws(' ', forenames, surname, care_of) AS 'name'  \
+  #     FROM appointee a JOIN sphinx_appointee_index si ON a.id = si.ch_number
+  #     WHERE si.document_id>=$start AND si.document_id<=$end
+  #   
+  # sql_query_range   = SELECT MIN(document_id),MAX(document_id) FROM sphinx_appointee_index
+
+
+  # range query step
+  # optional, default is 1024
+  #
+  # sql_range_step    = 1000
+
+
+  # UNIX timestamp attribute declaration
+  # multi-value (an arbitrary number of attributes is allowed), optional
+  # similar to integer, but can also be used in date functions
+  #
+  # sql_attr_timestamp  = posted_ts
+  # sql_attr_timestamp  = last_edited_ts
+  # sql_attr_timestamp    = date_added
+
+}
+
+
+
+#############################################################################
+## index definition
+#############################################################################
+
+# local index example
+#
+# this is an index which is stored locally in the filesystem
+#
+# all indexing-time options (such as morphology and charsets)
+# are configured per local index
+index companies
+{
+  # document source(s) to index
+  # multi-value, mandatory
+  # document IDs must be globally unique across all sources
+  source      = companies
+
+  # index files path and file name, without extension
+  # mandatory, path must be writable, extensions will be auto-appended
+  path      = /opt/local/var/sphinx/companies
+
+  # document attribute values (docinfo) storage mode
+  # optional, default is 'extern'
+  # known values are 'none', 'extern' and 'inline'
+  docinfo     = extern
+
+  # memory locking for cached data (.spa and .spi), to prevent swapping
+  # optional, default is 0 (do not mlock)
+  # requires searchd to be run from root
+  mlock     = 0
+
+  # a list of morphology preprocessors to apply
+  # optional, default is empty
+  #
+  # builtin preprocessors are 'none', 'stem_en', 'stem_ru', 'stem_enru',
+  # 'soundex', and 'metaphone'; additional preprocessors available from
+  # libstemmer are 'libstemmer_XXX', where XXX is algorithm code
+  # (see libstemmer_c/libstemmer/modules.txt)
+  #
+  # morphology  = stem_en, stem_ru, soundex
+  # morphology  = libstemmer_german
+  # morphology  = libstemmer_sv
+  morphology    = none
+
+  # minimum indexed word length
+  # default is 1 (index everything)
+  min_word_len    = 1
+
+  # charset encoding type
+  # optional, default is 'sbcs'
+  # known types are 'sbcs' (Single Byte CharSet) and 'utf-8'
+  charset_type    = utf-8
+
+  # enable star-syntax (wildcards) when searching prefix/infix indexes
+  # known values are 0 and 1
+  # optional, default is 0 (do not use wildcard syntax)
+  #
+  # enable_star   = 1
+
+}
+
+index appointees
+{
+  # document source(s) to index
+  # multi-value, mandatory
+  # document IDs must be globally unique across all sources
+  source      = appointees
+
+  # index files path and file name, without extension
+  # mandatory, path must be writable, extensions will be auto-appended
+  path      = /opt/local/var/sphinx/appointees
+
+  # document attribute values (docinfo) storage mode
+  # optional, default is 'extern'
+  # known values are 'none', 'extern' and 'inline'
+  docinfo     = extern
+
+  # memory locking for cached data (.spa and .spi), to prevent swapping
+  # optional, default is 0 (do not mlock)
+  # requires searchd to be run from root
+  mlock     = 0
+
+  # a list of morphology preprocessors to apply
+  # optional, default is empty
+  #
+  # builtin preprocessors are 'none', 'stem_en', 'stem_ru', 'stem_enru',
+  # 'soundex', and 'metaphone'; additional preprocessors available from
+  # libstemmer are 'libstemmer_XXX', where XXX is algorithm code
+  # (see libstemmer_c/libstemmer/modules.txt)
+  #
+  # morphology  = stem_en, stem_ru, soundex
+  # morphology  = libstemmer_german
+  # morphology  = libstemmer_sv
+  morphology    = none
+
+  # minimum indexed word length
+  # default is 1 (index everything)
+  min_word_len    = 1
+
+  # charset encoding type
+  # optional, default is 'sbcs'
+  # known types are 'sbcs' (Single Byte CharSet) and 'utf-8'
+  charset_type    = utf-8
+
+  # enable star-syntax (wildcards) when searching prefix/infix indexes
+  # known values are 0 and 1
+  # optional, default is 0 (do not use wildcard syntax)
+  #
+  # enable_star   = 1
+
+}
+
+
+
+#############################################################################
+## indexer settings
+#############################################################################
+
+indexer
+{
+	# memory limit, in bytes, kiloytes (16384K) or megabytes (256M)
+	# optional, default is 32M, max is 2047M, recommended is 256M to 1024M
+	mem_limit			= 512M
+
+	# maximum IO calls per second (for I/O throttling)
+	# optional, default is 0 (unlimited)
+	#
+	# max_iops			= 40
+
+
+	# maximum IO call size, bytes (for I/O throttling)
+	# optional, default is 0 (unlimited)
+	#
+	# max_iosize		= 1048576
+}
+
+#############################################################################
+## searchd settings
+#############################################################################
+
+searchd
+{
+	# IP address to bind on
+	# optional, default is 0.0.0.0 (ie. listen on all interfaces)
+	#
+	# address				= 127.0.0.1
+	# address				= 192.168.0.1
+
+
+	# searchd TCP port number
+	# mandatory, default is 3312
+	port				= 9312
+
+	# log file, searchd run info is logged here
+	# optional, default is 'searchd.log'
+	log					= /opt/local/var/sphinx/searchd.log
+
+	# query log file, all search queries are logged here
+	# optional, default is empty (do not log queries)
+	# query_log			= /opt/local/var/sphinx/query.log
+
+	# client read timeout, seconds
+	# optional, default is 5
+	read_timeout		= 5
+
+	# maximum amount of children to fork (concurrent searches to run)
+	# optional, default is 0 (unlimited)
+	max_children		= 5
+	# was 30 (2011-04-28)
+
+	# PID file, searchd process ID file name
+	# mandatory
+	pid_file			= /opt/local/var/sphinx/searchd.pid
+
+	# max amount of matches the daemon ever keeps in RAM, per-index
+	# WARNING, THERE'S ALSO PER-QUERY LIMIT, SEE SetLimits() API CALL
+	# default is 1000 (just like Google)
+	max_matches			= 1000
+
+	# seamless rotate, prevents rotate stalls if precaching huge datasets
+	# optional, default is 1
+	seamless_rotate		= 1
+
+	# whether to forcibly preopen all indexes on startup
+	# optional, default is 0 (do not preopen)
+	preopen_indexes		= 0
+
+	# whether to unlink .old index copies on succesful rotation.
+	# optional, default is 1 (do unlink)
+	unlink_old			= 1
+}
+
+# --eof--

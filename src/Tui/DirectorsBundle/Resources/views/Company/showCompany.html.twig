@@ -1,43 +1,105 @@
 {% extends "TuiDirectorsBundle::base.html.twig" %}
 
+{% block title %}{{ company.name | title }} - Who runs it?{% endblock %}
+
 {% block content %}
 
-    <h2>{{ company.name }}</h2> 
- 
-	<h3>Details</h3> 
- 
-	<div class="item"> 
-  		<span class="key">Status:</span> 
-  		<span class="value">{{ company.status }}</span> 
-	</div> 
- 
-	<div class="item"> 
-  		<span class="key">Officers:</span> 
-  		<span class="value">{{ company.officers }}</span> 
-	</div> 
+    <h2>{{ company.name | title }}</h2> 
 
-	{% if company.status not in ['Converted/closed', 'Dissolved'] %}
-		<div class="item">
-			<span class="key">OpenCorporates entry:</span> 
-			<span class="value"><a href="http://opencorporates.com/companies/uk/{{ company.id }}">OpenCorporates</a></span>
- 		</div>
- 	{% endif %}
+    <div id="company-details" class="append-bottom span-5">
+ 
+	   <div class="item"> 
+  		    <span class="key">Status:</span> 
+  		    <span class="value">{{ company.status }}</span> 
+	   </div> 
+ 
+       <div class="item"> 
+            <span class="key">Officers:</span> 
+            <span class="value">{{ company.officers }}</span> 
+       </div> 
+
+       <div class="item"> 
+            <span class="key">Wikipedia abstract:</span> 
+            <span class="value">Coming soon</span> 
+       </div> 
+
+    </div>
+    
+    <div id="additional-details" class="append-bottom span-5 last">
+        <table>
+            <tbody>
+                <tr>
+                    <th scope="row">OpenCorporates:</th>
+                    <td>
+                        {% if company.status not in ['Converted/closed', 'Dissolved'] %}
+                            <a href="http://opencorporates.com/companies/gb/{{ company.id }}">View details</a>
+                        {% else %}
+                            n/a
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">Wikipedia entry:</th>
+                    <td rowspan="5">Coming soon</td>
+                </tr>
+                <tr>
+                    <th scope="row">Company site:</th>
+                </tr>
+                <tr>
+                    <th scope="row">Who's Lobbying:</th>
+                </tr>
+                <tr>
+                    <th scope="row">Openly Local Suppliers:</th>
+                </tr>
+                <tr>
+                    <th scope="row">LinkedIn:</th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
  
 	<h3>Appointments</h3> 
-		<ul>
+		<table id="appointments"> 
+        <thead> 
+            <tr> 
+                <th scope="col">Date</th> 
+                <th scope="col">Appointee</th> 
+                <th scope="col">Position</th>
+                <th scope="col">Date Source</th> 
+            </tr> 
+        </thead> 
+        <tbody> 
+
 			{% for appointment in company.companyAppointments %} 
   
-  				<li>{{ appointment.appointedOn|date("Y-m-d") }}: <a href="{{ url('appointee_show', { 'id':  appointment.appointee.id  }) }}">{{ appointment.appointee.forenames }} {{ appointment.appointee.surname }}</a> is {{ appointment.type }} (source: {{ appointment.appointmentDateSource }})</li>    
+  				<tr>
+  				  <td>{{ appointment.appointedOn|date("Y-m-d") }}</td>
+  				  <td><a href="{{ url('appointee_show', { 'id':  appointment.appointee.id  }) }}">{{ appointment.appointee.forenames | title }} {{ appointment.appointee.surname | title }}</a></td>
+  				  <td>{{ appointment.type }}</td>
+  				  <td>{{ appointment.appointmentDateSource }}</td>
+  				</tr>  
 			
 			{% endfor %}
-		</ul> 
+		
+		</tbody>
+		</table>
  
- 	<h3>Annotations</h3> 
-	<p>Coming soon</p> 
- 
-	<hr>
-	
-	<p>Alternative presentations: <a href="{{ url('company_show', {'id': company.id ,'_format': 'json'} ) }}">JSON</a>, <a href="{{ url('company_show', {'id': company.id ,'_format': 'rdf'} ) }}">RDF</a></p>
-
+    <div class="span-5">
+        <h3>Non-executive directors</h3>
+        <p>Coming soon</p>
+    </div>
+    <div class="span-5 last">
+        <h3>Related companies</h3>
+        <p>Coming soon</p>
+    </div>
+    
+    <br><hr>
+    
+    <div class="item">
+        <span class="key">Alternative presentations:</span>
+        <span class="value"><a href="{{ url('company_show', {'id': company.id ,'_format': 'json'} ) }}">JSON</a>, <a href="{{ url('company_show', {'id': company.id ,'_format': 'rdf'} ) }}">RDF</a></span>
+        <div class="small">Please read the <a href="{{ url('api') }}">API notes</a></div>
+        
+    </div>
 	
 {% endblock %}

@@ -22,7 +22,7 @@
 <ch:chCompanyID>{{ company.id }}</ch:chCompanyID>
 
 {% if company.status not in ['Converted/closed', 'Dissolved'] %}
-<rdfs:seeAlso rdf:resource="http://opencorporates.com/companies/uk/{{ company.id }}"/>
+<rdfs:seeAlso rdf:resource="http://opencorporates.com/companies/gb/{{ company.id }}"/>
 {% endif %}
 
 {% for appointment in company.companyAppointments %} 

@@ -6,3 +6,5 @@ build/
 vendor/
 app/config/parameters.ini
 .DS_Store
+sphinx/sphinx.conf
+web/.htaccess

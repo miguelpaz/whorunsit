@@ -4,40 +4,72 @@
 {% block content %}
 <h2>Search results</h2>
 
+<div class="span-5">
+    <h3>People</h3>
+    {% if appointees %}
+        <p>Showing {{ page_info.offset }}-{{ page_info.appointees_end }} of {{ page_info.appointees_found }}</p>
+    {% endif %}
+    <dl>
+      {% for a in appointees %}
+        <dt class="search-person"><a href="{{ url('appointee_show', { 'id': a.id })}}">
+          {{ a.title }}
+          {{ a.forenames }}
+          {{ a.surname }}
+          {{ a.honours }}
+          </a>
+            <span class="quiet small">
+              (
+              {% if a.dateOfBirth is not none %}
+                {{ a.dateOfBirth | date('Y') }}, 
+              {% endif %}
+              {{ a.town | title }}
+              )
+            </span>
+        </dt>
+        <dd><p>
+            {% for c in appointee_companies[a.id] %}
+                <span class="search-person-company quiet">{{ c.name | title | truncate(40)}}</span>{% if not loop.last %},{% endif %}
+            {% endfor %}
+        </p></dd>
+      {% else %}
+        No results
+      {% endfor %}
+    </ul>
+</div>
 
-<h3>Appointments</h3>
-<p>Showing first 100 records:</p>
 
-<ul>
-  {% for a in appointees %}
-    <li><a href="{{ url('appointee_show', { 'id': a.id })}}">
-      {{ a.title }}
-      {{ a.forenames }}
-      {{ a.surname }}
-      {{ a.honours }}
-      </a>
-      &nbsp;
-      <span class="quiet small">
-        (
-        {% if a.dateOfBirth is not none %}
-          {{ a.dateOfBirth | date('Y') }}, 
-        {% endif %}
-        {{ a.postcode | truncate(4) }}
-        )
-      </span>    
-    </li>
-  {% endfor %}
-</ul>
+<div class="span-5 last">
+    
+    <h3>Companies</h3>
+    {% if companies %}
+        <p>Showing {{ page_info.offset }}-{{ page_info.companies_end }} of {{ page_info.companies_found }}{% if page_info.companies_found == 1000 %}(max){% endif %}</p>
+    {% endif %}
+    
+    <dl>
+      {% for c in companies %}
+        <dt><a href="{{ url('company_show', {'id': c.id}) }}">{{ c.name }}</a></dt>
+        <dd><p>
+            {% for a in company_appointees[c.id] %}
+                <span class="search-company-person quiet">{{ a.forenames | title }} {{ a.surname | title }}</span>{% if not loop.last %},{% endif %}{% if loop.index == 5 %}, …{% endif %}
+            {% else %}
+                <span class="search-company-person quiet">n/a</span>
+            {% endfor %}
+        </p></dd>
+      {% else %}
+        No results
+      {% endfor %}
+    </dl>
 
+</div>
 
-<h3>Companies</h3>
-<p>Showing first 100 records:</p>
-<ul>
-  {% for c in companies %}
-    <li><a href="{{ url('company_show', {'id': c.id}) }}">{{ c.name }}</a></li>
-  {% endfor %}
-</ul>
-
+<p class="clear large center">
+    {% if page_info.page > 1 %}
+        <a href="{{ url('search_all', { 'q' : page_info.query, 'page' : page_info.page - 1 }) }}">« Previous</a>&nbsp;
+    {% endif %}
+    {% if page_info.has_more_pages %}
+        <a href="{{ url('search_all', { 'q' : page_info.query, 'page' : page_info.page + 1 }) }}">More results »</a>
+    {% endif %}
+</p>
 
 
 <hr>

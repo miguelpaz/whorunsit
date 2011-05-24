@@ -12,10 +12,11 @@ monolog:
             path:  %kernel.logs_dir%/%kernel.environment%.log
             level: debug
 
+
 doctrine:
     orm:
         auto_generate_proxy_classes:    false
-        
+
         entity_managers:
             default:
                 connection:                     default

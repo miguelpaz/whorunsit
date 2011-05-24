@@ -1,49 +1,51 @@
 <?php
-
 namespace Tui\DirectorsBundle\Entity;
+
+use Doctrine\ORM\Mapping as orm;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Tui\DirectorsBundle\Entity\Company
  *
- * @orm:Table(name="company")
- * @orm:Entity
+ * @orm\Table(name="company")
+ * @orm\Entity(repositoryClass="Tui\DirectorsBundle\Repositories\CompanyRepository")
  */
 class Company
 {
     /**
      * @var string $id
      *
-     * @orm:Column(name="id", type="string", length=8, nullable=false)
-     * @orm:Id
-     * @orm:GeneratedValue(strategy="NONE")
+     * @orm\Column(name="id", type="string", length=8, nullable=false)
+     * @orm\Id
+     * @orm\GeneratedValue(strategy="NONE")
      */
     private $id;
 
     /**
      * @var string $status
      *
-     * @orm:Column(name="status", type="string", length=16, nullable=false)
+     * @orm\Column(name="status", type="string", length=16, nullable=false)
      */
     private $status;
 
     /**
      * @var smallint $officers
      *
-     * @orm:Column(name="officers", type="smallint", nullable=false)
+     * @orm\Column(name="officers", type="smallint", nullable=false)
      */
     private $officers;
 
     /**
      * @var string $name
      *
-     * @orm:Column(name="name", type="string", length=161, nullable=false)
+     * @orm\Column(name="name", type="string", length=161, nullable=false)
      */
     private $name;
 
 	/**
      * @var CompanyAppointment     
      *
-     * @orm:OneToMany(targetEntity="CompanyAppointment", mappedBy="company")
+     * @orm\OneToMany(targetEntity="CompanyAppointment", mappedBy="company")
      */
     private $companyAppointments;
 

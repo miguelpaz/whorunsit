@@ -4,15 +4,19 @@ namespace Tui\DirectorsBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+
 use Tui\DirectorsBundle\Entity\Company;
 
 class CompanyController extends Controller
 {
 
     /**
-     * @extra:Route("/companies/{id}.{_format}", name="company_show", defaults={"_format" = "html"}, requirements={"_format" = "html|json|rdf"})
-     * @extra:ParamConverter("id", class="TuiDirectorsBundle:Company")
-     * @extra:Template()
+     * @Route("/companies/{id}.{_format}", name="company_show", defaults={"_format" = "html"}, requirements={"_format" = "html|json|rdf"})
+     * @ParamConverter("id", class="TuiDirectorsBundle:Company")
+     * @Template()
      */
     public function showCompanyAction(Company $company, $_format)
     {

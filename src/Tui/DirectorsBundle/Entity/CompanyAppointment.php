@@ -1,69 +1,72 @@
 <?php
-
 namespace Tui\DirectorsBundle\Entity;
+
+use Doctrine\ORM\Mapping as orm;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * Tui\DirectorsBundle\Entity\CompanyAppointment
  *
- * @orm:Table(name="company_appointment")
- * @orm:Entity
+ * @orm\Table(name="company_appointment")
+ * @orm\Entity
  */
 class CompanyAppointment
 {
     /**
      * @var string $companyId
      *
-     * @orm:Column(name="company_id", type="string", length=8, nullable=false)
-     * @orm:Id
-     * @orm:GeneratedValue(strategy="NONE")
+     * @orm\Column(name="company_id", type="string", length=8, nullable=false)
+     * @orm\Id
+     * @orm\GeneratedValue(strategy="NONE")
      */
     private $companyId;
 
     /**
      * @var string $appointeeId
      *
-     * @orm:Column(name="appointee_id", type="string", length=8, nullable=false)
-     * @orm:Id
-     * @orm:GeneratedValue(strategy="NONE")
+     * @orm\Column(name="appointee_id", type="string", length=8, nullable=false)
+     * @orm\Id
+     * @orm\GeneratedValue(strategy="NONE")
      */
     private $appointeeId;
 
     /**
      * @var string $type
      *
-     * @orm:Column(name="type", type="string", length=35, nullable=false)
-     * @orm:Id
-     * @orm:GeneratedValue(strategy="NONE")
+     * @orm\Column(name="type", type="string", length=35, nullable=false)
+     * @orm\Id
+     * @orm\GeneratedValue(strategy="NONE")
      */
     private $type;
 
     /**
      * @var date $appointedOn
      *
-     * @orm:Column(name="appointed_on", type="date", nullable=false)
+     * @orm\Column(name="appointed_on", type="date", nullable=false)
      */
     private $appointedOn;
 
     /**
      * @var string $appointmentDateSource
      *
-     * @orm:Column(name="appointment_date_source", type="string", length=32, nullable=false)
+     * @orm\Column(name="appointment_date_source", type="string", length=32, nullable=false)
      */
     private $appointmentDateSource;
 
     /**
      * @var date $resignedOn
      *
-     * @orm:Column(name="resigned_on", type="date", nullable=true)
+     * @orm\Column(name="resigned_on", type="date", nullable=true)
      */
     private $resignedOn;
 
     /**
      * @var Appointee
      *
-     * @orm:ManyToOne(targetEntity="Appointee")
-     * @orm:JoinColumns({
-     *   @orm:JoinColumn(name="appointee_id", referencedColumnName="id")
+     * @orm\ManyToOne(targetEntity="Appointee")
+     * @orm\JoinColumns({
+     *   @orm\JoinColumn(name="appointee_id", referencedColumnName="id")
      * })
      */
     private $appointee;
@@ -71,9 +74,9 @@ class CompanyAppointment
     /**
      * @var Company
      *
-     * @orm:ManyToOne(targetEntity="Company")
-     * @orm:JoinColumns({
-     *   @orm:JoinColumn(name="company_id", referencedColumnName="id")
+     * @orm\ManyToOne(targetEntity="Company")
+     * @orm\JoinColumns({
+     *   @orm\JoinColumn(name="company_id", referencedColumnName="id")
      * })
      */
     private $company;

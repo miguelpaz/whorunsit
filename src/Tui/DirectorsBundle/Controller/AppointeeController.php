@@ -4,6 +4,10 @@ namespace Tui\DirectorsBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+
 use Tui\DirectorsBundle\Entity\Appointee;
 use Tui\DirectorsBundle\Entity\CompanyAppointment;
 
@@ -11,8 +15,8 @@ class AppointeeController extends Controller
 {
 
     /**
-     * @extra:Route("/appointees/{id}.{_format}", name="appointee_show", defaults={"_format" = "html"}, requirements={"_format" = "html|json|rdf"})
-     * @extra:ParamConverter("id", class="TuiDirectorsBundle:Appointee")
+     * @Route("/appointees/{id}.{_format}", name="appointee_show", defaults={"_format" = "html"}, requirements={"_format" = "html|json|rdf"})
+     * @ParamConverter("id", class="TuiDirectorsBundle:Appointee")
      */
     public function showAppointeeAction(Appointee $appointee, $_format)
     {
@@ -65,7 +69,7 @@ class AppointeeController extends Controller
                 "is_corporate"      => $appointee->getIsCorporate(),
                 "revision"          => $appointee->getRevision(),
                 "postcode"          => $trimmedPostcode,
-                "date_of_birth"     => $appointee->getDateofBirth() ? $appointee->getDateOfBirth()->format('Y-m') : NULL,
+                "date_of_birth"     => $appointee->getDateofBirth() ? $appointee->getDateOfBirth()->format('Y') : NULL,
                 "title"             => $appointee->getTitle(),
                 "forenames"         => $appointee->getForenames(),
                 "surname"           => $appointee->getSurname(),
