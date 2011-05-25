@@ -79,3 +79,7 @@ fos_user:
         model:
             user:  Tui\DirectorsBundle\Entity\User
 
+    email:
+        from_email: { whorunsit@inanimatt.com: WhoRunsIt.org }
+        confirmation:
+            enabled:    true
