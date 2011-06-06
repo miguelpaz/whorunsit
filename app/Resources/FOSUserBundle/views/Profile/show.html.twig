@@ -2,6 +2,6 @@
 
 {% block content %}
 <div class="fos_user_user_show">
-    <p>{{ 'user.show.username'|trans([], 'FOSUserBundle') }}: {{ user.getUsername() }}</p>
+  <p>{{ 'profile.show.username'|trans({}, 'FOSUserBundle') }}: {{ user.username }}</p>
 </div>
 {% endblock content %}
