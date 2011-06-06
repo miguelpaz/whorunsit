@@ -11,3 +11,6 @@
 /bundles/Sensio/Bundle  FrameworkExtraBundle  http://github.com/sensio/SensioFrameworkExtraBundle.git
 /bundles/JMS            SecurityExtraBundle   http://github.com/schmittjoh/SecurityExtraBundle.git
 /bundles/Symfony/Bundle WebConfiguratorBundle http://github.com/symfony/WebConfiguratorBundle.git
+/bundles/FOS            UserBundle            http://github.com/FriendsOfSymfony/UserBundle.git
+/                       doctrine-migrations       http://github.com/doctrine/migrations.git
+/bundles/Symfony/Bundle DoctrineMigrationsBundle  http://github.com/symfony/DoctrineMigrationsBundle.git
