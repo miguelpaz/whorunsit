@@ -25,6 +25,6 @@ $loader->registerPrefixes(array(
     'Sphinx'           => __DIR__.'/../vendor/sphinx-client',
 ));
 $loader->register();
-$loader->registerPrefixFallback(array(
+$loader->registerPrefixFallbacks(array(
     __DIR__.'/../vendor/symfony/src/Symfony/Component/Locale/Resources/stubs',
 ));
