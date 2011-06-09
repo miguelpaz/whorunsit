@@ -32,4 +32,27 @@ class CompanyRepository extends EntityRepository
         return $q->getResult();
     }
     
+    
+    
+    public function getAppointments(Company $company, $limit = 100, $offset = 0)
+    {
+        $q = $this->_em->createQuery('SELECT ca, a
+            FROM TuiDirectorsBundle:CompanyAppointment ca 
+            JOIN ca.appointee a
+            WHERE ca.companyId = :company
+            ORDER BY ca.appointedOn DESC');
+        $q->setParameter('company', $company->getId());
+        $q->setFirstResult( $offset );
+        $q->setMaxResults( $limit );
+      
+      return $q->getResult();
+    }
+    
+    public function countAppointments(Company $company)
+    {
+        $qc = $this->_em->createQuery("SELECT COUNT(a.companyId) FROM TuiDirectorsBundle:CompanyAppointment a WHERE a.companyId = :company");
+        $qc->setParameter('company', $company->getId());
+        return array_shift($qc->getSingleResult());
+    }
+    
 }
