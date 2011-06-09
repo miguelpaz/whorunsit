@@ -39,14 +39,15 @@ class AppointeeController extends Controller
 
         $trimmedPostcode = rtrim(substr($appointee->getPostcode(), 0, strpos($appointee->getPostcode(), ' ')));
 
-        $em = $this->get('doctrine')->getEntityManager();   
+        $em = $this->getDoctrine();   
         $r  = $em->getRepository('TuiDirectorsBundle:Appointee');
       
         // Get the total number of appointments
         $totalCompanyApps = $r->countAppointments($appointee);
       
         // Set the offset via page query
-        $page = (int)$this->get('request')->query->get('page');     
+        $page = (int)$this->get('request')->query->get('page');
+        $page = $page ?: 1;
 
         $offset = 0;
         $numAppointments = $this->container->getParameter('appointments_page_length');
