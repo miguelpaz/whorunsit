@@ -1,5 +1,9 @@
 {% extends "TuiDirectorsBundle::base.html.twig" %}
 
+{% block header %}
+    <link rel="shorturl" href="http://whoruns.it/c/{{ company.id }}">
+{% endblock %}
+
 {% block title %}{{ company.name | title }} - Who runs it?{% endblock %}
 
 {% block content %}

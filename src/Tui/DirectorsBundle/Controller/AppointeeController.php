@@ -29,6 +29,7 @@ class AppointeeController extends Controller
             's_maxage'      => 86400,
             'public'        => true,
         ));
+        $response->headers->set('Link', '<http://whoruns.it/a/'.$appointee->getId().'>; rel=shorturl');
         if ($response->isNotModified($this->get('request')))
         {
             return $response;

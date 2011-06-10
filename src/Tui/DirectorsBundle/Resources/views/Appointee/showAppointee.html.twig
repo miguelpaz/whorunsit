@@ -1,5 +1,9 @@
 {% extends "TuiDirectorsBundle::base.html.twig" %}
 
+{% block header %}
+    <link rel="shorturl" href="http://whoruns.it/a/{{ appointee.id }}">
+{% endblock %}
+
 {% block title %}{{ appointee.forenames|title }} {{ appointee.surname|title }} - Who runs it?{% endblock %}
 
 {% block content %}
