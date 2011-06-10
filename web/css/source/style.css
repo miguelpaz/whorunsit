@@ -20,7 +20,14 @@ a {
     text-decoration: none;
     color: #19bcd4;
 }
-
+.notice a
+{
+  font-weight: bold;
+}
+.notice a:hover
+{
+  text-decoration: underline;
+}
 span.key {
     font-weight: bold;
 }

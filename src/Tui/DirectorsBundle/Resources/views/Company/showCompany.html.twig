@@ -141,7 +141,11 @@
         <span class="key">Alternative presentations:</span>
         <span class="value"><a href="{{ url('company_show', {'id': company.id ,'_format': 'json'} ) }}">JSON</a>, <a href="{{ url('company_show', {'id': company.id ,'_format': 'rdf'} ) }}">RDF</a></span>
         <div class="small">Please read the <a href="{{ url('api') }}">API notes</a></div>
-        
     </div>
+
+    <p class="notice">
+        <strong>Disclaimer:</strong><br>The contents of this page are a matter of <strong>public record</strong>, used under license from Companies House and held under Crown Copyright. The appointments shown are presumed correct on the date listed by Companies House, and may no longer be current.
+        <a href="{{ url('faq') }}">Find out more…</a>
+    </p>
     
 {% endblock %}

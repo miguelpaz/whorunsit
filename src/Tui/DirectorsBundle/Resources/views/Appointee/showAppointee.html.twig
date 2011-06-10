@@ -62,7 +62,6 @@
     <br class="clear">
  
     <h3>Appointments</h3> 
- 
     {# if all the appointments could be displayed on one page #}
     
     {% if companyAppointments|length == totalCompanyAppointments %}
@@ -132,5 +131,11 @@
 	   <span class="value"><a href="{{ url('appointee_show', {'id': appointee.id ,'_format': 'json', 'page': ((offset + numAppointments) / numAppointments)}) }}">JSON</a>, <a href="{{ url('appointee_show', {'id': appointee.id ,'_format': 'rdf', 'page': ((offset + numAppointments) / numAppointments)})}}">RDF</a></span>
 	   <div class="small">Please read the <a href="{{ url('api') }}">API notes</a></div>
     </div>
+    
+    
+    <p class="notice">
+        <strong>Disclaimer:</strong><br>The contents of this page are a matter of <strong>public record</strong>, used under license from Companies House and held under Crown Copyright. The appointments shown are presumed correct on the date listed by Companies House, and may no longer be current.
+        <a href="{{ url('faq') }}">Find out more…</a>
+    </p>
     
 {% endblock %}
