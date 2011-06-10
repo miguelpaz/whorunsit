@@ -104,6 +104,38 @@ class CompanyController extends Controller
             $output["appointment_page_num"]   = $page;
             $output["appointment_page_count"] = (int)ceil($totalCompanyApps/$numAppointments);
             
+            // References
+            $output['urls'] = array();
+            if (!in_array($company->getStatus(), array('Converted/closed', 'Dissolved'))) {
+                $output['urls']['opencorporates'] = $this->jsonUrl('http://opencorporates.com/companies/gb/'.$company->getId().'.json', 'OpenCorporates', 'application/json');
+            }
+            if ($output['appointment_page_count'] > 1)
+            {
+                if ($page < $output['appointment_page_count'])
+                {
+                    $output['urls']['next_page'] = $this->jsonUrl(
+                        $this->generateUrl('company_show', array('id' => $company->getId(), '_format' => 'json', 'page' => $page + 1)), 
+                        'Appointments page '.($page+1), 
+                        'application/json'
+                    );
+                }                
+
+                if ($page > 1)
+                {
+                    $output['urls']['prev_page'] = $this->jsonUrl(
+                        $this->generateUrl('company_show', array('id' => $company->getId(), '_format' => 'json', 'page' => $page - 1)), 
+                        'Appointments page '.($page-1), 
+                        'application/json'
+                    );
+                }                
+            }
+
+            $output['urls']['levelbusiness'] = $this->jsonUrl(
+                'http://www.levelbusiness.com/doc/company/uk/'.$company->getId(), 
+                'Level Business - accounts'
+            );
+        
+        
         
             $response->setContent(json_encode($output));
             return $response;
@@ -121,5 +153,15 @@ class CompanyController extends Controller
         )));
         return $response;
    
+    }
+    
+    
+    public function jsonUrl($url, $title, $type = 'text/html')
+    {
+        return array(
+            'href'  => $url,
+            'title' => $title,
+            'type'  => $type,
+        );
     }
 }

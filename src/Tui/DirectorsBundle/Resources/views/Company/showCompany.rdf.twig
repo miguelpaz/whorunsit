@@ -24,16 +24,19 @@
 {% if company.status not in ['Converted/closed', 'Dissolved'] %}
 <rdfs:seeAlso rdf:resource="http://opencorporates.com/companies/gb/{{ company.id }}"/>
 {% endif %}
+<rdfs:seeAlso rdf:resource="http://www.levelbusiness.com/doc/company/uk/{{ company.id }}"/>
+
 
 {% for appointment in company.companyAppointments %} 
   <ch:appointment>
-   <foaf:Person rdf:about="{{ url('appointee_show', { 'id': appointment.appointee.id }) }}#person">
+   <foaf:Person rdf:about="{{ url('appointee_show', { 'id': appointment.appointee.id, '_format' : 'rdf' }) }}#person">
+     <foaf:name>{{ appointment.appointee.forenames|title }} {{ appointment.appointee.surname|title }}</foaf:name>
      <vcard:adr>
        <vcard:Address>
-        <vcard:postal-code>{{ appointment.appointee.postcode }}</vcard:postal-code>
+        <vcard:postal-code>{{ '%.4s' | format(appointment.appointee.postcode)}}</vcard:postal-code>
        </vcard:Address>
      </vcard:adr>
-     <vcard:bday>{{ appointment.appointee.dateOfBirth|date("Y-m-d") }}</vcard:bday>
+     <vcard:bday>{% if not appointment.appointee.dateOfBirth is empty %}{{ appointment.appointee.dateOfBirth|date("Y") }}{% endif %}</vcard:bday>
    </foaf:Person>
   </ch:appointment>
 {% endfor %}

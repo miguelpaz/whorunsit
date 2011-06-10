@@ -108,6 +108,35 @@ class AppointeeController extends Controller
             $output["appointment_page_num"]   = $page;
             $output["appointment_page_count"] = (int)ceil($totalCompanyApps/$numAppointments);
 
+
+            $output['urls'] = array();
+            if ($output['appointment_page_count'] > 1)
+            {
+                if ($page < $output['appointment_page_count'])
+                {
+                    $output['urls']['next_page'] = $this->jsonUrl(
+                        $this->generateUrl('appointee_show', array('id' => $appointee->getId(), '_format' => 'json', 'page' => $page + 1)), 
+                        'Appointees page '.($page+1), 
+                        'application/json'
+                    );
+                }                
+
+                if ($page > 1)
+                {
+                    $output['urls']['prev_page'] = $this->jsonUrl(
+                        $this->generateUrl('appointee_show', array('id' => $appointee->getId(), '_format' => 'json', 'page' => $page - 1)), 
+                        'Appointees page '.($page-1), 
+                        'application/json'
+                    );
+                }                
+            }
+
+            $output['urls']['levelbusiness'] = $this->jsonUrl(
+                'http://www.levelbusiness.com/doc/person/uk/'.$appointee->getId(), 
+                'Level Business - updated info'
+            );
+            
+            
         
             $response->setContent(json_encode($output));
             return $response;
@@ -124,5 +153,15 @@ class AppointeeController extends Controller
             'page'                     => $page ?: 1,
         )));
         return $response;
+    }
+    
+    
+    public function jsonUrl($url, $title, $type = 'text/html')
+    {
+        return array(
+            'href'  => $url,
+            'title' => $title,
+            'type'  => $type,
+        );
     }
 }
