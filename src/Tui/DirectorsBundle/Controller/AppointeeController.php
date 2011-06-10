@@ -147,7 +147,7 @@ class AppointeeController extends Controller
         $response->setContent($this->renderView("TuiDirectorsBundle:Appointee:showAppointee.$_format.twig", array(
             'appointee'                => $appointee,
             'trimmedPostcode'          => $trimmedPostcode,
-            'age'                      => $appointee->getDateOfBirth() ? $appointee->getDateOfBirth()->diff(new Datetime)->format('%y') : '',
+            'age'                      => $appointee->getDateOfBirth() ? $appointee->getDateOfBirth()->diff(new \Datetime)->format('%y') : '',
             'companyAppointments'      => $companyAppointments,
             'totalCompanyAppointments' => $totalCompanyApps,
             'numAppointments'          => $numAppointments,
