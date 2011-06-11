@@ -28,9 +28,9 @@
                 <span class="value" id="appointee-age">{{ age }}</span>
             </div>            
             <div class="item">
-                <span class="key">Postcode:</span>
-                <span class="value" id="appointee-postcode"><a href="http://maps.google.com/?q={{ trimmedPostcode|url_encode }}%20{{ appointee.country|url_encode }}">{{ trimmedPostcode }}</a></span> 
-                <span class="small quiet">(Google Maps link is APPROXIMATE, based on partial postcode only)</span>
+                <span class="key">Service address:</span>
+                <span class="value" id="appointee-postcode"><a href="http://maps.google.com/?q={{ appointee.town|url_encode }}%20{{ appointee.country|url_encode }}">{{ appointee.town }}</a></span> 
+                <span class="small quiet">(Google Maps link is APPROXIMATE. Service address is NOT home address)</span>
             </div>             
             <div class="item">
                 <span class="key" title="This is the country of the appointee's service address, not necessarily their country of residence or nationality.">Country:</span>
