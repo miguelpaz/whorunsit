@@ -71,6 +71,10 @@ services:
             - [setArrayResult, [true]]
             - [setLimits, [0, %search_page_length%, 1000]]
 
+    Website.twig.extension:
+        class: Tui\DirectorsBundle\Extension\AgeExtension
+        tags:
+            - { name: twig.extension }
 
 fos_user:
     db_driver:     orm

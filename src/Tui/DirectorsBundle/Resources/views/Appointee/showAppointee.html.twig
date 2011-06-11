@@ -25,12 +25,12 @@
             </div>
             <div class="item">
                 <span class="key">Age (approx):</span>
-                <span class="value" id="appointee-age">{{ age }}</span>
+                <span class="value" id="appointee-age">{{ age_bracket(age) }}</span>
             </div>            
             <div class="item">
                 <span class="key">Service address:</span>
                 <span class="value" id="appointee-postcode"><a href="http://maps.google.com/?q={{ appointee.town|url_encode }}%20{{ appointee.country|url_encode }}">{{ appointee.town | title }}</a></span> 
-                <span class="small quiet">(Google Maps link is APPROXIMATE. Service address is NOT home address)</span>
+                <span class="small quiet">(See disclaimer)</span>
             </div>             
             <div class="item">
                 <span class="key" title="This is the country of the appointee's service address, not necessarily their country of residence or nationality.">Country:</span>
@@ -139,7 +139,7 @@
     
     
     <p class="notice">
-        <strong>Disclaimer:</strong><br>The contents of this page are a matter of <strong>public record</strong>, used under license from Companies House and held under Crown Copyright. The appointments shown are presumed correct on the date listed by Companies House, and may no longer be current.
+        <strong>Disclaimer:</strong><br>The contents of this page are a matter of <strong>public record</strong>, used under license from Companies House and held under Crown Copyright. The appointments shown are presumed correct on the date listed by Companies House, and may no longer be current. Google Maps link is <strong>approximate</strong>. Service address is <strong>not</strong> home address.
         <a href="{{ url('faq') }}">Find out more…</a>
     </p>
     
