@@ -29,7 +29,7 @@
             </div>            
             <div class="item">
                 <span class="key">Service address:</span>
-                <span class="value" id="appointee-postcode"><a href="http://maps.google.com/?q={{ appointee.town|url_encode }}%20{{ appointee.country|url_encode }}">{{ appointee.town }}</a></span> 
+                <span class="value" id="appointee-postcode"><a href="http://maps.google.com/?q={{ appointee.town|url_encode }}%20{{ appointee.country|url_encode }}">{{ appointee.town | title }}</a></span> 
                 <span class="small quiet">(Google Maps link is APPROXIMATE. Service address is NOT home address)</span>
             </div>             
             <div class="item">
