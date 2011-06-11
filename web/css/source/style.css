@@ -137,3 +137,8 @@ dt.status-dissolved a
 {
   color: #999;
 }
+
+tr.resigned td
+{
+  color: #999;
+}
