@@ -103,7 +103,7 @@
     
         	{% for appointment in companyAppointments %}
  			
- 				<tr>			
+ 				<tr{% if appointment.resignedOn %} class="resigned"{% endif %}>			
  					<td>
  					    {{ appointment.appointedOn|date("Y-m-d") }}
  					    {% if appointment.resignedOn %}
