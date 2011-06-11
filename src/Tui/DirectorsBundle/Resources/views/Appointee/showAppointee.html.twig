@@ -104,7 +104,12 @@
         	{% for appointment in companyAppointments %}
  			
  				<tr>			
- 					<td>{{ appointment.appointedOn|date("Y-m-d") }}</td>
+ 					<td>
+ 					    {{ appointment.appointedOn|date("Y-m-d") }}
+ 					    {% if appointment.resignedOn %}
+ 					        – {{ appointment.resignedOn|date("Y-m") }}
+ 					    {% endif %}
+ 					</td>
  					<td>{{ appointment.type }}</td>
 					<td><A href="{{ url( 'company_show', { 'id': appointment.companyId }) }}">{{ appointment.company.name | title}}</a></td>
 				</tr>

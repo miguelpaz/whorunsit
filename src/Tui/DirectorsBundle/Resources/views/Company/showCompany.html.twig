@@ -115,7 +115,12 @@
             {% for appointment in companyAppointments %} 
   
                 <tr>
-                  <td>{{ appointment.appointedOn|date("Y-m-d") }}</td>
+                  <td>
+                      {{ appointment.appointedOn|date("Y-m-d") }}
+                      {% if appointment.resignedOn %}
+                        – {{ appointment.resignedOn|date("Y-m") }}
+                      {% endif %}
+                  </td>
                   <td><a href="{{ url('appointee_show', { 'id':  appointment.appointee.id  }) }}">{{ appointment.appointee.forenames | title }} {{ appointment.appointee.surname | title }}</a></td>
                   <td>{{ appointment.type }}</td>
                   <td>{{ appointment.appointmentDateSource }}</td>
