@@ -133,9 +133,9 @@
  	
     <div class="item"> 	
        <span class="key">Short URL: </span>
-       <span class="value"><a rel="shorturl" href="http://whoruns.it/a/{{ appointee.id }}">http://whoruns.it/a/{{ appointee.id }}</a></span><br>
+       <span class="value"><a rel="nofollow" href="http://whoruns.it/a/{{ appointee.id }}">http://whoruns.it/a/{{ appointee.id }}</a></span><br>
 	   <span class="key">Alternative presentations:</span>
-	   <span class="value"><a href="{{ url('appointee_show', {'id': appointee.id ,'_format': 'json', 'page': ((offset + numAppointments) / numAppointments)}) }}">JSON</a>, <a href="{{ url('appointee_show', {'id': appointee.id ,'_format': 'rdf', 'page': ((offset + numAppointments) / numAppointments)})}}">RDF</a></span>
+	   <span class="value"><a rel="alternate" type="application/json" href="{{ url('appointee_show', {'id': appointee.id ,'_format': 'json', 'page': ((offset + numAppointments) / numAppointments)}) }}">JSON</a>, <a rel="alternate" type="application/rdf+xml" href="{{ url('appointee_show', {'id': appointee.id ,'_format': 'rdf', 'page': ((offset + numAppointments) / numAppointments)})}}">RDF</a></span>
 	   <div class="small">Please read the <a href="{{ url('api') }}">API notes</a></div>
     </div>
     
