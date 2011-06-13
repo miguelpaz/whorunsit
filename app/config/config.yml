@@ -71,7 +71,14 @@ services:
             - [setArrayResult, [true]]
             - [setLimits, [0, %search_page_length%, 1000]]
 
-    Website.twig.extension:
+    directorsearch:
+        class: Tui\DirectorsBundle\Extension\DirectorSearchExtension
+        arguments: [@search]
+        calls:
+            - [setContainer, [@service_container]]
+            - [setPageLength, [%search_page_length%]]
+
+    Age.twig.extension:
         class: Tui\DirectorsBundle\Extension\AgeExtension
         tags:
             - { name: twig.extension }
