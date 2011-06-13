@@ -143,6 +143,8 @@
     <br><hr>
     
     <div class="item">
+        <span class="key">Short URL: </span>
+        <span class="value"><a rel="shorturl" href="http://whoruns.it/c/{{ company.id }}">http://whoruns.it/c/{{ company.id }}</a></span><br>
         <span class="key">Alternative presentations:</span>
         <span class="value"><a href="{{ url('company_show', {'id': company.id ,'_format': 'json'} ) }}">JSON</a>, <a href="{{ url('company_show', {'id': company.id ,'_format': 'rdf'} ) }}">RDF</a></span>
         <div class="small">Please read the <a href="{{ url('api') }}">API notes</a></div>
