@@ -142,3 +142,10 @@ tr.resigned td
 {
   color: #999;
 }
+
+dt .variable
+{
+  border-bottom: 1px dotted black;
+  cursor: help;
+  color: #666;
+}
