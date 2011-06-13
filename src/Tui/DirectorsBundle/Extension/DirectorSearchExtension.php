@@ -39,7 +39,7 @@ class DirectorSearchExtension
         );
 
         // Do the search
-        $this->search->setLimits($page_info['offset'], $page_info['page_length']);
+        $this->search->setLimits($page_info['offset'], $this->page_length);
         $appointees_results = $this->search->Query($query, 'appointees');
         $companies_results  = $this->search->Query($query, 'companies');
 
@@ -48,82 +48,81 @@ class DirectorSearchExtension
         $page_info['companies_found']  = $companies_results['total'];
         $page_info['appointees_end']   = (($page_info['offset'] + $page_info['page_length']) > $appointees_results['total']) ? $appointees_results['total'] : $page_info['offset'] + $page_info['page_length'];
         $page_info['companies_end']    = (($page_info['offset'] + $page_info['page_length']) > $companies_results['total']) ? $companies_results['total'] : $page_info['offset'] + $page_info['page_length'];
-        if ($appointees_results['total'] > $companies_results['total'])
-        {
-            $page_info['has_more_pages'] = ($appointees_results['total'] > $page_info['appointees_end']);
-        } else {
-            $page_info['has_more_pages'] = ($companies_results['total'] > $page_info['companies_end']);
-        }
+        $page_info['has_more_appointees'] = ($appointees_results['total'] > $page_info['appointees_end']);
+        $page_info['has_more_companies'] = ($companies_results['total'] > $page_info['companies_end']);
         
-
-        // Gather appointee document ids, turn them into appointee ids
-        $appointee_ids = array(); $appointees = null; $appointee_companies = array();
-        if (isset($appointees_results['matches']))
-        {
-          $appointee_ids = array_map(function($v){return $v['id'];}, $appointees_results['matches']);
-
-          $ids = $this->dbh->fetchAll('SELECT ch_number FROM sphinx_appointee_index WHERE document_id IN ('.join($appointee_ids,',').')');
-
-          $ids = array_map(function($v){return $v['ch_number'];}, $ids);
-
-          $ex = $this->em->getExpressionBuilder();
-          $q = $this->em->createQuery('SELECT a
-              FROM TuiDirectorsBundle:Appointee a
-              WHERE '.$ex->in('a.id', $ids));
-          $appointees = $q->getResult();
-          
-          // Get truncated companies for appointees
-          $r = $this->em->getRepository('TuiDirectorsBundle:Appointee');
-
-          
-          foreach($appointees as $a)
-          {
-              $appointee_companies[ $a->getId() ] = $r->getAbbreviatedCompanies($a, 5);
-          }
-        }
-
-
-
-
-        // Gather company document ids, turn them into company ids
-        $company_ids = array(); $companies = null; $company_appointees = array();
-        if (isset($companies_results['matches']))
-        {
-          $company_ids = array_map(function($v){return $v['id'];}, $companies_results['matches']);
-
-          $ids = $this->dbh->fetchAll('SELECT ch_number FROM sphinx_company_index WHERE document_id IN ('.join($company_ids,',').')');
-
-          $ids = array_map(function($v){return $v['ch_number'];}, $ids);
-
-          $ex = $this->em->getExpressionBuilder();
-          $q = $this->em->createQuery('SELECT c FROM TuiDirectorsBundle:Company c WHERE '.$ex->in('c.id', $ids));
-          $companies = $q->getResult();
-
-
-          // Get truncated appointees for companies
-          $r = $this->em->getRepository('TuiDirectorsBundle:Company');
-
-          
-          foreach($companies as $c)
-          {
-              $company_appointees[ $c->getId() ] = $r->getAbbreviatedAppointees($c, 5);
-          }
-        } 
+        $out = array(
+            'query'     => $query, 
+            'page_info' => $page_info,
+        );
         
+        $out = array_merge($out, $this->loadAppointeeObjects($appointees_results));
+        $out = array_merge($out, $this->loadCompanyObjects($companies_results));
         
-        
-        
-        return array('appointees' => $appointees, 'companies' => $companies, 'query' => $query, 'appointee_companies' => $appointee_companies, 'company_appointees' => $company_appointees, 'page_info' => $page_info);
+        return $out;
     }
     
-    public function searchCompanies($query, $page)
+
+    public function searchCompanies($query, $page = 1)
     {
         
+        // Configure pagination
+        $page_info = array(
+            'query'       => $query,
+            'page_length' => $this->page_length,
+            'page'        => $page,
+            'offset'      => ($page - 1) * $this->page_length,
+        );
+
+        // Do the search
+        $this->search->setLimits($page_info['offset'], $this->page_length);
+        $companies_results  = $this->search->Query($query, 'companies');
+
+        // Fill out remainining pagination info
+        $page_info['companies_found']  = $companies_results['total'];
+        $page_info['companies_end']    = (($page_info['offset'] + $page_info['page_length']) > $companies_results['total']) ? $companies_results['total'] : $page_info['offset'] + $page_info['page_length'];
+        $page_info['has_more_pages'] = ($companies_results['total'] > $page_info['companies_end']);
+        
+        
+        $out = array(
+            'query'     => $query, 
+            'page_info' => $page_info,
+        );
+        
+        $out = array_merge($out, $this->loadCompanyObjects($companies_results));
+        
+        return $out;        
     }
     
     public function searchAppointees($query, $page)
     {
         
+        // Configure pagination
+        $page_info = array(
+            'query'       => $query,
+            'page_length' => $this->page_length,
+            'page'        => $page,
+            'offset'      => ($page - 1) * $this->page_length,
+        );
+
+        // Do the search
+        $this->search->setLimits($page_info['offset'], $this->page_length);
+        $appointees_results = $this->search->Query($query, 'appointees');
+
+        // Fill out remainining pagination info
+        $page_info['appointees_found'] = $appointees_results['total'];
+        $page_info['appointees_end']   = (($page_info['offset'] + $page_info['page_length']) > $appointees_results['total']) ? $appointees_results['total'] : $page_info['offset'] + $page_info['page_length'];
+        $page_info['has_more_pages'] = ($appointees_results['total'] > $page_info['appointees_end']);
+        
+        
+        $out = array(
+            'query'     => $query, 
+            'page_info' => $page_info,
+        );
+        
+        $out = array_merge($out, $this->loadAppointeeObjects($appointees_results));
+        
+        return $out;        
     }
     
     
@@ -169,6 +168,74 @@ class DirectorSearchExtension
         return $out;
     }
     
+
+    public function loadCompanyObjects($results)
+    {
+        // Gather company document ids, turn them into company ids
+        $company_ids = array(); $companies = null; $company_appointees = array();
+        if (isset($results['matches']))
+        {
+          $company_ids = array_map(function($v){return $v['id'];}, $results['matches']);
+
+          $ids = $this->dbh->fetchAll('SELECT ch_number FROM sphinx_company_index WHERE document_id IN ('.join($company_ids,',').')');
+
+          $ids = array_map(function($v){return $v['ch_number'];}, $ids);
+
+          $ex = $this->em->getExpressionBuilder();
+          $q = $this->em->createQuery('SELECT c FROM TuiDirectorsBundle:Company c WHERE '.$ex->in('c.id', $ids));
+          $companies = $q->getResult();
+
+
+          // Get truncated appointees for companies
+          $r = $this->em->getRepository('TuiDirectorsBundle:Company');
+
+          
+          foreach($companies as $c)
+          {
+              $company_appointees[ $c->getId() ] = $r->getAbbreviatedAppointees($c, 5);
+          }
+        }
+        
+        return array(
+            'companies'          => $companies, 
+            'company_appointees' => $company_appointees,
+        );
+    }
+
+    public function loadAppointeeObjects($results)
+    {
+        // Gather appointee document ids, turn them into appointee ids
+        $appointee_ids = array(); $appointees = null; $appointee_companies = array();
+        if (isset($results['matches']))
+        {
+          $appointee_ids = array_map(function($v){return $v['id'];}, $results['matches']);
+
+          $ids = $this->dbh->fetchAll('SELECT ch_number FROM sphinx_appointee_index WHERE document_id IN ('.join($appointee_ids,',').')');
+
+          $ids = array_map(function($v){return $v['ch_number'];}, $ids);
+
+          $ex = $this->em->getExpressionBuilder();
+          $q = $this->em->createQuery('SELECT a
+              FROM TuiDirectorsBundle:Appointee a
+              WHERE '.$ex->in('a.id', $ids));
+          $appointees = $q->getResult();
+          
+          // Get truncated companies for appointees
+          $r = $this->em->getRepository('TuiDirectorsBundle:Appointee');
+
+          
+          foreach($appointees as $a)
+          {
+              $appointee_companies[ $a->getId() ] = $r->getAbbreviatedCompanies($a, 5);
+          }
+        }
+        
+        
+        return array(
+            'appointees'          => $appointees, 
+            'appointee_companies' => $appointee_companies,
+        );
+    }
     
     
     

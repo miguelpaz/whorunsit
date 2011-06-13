@@ -1,0 +1,52 @@
+{% extends "TuiDirectorsBundle::base.html.twig" %}
+
+
+{% block content %}
+<h2>Search results</h2>
+
+<h3>People</h3>
+{% if appointees %}
+    <p>Showing {{ page_info.offset }}-{{ page_info.appointees_end }} of {{ page_info.appointees_found }}</p>
+{% endif %}
+<dl>
+  {% for a in appointees %}
+    <dt class="search-person"><a href="{{ url('appointee_show', { 'id': a.id })}}">
+      {{ a.title }}
+      {{ a.forenames }}
+      {{ a.surname }}
+      {{ a.honours }}
+      </a>
+        <span class="quiet small">
+          (
+          {% if a.dateOfBirth is not none %}
+            {{ a.dateOfBirth | date('Y') }}, 
+          {% endif %}
+          {{ a.town | title }}
+          )
+        </span>
+    </dt>
+    <dd><p>
+        {% for c in appointee_companies[a.id] %}
+            <span class="search-person-company quiet">{{ c.name | title | truncate(40)}}</span>{% if not loop.last %},{% endif %}
+        {% endfor %}
+    </p></dd>
+  {% else %}
+    No results
+  {% endfor %}
+</ul>
+
+
+
+<p class="clear large center">
+    {% if page_info.page > 1 %}
+        <a href="{{ url('search_appointees', { 'q' : page_info.query, 'page' : page_info.page - 1 }) }}">« Previous</a>&nbsp;
+    {% endif %}
+    {% if page_info.has_more_pages %}
+        <a href="{{ url('search_appointees', { 'q' : page_info.query, 'page' : page_info.page + 1 }) }}">More results »</a>
+    {% endif %}
+</p>
+
+
+<hr>
+<p>Alternative presentations: <a href="{{ url('search_appointees', {'_format': 'json'} ) }}?q={{ query | url_encode }}">JSON</a></p>
+{% endblock %}

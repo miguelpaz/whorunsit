@@ -34,7 +34,16 @@
       {% else %}
         No results
       {% endfor %}
-    </ul>
+    </dl>
+    
+    <p class="clear large center">
+        {% if page_info.page > 1 %}
+            <a href="{{ url('search_appointees', { 'q' : page_info.query, 'page' : page_info.page - 1 }) }}">« Previous</a>&nbsp;
+        {% endif %}
+        {% if page_info.has_more_appointees %}
+            <a href="{{ url('search_appointees', { 'q' : page_info.query, 'page' : page_info.page + 1 }) }}">More people »</a>
+        {% endif %}
+    </p>
 </div>
 
 
@@ -60,16 +69,17 @@
       {% endfor %}
     </dl>
 
+    <p class="clear large center">
+        {% if page_info.page > 1 %}
+            <a href="{{ url('search_companies', { 'q' : page_info.query, 'page' : page_info.page - 1 }) }}">« Previous</a>&nbsp;
+        {% endif %}
+        {% if page_info.has_more_companies %}
+            <a href="{{ url('search_companies', { 'q' : page_info.query, 'page' : page_info.page + 1 }) }}">More companies »</a>
+        {% endif %}
+    </p>
 </div>
 
-<p class="clear large center">
-    {% if page_info.page > 1 %}
-        <a href="{{ url('search_all', { 'q' : page_info.query, 'page' : page_info.page - 1 }) }}">« Previous</a>&nbsp;
-    {% endif %}
-    {% if page_info.has_more_pages %}
-        <a href="{{ url('search_all', { 'q' : page_info.query, 'page' : page_info.page + 1 }) }}">More results »</a>
-    {% endif %}
-</p>
+
 
 
 <hr>

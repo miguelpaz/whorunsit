@@ -101,7 +101,86 @@ class DefaultController extends Controller
         return $results;
     }
 
+    /**
+     * @Route("/search/appointees.{_format}", name="search_appointees", defaults={"_format" = "html"})
+     * @Template()
+     */
+  
+    public function searchAppointeesAction()
+    {
 
+        $query = trim(filter_var($this->get('request')->get('q'), FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES));
+        $page  = (int) $this->get('request')->get('page');
+        $page  = $page ?: 1;
+        
+        if (!$query)
+        {
+            return $this->redirect($this->generateUrl('home'));
+        }
+        
+        
+        $search = $this->get('directorsearch');
+        $results = $search->searchAppointees($query, $page);
+
+
+
+        if ($this->get('request')->getRequestFormat() == 'json')
+        {
+            $out = $search->toJSON($results);
+
+            if ($this->get('request')->get('callback',false))
+            {
+                $callback = filter_var($this->get('request')->get('callback'));
+            
+                return new Response($callback.'('.json_encode($out).')');
+            }
+          
+            return new Response(json_encode($out));
+        }
+      
+        return $results;
+    }
+
+
+    /**
+     * @Route("/search/companies.{_format}", name="search_companies", defaults={"_format" = "html"})
+     * @Template()
+     */
+  
+    public function searchCompaniesAction()
+    {
+
+        $query = trim(filter_var($this->get('request')->get('q'), FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES));
+        $page  = (int) $this->get('request')->get('page');
+        $page  = $page ?: 1;
+        
+        if (!$query)
+        {
+            return $this->redirect($this->generateUrl('home'));
+        }
+        
+        
+        $search = $this->get('directorsearch');
+        $results = $search->searchCompanies($query, $page);
+
+
+
+        if ($this->get('request')->getRequestFormat() == 'json')
+        {
+            $out = $search->toJSON($results);
+
+            if ($this->get('request')->get('callback',false))
+            {
+                $callback = filter_var($this->get('request')->get('callback'));
+            
+                return new Response($callback.'('.json_encode($out).')');
+            }
+          
+            return new Response(json_encode($out));
+        }
+      
+        return $results;
+    }
     
     
     
