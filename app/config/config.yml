@@ -73,9 +73,8 @@ services:
 
     directorsearch:
         class: Tui\DirectorsBundle\Extension\DirectorSearchExtension
-        arguments: [@search]
+        arguments: [@search, @database_connection, @router, @doctrine]
         calls:
-            - [setContainer, [@service_container]]
             - [setPageLength, [%search_page_length%]]
 
     Age.twig.extension:
