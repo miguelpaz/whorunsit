@@ -28,7 +28,7 @@
     {% if page_info.page > 1 %}
         <a href="{{ url('search_companies', { 'q' : page_info.query, 'page' : page_info.page - 1 }) }}">« Previous</a>&nbsp;
     {% endif %}
-    {% if page_info.has_more_pages %}
+    {% if page_info.has_more_companies %}
         <a href="{{ url('search_companies', { 'q' : page_info.query, 'page' : page_info.page + 1 }) }}">More results »</a>
     {% endif %}
 </p>

@@ -36,6 +36,7 @@ class DirectorSearchExtension
             'page_length' => $this->page_length,
             'page'        => $page,
             'offset'      => ($page - 1) * $this->page_length,
+            'route'        => 'search_all',
         );
 
         // Do the search
@@ -72,6 +73,7 @@ class DirectorSearchExtension
             'page_length' => $this->page_length,
             'page'        => $page,
             'offset'      => ($page - 1) * $this->page_length,
+            'route'        => 'search_companies',
         );
 
         // Do the search
@@ -81,7 +83,7 @@ class DirectorSearchExtension
         // Fill out remainining pagination info
         $page_info['companies_found']  = $companies_results['total'];
         $page_info['companies_end']    = (($page_info['offset'] + $page_info['page_length']) > $companies_results['total']) ? $companies_results['total'] : $page_info['offset'] + $page_info['page_length'];
-        $page_info['has_more_pages'] = ($companies_results['total'] > $page_info['companies_end']);
+        $page_info['has_more_companies'] = ($companies_results['total'] > $page_info['companies_end']);
         
         
         $out = array(
@@ -103,6 +105,7 @@ class DirectorSearchExtension
             'page_length' => $this->page_length,
             'page'        => $page,
             'offset'      => ($page - 1) * $this->page_length,
+            'route'        => 'search_appointees',
         );
 
         // Do the search
@@ -112,7 +115,7 @@ class DirectorSearchExtension
         // Fill out remainining pagination info
         $page_info['appointees_found'] = $appointees_results['total'];
         $page_info['appointees_end']   = (($page_info['offset'] + $page_info['page_length']) > $appointees_results['total']) ? $appointees_results['total'] : $page_info['offset'] + $page_info['page_length'];
-        $page_info['has_more_pages'] = ($appointees_results['total'] > $page_info['appointees_end']);
+        $page_info['has_more_appointees'] = ($appointees_results['total'] > $page_info['appointees_end']);
         
         
         $out = array(
@@ -131,7 +134,7 @@ class DirectorSearchExtension
     {
         $out = array('appointees' => null, 'companies' => null);
         
-        if ($results['appointees'])
+        if (isset($results['appointees']))
         {
           $out['appointees'] = array();
           foreach($results['appointees'] as $a)
@@ -151,7 +154,7 @@ class DirectorSearchExtension
         }
         
         
-        if ($results['companies'])
+        if (isset($results['companies']))
         {
           $out['companies'] = array();
           foreach($results['companies'] as $c)
@@ -162,8 +165,40 @@ class DirectorSearchExtension
               'name' => $c->getName(),
             );
           }
-        
         }
+
+        $out['urls'] = array();
+        if ($results['page_info']['page'] > 1)
+        {
+            $out['urls']['prev_page'] = array(
+                'href' => $this->router->generate($results['page_info']['route'], array(
+                        '_format' => 'json', 
+                        'q'       => $results['page_info']['query'], 
+                        'page'    => $results['page_info']['page'] - 1,
+                    )
+                ),
+                'title' => 'Previous results',
+                'type' => 'application/json',
+            );
+        }
+
+        if (
+            (isset($results['page_info']['has_more_appointees']) && $results['page_info']['has_more_appointees']) || 
+            (isset($results['page_info']['has_more_companies']) && $results['page_info']['has_more_companies'])
+           )
+        {
+            $out['urls']['next_page'] = array(
+                'href' => $this->router->generate($results['page_info']['route'], array(
+                        '_format' => 'json', 
+                        'q'       => $results['page_info']['query'], 
+                        'page'    => $results['page_info']['page'] + 1,
+                    )
+                ),
+                'title' => 'Next results',
+                'type' => 'application/json',
+            );
+        }
+
         
         return $out;
     }
