@@ -45,12 +45,13 @@ class DirectorSearchExtension
         $companies_results  = $this->search->Query($query, 'companies');
 
         // Fill out remainining pagination info
-        $page_info['appointees_found'] = $appointees_results['total'];
-        $page_info['companies_found']  = $companies_results['total'];
-        $page_info['appointees_end']   = (($page_info['offset'] + $page_info['page_length']) > $appointees_results['total']) ? $appointees_results['total'] : $page_info['offset'] + $page_info['page_length'];
-        $page_info['companies_end']    = (($page_info['offset'] + $page_info['page_length']) > $companies_results['total']) ? $companies_results['total'] : $page_info['offset'] + $page_info['page_length'];
+        $page_info['appointees_found']    = $appointees_results['total'];
+        $page_info['companies_found']     = $companies_results['total'];
+        $page_info['appointees_end']      = (($page_info['offset'] + $page_info['page_length']) > $appointees_results['total']) ? $appointees_results['total'] : $page_info['offset'] + $page_info['page_length'];
+        $page_info['companies_end']       = (($page_info['offset'] + $page_info['page_length']) > $companies_results['total']) ? $companies_results['total'] : $page_info['offset'] + $page_info['page_length'];
         $page_info['has_more_appointees'] = ($appointees_results['total'] > $page_info['appointees_end']);
-        $page_info['has_more_companies'] = ($companies_results['total'] > $page_info['companies_end']);
+        $page_info['has_more_companies']  = ($companies_results['total'] > $page_info['companies_end']);
+
         
         $out = array(
             'query'     => $query, 
@@ -73,7 +74,7 @@ class DirectorSearchExtension
             'page_length' => $this->page_length,
             'page'        => $page,
             'offset'      => ($page - 1) * $this->page_length,
-            'route'        => 'search_companies',
+            'route'       => 'search_companies',
         );
 
         // Do the search
@@ -81,9 +82,10 @@ class DirectorSearchExtension
         $companies_results  = $this->search->Query($query, 'companies');
 
         // Fill out remainining pagination info
-        $page_info['companies_found']  = $companies_results['total'];
-        $page_info['companies_end']    = (($page_info['offset'] + $page_info['page_length']) > $companies_results['total']) ? $companies_results['total'] : $page_info['offset'] + $page_info['page_length'];
+        $page_info['companies_found']    = $companies_results['total'];
+        $page_info['companies_end']      = (($page_info['offset'] + $page_info['page_length']) > $companies_results['total']) ? $companies_results['total'] : $page_info['offset'] + $page_info['page_length'];
         $page_info['has_more_companies'] = ($companies_results['total'] > $page_info['companies_end']);
+
         
         
         $out = array(
@@ -113,9 +115,10 @@ class DirectorSearchExtension
         $appointees_results = $this->search->Query($query, 'appointees');
 
         // Fill out remainining pagination info
-        $page_info['appointees_found'] = $appointees_results['total'];
-        $page_info['appointees_end']   = (($page_info['offset'] + $page_info['page_length']) > $appointees_results['total']) ? $appointees_results['total'] : $page_info['offset'] + $page_info['page_length'];
+        $page_info['appointees_found']    = $appointees_results['total'];
+        $page_info['appointees_end']      = (($page_info['offset'] + $page_info['page_length']) > $appointees_results['total']) ? $appointees_results['total'] : $page_info['offset'] + $page_info['page_length'];
         $page_info['has_more_appointees'] = ($appointees_results['total'] > $page_info['appointees_end']);
+
         
         
         $out = array(
@@ -148,7 +151,6 @@ class DirectorSearchExtension
               'honours'       => $a->getHonours(),
               'date_of_birth' => $a->getDateOfBirth() instanceof \Datetime ? $a->getDateOfBirth()->format('Y') : null,
               'postcode'      => $a->getPostcode() ? substr($a->getPostcode(),0,strpos($a->getPostcode(), ' ')) : null,
-        
             );
           }
         }
@@ -203,7 +205,18 @@ class DirectorSearchExtension
         return $out;
     }
     
-
+    
+    /**
+     * Convert search result ids to database records
+     * 
+     * Implementation note: this is pretty kludgy because we currently use 
+     * Sphinx to search, and our IDs are non-integer, which Sphinx can't
+     * handle. It also can't store string attributes, so we have to load the
+     * objects we want to show in search results, instead of spooling 
+     * straight from the search output. 
+     * If we ever move to a search engine like Solr or ElasticSearch, much
+     * of this should be dramatically simplified.
+     */
     public function loadCompanyObjects($results)
     {
         // Gather company document ids, turn them into company ids
