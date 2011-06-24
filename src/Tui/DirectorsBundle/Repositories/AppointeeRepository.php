@@ -18,7 +18,8 @@ class AppointeeRepository extends EntityRepository
     {
         $qc = $this->_em->createQuery("SELECT COUNT(a.companyId) FROM TuiDirectorsBundle:CompanyAppointment a WHERE a.appointeeId = :appointee");
         $qc->setParameter('appointee', $appointee->getId());
-        return array_shift($qc->getSingleResult());
+        $result_array = $qc->getSingleResult();
+        return array_shift($result_array);
     }
  
 

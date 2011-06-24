@@ -52,7 +52,8 @@ class CompanyRepository extends EntityRepository
     {
         $qc = $this->_em->createQuery("SELECT COUNT(a.companyId) FROM TuiDirectorsBundle:CompanyAppointment a WHERE a.companyId = :company");
         $qc->setParameter('company', $company->getId());
-        return array_shift($qc->getSingleResult());
+        $result_array = $qc->getSingleResult();
+        return array_shift($result_array);
     }
     
 }
