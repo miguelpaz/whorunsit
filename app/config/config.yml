@@ -26,7 +26,6 @@ framework:
 twig:
     debug:            %kernel.debug%
     strict_variables: %kernel.debug%
-    extensions:       [twig.extension.text]
 
 # Assetic Configuration
 assetic:
@@ -79,6 +78,11 @@ services:
 
     Age.twig.extension:
         class: Tui\DirectorsBundle\Extension\AgeExtension
+        tags:
+            - { name: twig.extension }
+
+    text.twig.extension:
+        class: Twig_Extensions_Extension_Text
         tags:
             - { name: twig.extension }
 
