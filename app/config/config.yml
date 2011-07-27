@@ -91,7 +91,9 @@ fos_user:
     db_driver:     orm
     firewall_name: main
     user_class:  Tui\DirectorsBundle\Entity\User
-    from_email: { whorunsit@inanimatt.com: WhoRunsIt.org }
+    from_email: 
+      address: whorunsit@inanimatt.com
+      sender_name: WhoRunsIt.org
 
     registration:
         confirmation:
