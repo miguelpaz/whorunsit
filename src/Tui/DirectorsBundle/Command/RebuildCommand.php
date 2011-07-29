@@ -47,6 +47,10 @@ class RebuildCommand extends ContainerAwareCommand
         $parser = new chDirectorsParser($file->getRealpath());
         $output->writeln((string)$parser.PHP_EOL);
         
-      
+        // Get DBAL
+        $db = $this->getContainer()->get('database_connection'); 
+
+        
+        
     }
 }
