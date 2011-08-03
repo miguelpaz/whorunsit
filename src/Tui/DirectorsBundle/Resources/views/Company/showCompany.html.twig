@@ -39,13 +39,7 @@
             <tbody>
                 <tr>
                     <th scope="row">OpenCorporates:</th>
-                    <td>
-                        {% if company.status not in ['Converted/closed', 'Dissolved'] %}
-                            <a href="http://opencorporates.com/companies/gb/{{ company.id }}">View details</a>
-                        {% else %}
-                            n/a
-                        {% endif %}
-                    </td>
+                    <td><a href="http://opencorporates.com/companies/gb/{{ company.id }}">View details</a></td>
                 </tr>
                 <tr>
                     <th scope="row">Wikipedia entry:</th>

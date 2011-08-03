@@ -20,10 +20,7 @@
 <ch:status>{{ company.status }}</ch:status>
 <ch:currentOfficers>{{ company.officers }}</ch:currentOfficers>
 <ch:chCompanyID>{{ company.id }}</ch:chCompanyID>
-
-{% if company.status not in ['Converted/closed', 'Dissolved'] %}
 <rdfs:seeAlso rdf:resource="http://opencorporates.com/companies/gb/{{ company.id }}"/>
-{% endif %}
 <rdfs:seeAlso rdf:resource="http://www.levelbusiness.com/doc/company/uk/{{ company.id }}"/>
 
 
