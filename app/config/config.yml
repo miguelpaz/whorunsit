@@ -15,7 +15,7 @@ framework:
     form:            true
     csrf_protection: true
     validation:      { enable_annotations: true }
-    templating:    { engines: ['twig'] } #assets_version: SomeVersionScheme
+    templating:      { engines: ['twig'] } #assets_version: SomeVersionScheme
     translator: { fallback: en }
     session:
         default_locale: %locale%
@@ -46,6 +46,7 @@ doctrine:
         dbname:   %database_name%
         user:     %database_user%
         password: %database_password%
+        port:     %database_port%
         charset:  UTF8
 
     orm:
@@ -86,15 +87,3 @@ services:
         class: Twig_Extensions_Extension_Text
         tags:
             - { name: twig.extension }
-
-fos_user:
-    db_driver:     orm
-    firewall_name: main
-    user_class:  Tui\DirectorsBundle\Entity\User
-    from_email: 
-      address: whorunsit@inanimatt.com
-      sender_name: WhoRunsIt.org
-
-    registration:
-        confirmation:
-            enabled:    true

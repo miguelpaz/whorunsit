@@ -44,18 +44,6 @@
             
         	<div class="span-4 last prepend-7 prepend-top">
         	   <span id="internal-links">
-        	       {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                       <a href="{{ path('fos_user_profile_show', {'username': app.user.username}) }}">
-                           {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}
-                       </a> |
-                       <a href="{{ path('fos_user_security_logout') }}">
-                           {{ 'layout.logout'|trans([], 'FOSUserBundle') }}
-                       </a>
-                   {% else %}
-                       <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans([], 'FOSUserBundle') }}</a> |
-                       <a href="{{ path('fos_user_registration_register') }}">{{ 'layout.register'|trans([], 'FOSUserBundle') }}</a>
-                   {% endif %}
-                   | 
         	       <a href="{{ url('aboutus') }}">About Us</a> | <a href="{{ url('faq') }}">FAQ</a> | <a href="{{ url('api') }}">API</a></span>
             </div>
         
@@ -66,12 +54,7 @@
       		{% endblock %}
             
             <div class="span-10 prepend-1 prepend-top">      		
-                {% for key, flash in app.session.getFlashes() %}
-                <div class="{{ flash }}">
-                    {{ key|trans([], 'FOSUserBundle') }}
-                </div>
-                {% endfor %}
-                
+              
       		    {% block content %}
       		   
       		        <div class="span-7 column">
