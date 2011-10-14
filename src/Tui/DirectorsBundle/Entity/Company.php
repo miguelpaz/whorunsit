@@ -50,6 +50,12 @@ class Company
     private $companyAppointments;
 
 
+
+    public function __construct()
+    {
+        $this->companyAppointments = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
     /**
      * Set id
      *
@@ -63,7 +69,7 @@ class Company
     /**
      * Get id
      *
-     * @return string $id
+     * @return string 
      */
     public function getId()
     {
@@ -83,7 +89,7 @@ class Company
     /**
      * Get status
      *
-     * @return string $status
+     * @return string 
      */
     public function getStatus()
     {
@@ -103,7 +109,7 @@ class Company
     /**
      * Get officers
      *
-     * @return smallint $officers
+     * @return smallint 
      */
     public function getOfficers()
     {
@@ -123,23 +129,19 @@ class Company
     /**
      * Get name
      *
-     * @return string $name
+     * @return string 
      */
     public function getName()
     {
         return $this->name;
     }
-    public function __construct()
-    {
-        $this->companyAppointments = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-    
+
     /**
      * Add companyAppointments
      *
      * @param Tui\DirectorsBundle\Entity\CompanyAppointment $companyAppointments
      */
-    public function addCompanyAppointments(\Tui\DirectorsBundle\Entity\CompanyAppointment $companyAppointments)
+    public function addCompanyAppointment(\Tui\DirectorsBundle\Entity\CompanyAppointment $companyAppointments)
     {
         $this->companyAppointments[] = $companyAppointments;
     }
@@ -147,7 +149,7 @@ class Company
     /**
      * Get companyAppointments
      *
-     * @return Doctrine\Common\Collections\Collection $companyAppointments
+     * @return Doctrine\Common\Collections\Collection 
      */
     public function getCompanyAppointments()
     {

@@ -22,18 +22,20 @@ class Appointee
     private $id;
 
     /**
+     * @var smallint $revision
+     *
+     * @orm\Column(name="revision", type="smallint", nullable=true)
+     * @orm\Id
+     * @orm\GeneratedValue(strategy="NONE")
+     */
+    private $revision;
+
+    /**
      * @var boolean $isCorporate
      *
      * @orm\Column(name="is_corporate", type="boolean", nullable=false)
      */
     private $isCorporate;
-
-    /**
-     * @var smallint $revision
-     *
-     * @orm\Column(name="revision", type="smallint", nullable=true)
-     */
-    private $revision;
 
     /**
      * @var string $postcode
@@ -558,5 +560,15 @@ class Appointee
     public function getCompanyAppointments()
     {
         return $this->companyAppointments;
+    }
+
+    /**
+     * Add companyAppointments
+     *
+     * @param Tui\DirectorsBundle\Entity\CompanyAppointment $companyAppointments
+     */
+    public function addCompanyAppointment(\Tui\DirectorsBundle\Entity\CompanyAppointment $companyAppointments)
+    {
+        $this->companyAppointments[] = $companyAppointments;
     }
 }

@@ -9,16 +9,23 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Tui\DirectorsBundle\Entity\CompanyAppointment
  *
  * @orm\Table(name="company_appointment")
- * @orm\Entity
+ * @orm\Entity(repositoryClass="Tui\DirectorsBundle\Repositories\CompanyRepository")
  */
 class CompanyAppointment
 {
     /**
+     * @var integer $id
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
      * @var string $companyId
      *
      * @orm\Column(name="company_id", type="string", length=8, nullable=false)
-     * @orm\Id
-     * @orm\GeneratedValue(strategy="NONE")
      */
     private $companyId;
 
@@ -26,8 +33,6 @@ class CompanyAppointment
      * @var string $appointeeId
      *
      * @orm\Column(name="appointee_id", type="string", length=8, nullable=false)
-     * @orm\Id
-     * @orm\GeneratedValue(strategy="NONE")
      */
     private $appointeeId;
 
@@ -35,8 +40,6 @@ class CompanyAppointment
      * @var string $type
      *
      * @orm\Column(name="type", type="string", length=35, nullable=false)
-     * @orm\Id
-     * @orm\GeneratedValue(strategy="NONE")
      */
     private $type;
 
@@ -83,6 +86,27 @@ class CompanyAppointment
 
 
 
+
+    /**
+     * Set id
+     *
+     * @param integer $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
     /**
      * Set companyId
      *
@@ -96,7 +120,7 @@ class CompanyAppointment
     /**
      * Get companyId
      *
-     * @return string $companyId
+     * @return string 
      */
     public function getCompanyId()
     {
@@ -116,7 +140,7 @@ class CompanyAppointment
     /**
      * Get appointeeId
      *
-     * @return string $appointeeId
+     * @return string 
      */
     public function getAppointeeId()
     {
@@ -136,7 +160,7 @@ class CompanyAppointment
     /**
      * Get type
      *
-     * @return string $type
+     * @return string 
      */
     public function getType()
     {
@@ -156,7 +180,7 @@ class CompanyAppointment
     /**
      * Get appointedOn
      *
-     * @return date $appointedOn
+     * @return date 
      */
     public function getAppointedOn()
     {
@@ -176,7 +200,7 @@ class CompanyAppointment
     /**
      * Get appointmentDateSource
      *
-     * @return string $appointmentDateSource
+     * @return string 
      */
     public function getAppointmentDateSource()
     {
@@ -196,7 +220,7 @@ class CompanyAppointment
     /**
      * Get resignedOn
      *
-     * @return date $resignedOn
+     * @return date 
      */
     public function getResignedOn()
     {
@@ -216,7 +240,7 @@ class CompanyAppointment
     /**
      * Get appointee
      *
-     * @return Tui\DirectorsBundle\Entity\Appointee $appointee
+     * @return Tui\DirectorsBundle\Entity\Appointee 
      */
     public function getAppointee()
     {
@@ -236,7 +260,7 @@ class CompanyAppointment
     /**
      * Get company
      *
-     * @return Tui\DirectorsBundle\Entity\Company $company
+     * @return Tui\DirectorsBundle\Entity\Company 
      */
     public function getCompany()
     {
