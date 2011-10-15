@@ -56,4 +56,32 @@ class AppointeeRepository extends EntityRepository
         return $q->getResult();
     }
  
+	
+	/**
+	 * Fetch specific appointee revision, or newest
+	 * 
+	 * @return Tui\DirectorsBundle\Entity\Appointee
+	 */
+	public function retrieveByRevision($id, $revision = 0)
+	{
+		if ($revision)
+		{
+			$q = $this->_em->createQuery('SELECT a
+				FROM TuiDirectorsBundle:Appointee a
+				WHERE a.id = :id
+				AND a.revision = :revision');
+			$q->setParameter('id', $id);
+			$q->setParameter('revision', $revision);
+		} else {
+			$q = $this->_em->createQuery('SELECT a
+				FROM TuiDirectorsBundle:Appointee a
+				WHERE a.id = :id
+				ORDER BY a.revision DESC');
+			$q->setParameter('id', $id);
+		}
+		$q->setMaxResults(1);
+		
+		return $q->getSingleResult();
+	}
+
 }

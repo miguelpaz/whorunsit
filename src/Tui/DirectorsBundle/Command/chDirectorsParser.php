@@ -318,7 +318,7 @@ class chCompany extends chDirectorsEntry
     $this->id       = $matches[1];
     $this->status   = chDirectorsEntry::decodeCompanyType($matches[2]);
     $this->officers = intval($matches[3]);
-    $this->name     = substr($matches[4],0,-2);
+    $this->name     = substr($matches[4],0,strrpos($matches[4], '<'));
   }
 }
 

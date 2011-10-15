@@ -16,10 +16,20 @@ class AppointeeController extends Controller
 
     /**
      * @Route("/appointees/{id}.{_format}", name="appointee_show", defaults={"_format" = "html"}, requirements={"_format" = "html|json|rdf"})
-     * @ParamConverter("id", class="TuiDirectorsBundle:Appointee")
      */
-    public function showAppointeeAction(Appointee $appointee, $_format)
+    public function showAppointeeAction($id, $_format)
     {
+		// If revision specified, fetch it
+		$revision = intval($this->getRequest()->query->get('v', null));
+
+		$em = $this->getDoctrine()->getEntityManager();
+		$appointee = $em->getRepository('TuiDirectorsBundle:Appointee')->retrieveByRevision($id, $revision);
+	
+		if (!$appointee)
+		{
+			throw $this->createNotFoundException('The appointee does not exist');
+		}
+	
         // Configure HTTP Cache
         $response = new Response();
         $response->setCache(array(

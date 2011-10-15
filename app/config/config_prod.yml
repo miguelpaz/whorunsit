@@ -22,7 +22,6 @@ doctrine:
                 connection:                     default
                 mappings: # Required
                     TuiDirectorsBundle: ~
-                    FOSUserBundle: ~
                 # All cache drivers have to be array, apc, xcache or memcache
                 metadata_cache_driver:  apc
                 query_cache_driver:     apc     

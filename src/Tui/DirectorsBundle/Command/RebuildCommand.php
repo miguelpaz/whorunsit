@@ -79,7 +79,7 @@ class RebuildCommand extends ContainerAwareCommand
         foreach($parser as $entry)
         {
           $record_count++;
-          if ($record_count % 5000 == 0)
+          if ($record_count % 10000 == 0)
           {
             $output->writeln(sprintf('Processed %d file records. Memory: %0.2fM', $record_count, memory_get_usage()/1024/1024));
           
@@ -107,52 +107,52 @@ class RebuildCommand extends ContainerAwareCommand
             );
           
           } 
-          // elseif ($entry instanceof chPerson)
-          // {
-          // 
-          //   $revision_exists->execute(array($entry->id, $entry->revision));
-          // 
-          //   if (0 == $revision_exists->fetchColumn()) {
-          //     $new_person->execute(
-          //       array(
-          //         'id'                      =>$entry->id, 
-          //         'revision'                =>$entry->revision, 
-          //         'postcode'                =>$entry->postcode, 
-          //         'date_of_birth'           =>$entry->date_of_birth?$entry->date_of_birth->format('Y-m-d'):null, 
-          //         'title'                   =>$entry->details['title'], 
-          //         'forenames'               =>$entry->details['forenames'], 
-          //         'surname'                 =>$entry->details['surname'], 
-          //         'honours'                 =>$entry->details['honours'], 
-          //         'care_of'                 =>$entry->details['care_of'], 
-          //         'po_box'                  =>$entry->details['po_box'], 
-          //         'address_1'               =>$entry->details['address_1'], 
-          //         'address_2'               =>$entry->details['address_2'], 
-          //         'town'                    =>$entry->details['town'], 
-          //         'county'                  =>$entry->details['county'], 
-          //         'country'                 =>$entry->details['country'], 
-          //         'occupation'              =>$entry->details['occupation'], 
-          //         'nationality'             =>$entry->details['nationality'], 
-          //         'residence'               =>$entry->details['residence'],
-          //         'is_corporate'            =>$entry->corporate, 
-          // 
-          //       )
-          //     );
-          //   }
-          // 
-          //   $new_appointment->execute(
-          //     array(
-          //       'company'                 =>$entry->company_id,
-          //       'appointment'             =>$entry->id,
-          //       'type'                    =>$entry->appointment_type, 
-          //       'appointed_on'            =>$entry->appointment_date->format('Y-m-d'), 
-          //       'appointment_date_source' =>$entry->appointment_date_origin, 
-          //       'resigned_on'             =>$entry->resignation_date?$entry->resignation_date->format('Y-m-d'):null,
-          //     )
-          //   );
-          // 
-          // 
-          // }
-          // 
+          elseif ($entry instanceof chPerson)
+          {
+          
+            $revision_exists->execute(array($entry->id, $entry->revision));
+          
+            if (0 == $revision_exists->fetchColumn()) {
+              $new_person->execute(
+                array(
+                  'id'                      =>$entry->id, 
+                  'revision'                =>$entry->revision, 
+                  'postcode'                =>$entry->postcode, 
+                  'date_of_birth'           =>$entry->date_of_birth?$entry->date_of_birth->format('Y-m-d'):null, 
+                  'title'                   =>$entry->details['title'], 
+                  'forenames'               =>$entry->details['forenames'], 
+                  'surname'                 =>$entry->details['surname'], 
+                  'honours'                 =>$entry->details['honours'], 
+                  'care_of'                 =>$entry->details['care_of'], 
+                  'po_box'                  =>$entry->details['po_box'], 
+                  'address_1'               =>$entry->details['address_1'], 
+                  'address_2'               =>$entry->details['address_2'], 
+                  'town'                    =>$entry->details['town'], 
+                  'county'                  =>$entry->details['county'], 
+                  'country'                 =>$entry->details['country'], 
+                  'occupation'              =>$entry->details['occupation'], 
+                  'nationality'             =>$entry->details['nationality'], 
+                  'residence'               =>$entry->details['residence'],
+                  'is_corporate'            =>$entry->corporate, 
+          
+                )
+              );
+            }
+          
+            $new_appointment->execute(
+              array(
+                'company'                 =>$entry->company_id,
+                'appointment'             =>$entry->id,
+                'type'                    =>$entry->appointment_type, 
+                'appointed_on'            =>$entry->appointment_date->format('Y-m-d'), 
+                'appointment_date_source' =>$entry->appointment_date_origin, 
+                'resigned_on'             =>$entry->resignation_date?$entry->resignation_date->format('Y-m-d'):null,
+              )
+            );
+          
+          
+          }
+          
 
         }
      
