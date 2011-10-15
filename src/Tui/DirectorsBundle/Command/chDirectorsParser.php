@@ -30,7 +30,7 @@ class chDirectorsParser implements \Iterator
     
     if (!preg_match('/^DDDDSNAP(\d{4})(\d{4}\d{2}\d{2})$/', $header, $matches))
     {
-      throw new Exception('Invalid file header.');
+      throw new \Exception('Invalid file header.');
     }
 
     $this->eof = false;
@@ -39,7 +39,7 @@ class chDirectorsParser implements \Iterator
     
     if (!preg_match('/^99999999(\d{8})$/', $this->footer, $matches))
     {
-      throw new Exception('Missing or invalid footer');
+      throw new \Exception('Missing or invalid footer');
     }
     
     $this->entry_count = intval($matches[1]);
@@ -136,7 +136,7 @@ class chDirectorsEntry
     {
       return $this->data[$var];
     } else {
-      throw new Exception('Unknown property');
+      throw new \Exception('Unknown property');
     }
   }
   
@@ -146,7 +146,7 @@ class chDirectorsEntry
     {
       $this->data[$var] = $value; 
     } else {
-      throw new Exception('Unexpected property');
+      throw new \Exception('Unexpected property');
     }
   }
   
@@ -275,9 +275,9 @@ class chPerson extends chDirectorsEntry
   public function parse($row)
   {
       //                  company#    P ADOC   Type                  P#      Corp       App date    Res date    Pcode   DOB      AddrLen Address data
-      if (!preg_match('/^([0-9A-Z]{8})2([1-6])(00|01|04|05|11|12|13)(\d{12})([ Y])\s{7}(\d{8}| {8})(\d{8}| {8})(.{8})(.{8})(\d{4})(.+)/u', $row, $matches))
+      if (!preg_match('/^([0-9A-Z]{8})2([1-6])(00|01|04|05|11|12|13)(\d{12})([ Y])\s{7}(\d{8}| {8})(\d{8}| {8})(.{8})(.{8})(\d{4})(.+)/Su', $row, $matches))
       {
-        throw new Exception('Invalid person record:'.PHP_EOL.'  ['.$row.']');
+        throw new \Exception('Invalid person record:'.PHP_EOL.'  ['.$row.']');
       }
 
       $this->company_id                   = $matches[1];
@@ -310,15 +310,15 @@ class chCompany extends chDirectorsEntry
   
   
   public function parse($row) {
-    if (!preg_match('/^([0-9A-Z]{8})1([CDLR ])\s{22}(\d{4})\d{4}([^<]+)</u', $row, $matches))
+    if (!preg_match('/^([0-9A-Z]{8})1([CDLR ])\s{22}(\d{4})\d{4}([^$]+)$/Su', $row, $matches))
     {
-      throw new Exception('Invalid company record:'.PHP_EOL.'  ['.$row.']');
+      throw new \Exception('Invalid company record:'.PHP_EOL.'  ['.$row.']');
     }
   
     $this->id       = $matches[1];
     $this->status   = chDirectorsEntry::decodeCompanyType($matches[2]);
     $this->officers = intval($matches[3]);
-    $this->name     = $matches[4];
+    $this->name     = substr($matches[4],0,-2);
   }
 }
 
