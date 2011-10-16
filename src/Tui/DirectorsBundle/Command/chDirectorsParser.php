@@ -310,7 +310,7 @@ class chCompany extends chDirectorsEntry
   
   
   public function parse($row) {
-    if (!preg_match('/^([0-9A-Z]{8})1([CDLR ])\s{22}(\d{4})\d{4}([^$]+)$/Su', $row, $matches))
+    if (!preg_match('/^([0-9A-Z]{8})1([CDLR ])\s{22}(\d{4})\d{4}(.+)$/Su', $row, $matches))
     {
       throw new \Exception('Invalid company record:'.PHP_EOL.'  ['.$row.']');
     }
