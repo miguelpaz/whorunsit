@@ -4,7 +4,7 @@ imports:
 
 parameters:
     appointments_page_length: 100
-    ch_database_date: March 4th 2010
+    ch_database_date: April 20th 2011
     search_page_length: 20
         
 
