@@ -3,6 +3,7 @@
 namespace Tui\DirectorsBundle\Repositories;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NoResultException;
 use Tui\DirectorsBundle\Entity\Appointee;
 
 /**
@@ -81,7 +82,15 @@ class AppointeeRepository extends EntityRepository
 		}
 		$q->setMaxResults(1);
 		
-		return $q->getSingleResult();
+		try {
+  		$result = $q->getSingleResult();
+		} 
+		catch(NoResultException $e)
+		{
+      return false;
+		}
+		
+    return $result;
 	}
 
 }

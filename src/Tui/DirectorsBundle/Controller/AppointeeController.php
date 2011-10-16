@@ -23,13 +23,7 @@ class AppointeeController extends Controller
 		$revision = intval($this->getRequest()->query->get('v', null));
 
 		$em = $this->getDoctrine()->getEntityManager();
-    try {
-		  $appointee = $em->getRepository('TuiDirectorsBundle:Appointee')->retrieveByRevision($id, $revision);
-	  } 
-	  catch(Exception $e)
-	  {
-			throw $this->createNotFoundException('The appointee does not exist');
-	  }
+	  $appointee = $em->getRepository('TuiDirectorsBundle:Appointee')->retrieveByRevision($id, $revision);
 	  
 		if (!$appointee)
 		{
