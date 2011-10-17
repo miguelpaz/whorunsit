@@ -24,7 +24,7 @@
     <cs:CompanyNumber>{{ company.id }}</cs:CompanyNumber>
     <rdfs:seeAlso rdf:resource="http://opencorporates.com/companies/gb/{{ company.id }}"/>
     <rdfs:seeAlso rdf:resource="http://www.levelbusiness.com/doc/company/uk/{{ company.id }}"/>
-    <rdfs:seeAlso rdf:resource="http://data.companieshouse.gov.uk/doc/company/{{ company.id }}"/>
+    <rdfs:seeAlso rdf:resource="http://data.companieshouse.gov.uk/doc/company/{{ company.id }}.rdf"/>
 
 
     {% for appointment in company.companyAppointments %} 
