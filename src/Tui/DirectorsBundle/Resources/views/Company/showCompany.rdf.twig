@@ -7,36 +7,39 @@
       xmlns:dc="http://purl.org/dc/elements/1.1/"
       xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
       xmlns:vcard="http://www.w3.org/2006/vcard/ns#"
-
+      xmlns:cs="http://www.companieshouse.gov.uk/terms/"
 >
 
 <rdf:Description rdf:about="{{ url('company_show', { 'id': company.id, '_format': 'rdf' }) }}">
-<rdfs:label>Description of the company {{ company.name }}</rdfs:label>
-<foaf:primaryTopic rdf:resource="{{ url('company_show', { 'id': company.id }) }}#company"/>
+    <rdfs:label>Description of the company {{ company.name }}</rdfs:label>
+    <foaf:primaryTopic rdf:resource="{{ url('company_show', { 'id': company.id }) }}#company"/>
 </rdf:Description>
 
 <fc:Company rdf:about="{{ url('company_show', { 'id': company.id }) }}#company">
-<ch:name>{{ company.name }}</ch:name>
-<ch:status>{{ company.status }}</ch:status>
-<ch:currentOfficers>{{ company.officers }}</ch:currentOfficers>
-<ch:chCompanyID>{{ company.id }}</ch:chCompanyID>
-<rdfs:seeAlso rdf:resource="http://opencorporates.com/companies/gb/{{ company.id }}"/>
-<rdfs:seeAlso rdf:resource="http://www.levelbusiness.com/doc/company/uk/{{ company.id }}"/>
+    <cs:CompanyName>{{ company.name }}</cs:CompanyName>
+    <ch:name>{{ company.name }}</ch:name>
+    <ch:status>{{ company.status }}</ch:status>
+    <ch:currentOfficers>{{ company.officers }}</ch:currentOfficers>
+    <ch:chCompanyID>{{ company.id }}</ch:chCompanyID>
+    <cs:CompanyNumber>{{ company.id }}</cs:CompanyNumber>
+    <rdfs:seeAlso rdf:resource="http://opencorporates.com/companies/gb/{{ company.id }}"/>
+    <rdfs:seeAlso rdf:resource="http://www.levelbusiness.com/doc/company/uk/{{ company.id }}"/>
+    <rdfs:seeAlso rdf:resource="http://data.companieshouse.gov.uk/doc/company/{{ company.id }}.rdf"/>
 
 
-{% for appointment in company.companyAppointments %} 
-  <ch:appointment>
-   <foaf:Person rdf:about="{{ url('appointee_show', { 'id': appointment.appointee.id, '_format' : 'rdf' }) }}#person">
-     <foaf:name>{{ appointment.appointee.forenames|title }} {{ appointment.appointee.surname|title }}</foaf:name>
-     <vcard:adr>
-       <vcard:Address>
-        <vcard:postal-code>{{ '%.4s' | format(appointment.appointee.postcode)}}</vcard:postal-code>
-       </vcard:Address>
-     </vcard:adr>
-     <vcard:bday>{% if not appointment.appointee.dateOfBirth is empty %}{{ appointment.appointee.dateOfBirth|date("Y") }}{% endif %}</vcard:bday>
-   </foaf:Person>
-  </ch:appointment>
-{% endfor %}
-
+    {% for appointment in company.companyAppointments %} 
+      <ch:appointment>
+       <foaf:Person rdf:about="{{ url('appointee_show', { 'id': appointment.appointee.id, '_format' : 'rdf' }) }}#person">
+         <foaf:name>{{ appointment.appointee.forenames|title }} {{ appointment.appointee.surname|title }}</foaf:name>
+         <vcard:adr>
+           <vcard:Address>
+            <vcard:postal-code>{{ '%.4s' | format(appointment.appointee.postcode)}}</vcard:postal-code>
+           </vcard:Address>
+         </vcard:adr>
+         <vcard:bday>{% if not appointment.appointee.dateOfBirth is empty %}{{ appointment.appointee.dateOfBirth|date("Y") }}{% endif %}</vcard:bday>
+       </foaf:Person>
+      </ch:appointment>
+    {% endfor %}
+    
 </fc:Company>
 </rdf:RDF>

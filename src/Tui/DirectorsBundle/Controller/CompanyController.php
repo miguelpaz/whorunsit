@@ -108,6 +108,7 @@ class CompanyController extends Controller
             // References
             $output['urls'] = array();
             $output['urls']['opencorporates'] = $this->jsonUrl('http://opencorporates.com/companies/gb/'.$company->getId().'.json', 'OpenCorporates', 'application/json');
+            $output['urls']['companieshouse'] = $this->jsonUrl('http://data.companieshouse.gov.uk/doc/company/'.$company->getId().'.json', 'Companies House', 'application/json');
             if ($output['appointment_page_count'] > 1)
             {
                 if ($page < $output['appointment_page_count'])
