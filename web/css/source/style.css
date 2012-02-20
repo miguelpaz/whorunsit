@@ -121,6 +121,11 @@ tbody tr:nth-child(even) td, tbody tr.even td {
     background: #EEE;
 }
 
+th
+{
+  vertical-align: top;
+}
+
 thead th {
     background: #DDD;
 }

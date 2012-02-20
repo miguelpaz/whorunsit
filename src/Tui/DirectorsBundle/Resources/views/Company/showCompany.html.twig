@@ -21,6 +21,8 @@
             <span class="key">Officers:</span> 
             <span class="value">{{ company.officers }}</span> 
        </div> 
+       
+       <br>
 
        <div class="item"> 
             <span class="key">Companies House:</span>
@@ -28,43 +30,49 @@
        </div> 
 
        <div class="item"> 
+            <span class="key">OpenCorporates:</span>
+            <span class="value"><a href="http://opencorporates.com/companies/gb/{{ company.id }}">View details</a></span> 
+       </div> 
+
+       <div class="item"> 
             <span class="key">Level Business:</span>
             <span class="value"><a href="http://www.levelbusiness.com/doc/company/uk/{{ company.id }}">Accounts and updated information</a></span> 
        </div> 
 
-       <div class="item"> 
-            <span class="key">Wikipedia abstract:</span> 
-            <span class="value">Coming soon</span> 
-       </div> 
+       <br>
 
+       <div class="item">
+           <span class="key">Short URL: </span>
+           <span class="value"><a rel="nofollow" href="http://whoruns.it/c/{{ company.id }}">http://whoruns.it/c/{{ company.id }}</a></span><br>
+           <span class="key">Alternative presentations:</span>
+           <span class="value"><a rel="alternate" type="application/json" href="{{ url('company_show', {'id': company.id ,'_format': 'json'} ) }}">JSON</a>, <a rel="alternate" type="application/rdf+xml" href="{{ url('company_show', {'id': company.id ,'_format': 'rdf'} ) }}">RDF</a></span>
+           <div class="small">Please read the <a href="{{ url('api') }}">API notes</a></div>
+       </div>
     </div>
     
     <div id="additional-details" class="append-bottom span-5 last">
         <table>
             <tbody>
                 <tr>
-                    <th scope="row">OpenCorporates:</th>
-                    <td><a href="http://opencorporates.com/companies/gb/{{ company.id }}">View details</a></td>
+                    <th scope="row" rowspan="4">Search</th>
+                    <td><a href="http://en.wikipedia.org/w/index.php?search={{ company.name | title | url_encode() }}">Search Wikipedia</a></td>
                 </tr>
                 <tr>
-                    <th scope="row">Wikipedia entry:</th>
-                    <td rowspan="5">Coming soon</td>
+                    <td><a href="http://openlylocal.com/suppliers?name_filter={{ company.name | url_encode() }}">Search Openly Local Suppliers</a></td>
                 </tr>
                 <tr>
-                    <th scope="row">Company site:</th>
+                  <td><a href="http://www.google.co.uk/search?hl=en&amp;gl=uk&amp;tbm=nws&amp;q={{ company.name | title | url_encode() }}">In the news (Google)</a></td>
                 </tr>
                 <tr>
-                    <th scope="row">Who's Lobbying:</th>
+                    <td><a href="http://whoslobbying.com/">Who's Lobbying</a><br>
+                    <span class="small quiet">Sorry, can't link to search results yet</span></td>
                 </tr>
-                <tr>
-                    <th scope="row">Openly Local Suppliers:</th>
-                </tr>
-                <tr>
-                    <th scope="row">LinkedIn:</th>
-                </tr>
+                
             </tbody>
         </table>
     </div>
+ 
+    <br class="clear">
  
     <h3>Current and former appointments</h3> 
     
@@ -98,60 +106,46 @@
     {% endif %}
     
     
-    
-    
-        <table id="appointments"> 
-        <thead> 
-            <tr> 
-                <th scope="col">Date</th> 
-                <th scope="col">Appointee</th> 
-                <th scope="col">Position</th>
-                <th scope="col">Date Source</th> 
-            </tr> 
-        </thead> 
-        <tbody> 
 
-            {% for appointment in companyAppointments %} 
-  
-                <tr{% if appointment.resignedOn %} class="resigned"{% endif %}>
-                  <td>
-                      {{ appointment.appointedOn|date("Y-m-d") }}
-                      {% if appointment.resignedOn %}
-                        – {{ appointment.resignedOn|date("Y-m") }}
-                      {% endif %}
-                  </td>
-                  <td><a href="{{ url('appointee_show', { 'id':  appointment.appointee.id  }) }}">{{ appointment.appointee.forenames | title }} {{ appointment.appointee.surname | title }}</a></td>
-                  <td>{{ appointment.type }}</td>
-                  <td>{{ appointment.appointmentDateSource }}</td>
-                </tr>  
-            
-            {% endfor %}
+
+    <table id="appointments"> 
+    <thead> 
+        <tr> 
+            <th scope="col">Date</th> 
+            <th scope="col">Appointee</th> 
+            <th scope="col">Position</th>
+            <th scope="col">Date Source</th> 
+        </tr> 
+    </thead> 
+    <tbody> 
+
+        {% for appointment in companyAppointments %} 
+
+            <tr{% if appointment.resignedOn %} class="resigned"{% endif %}>
+              <td>
+                  {{ appointment.appointedOn|date("Y-m-d") }}
+                  {% if appointment.resignedOn %}
+                    – {{ appointment.resignedOn|date("Y-m") }}
+                  {% endif %}
+              </td>
+              <td><a href="{{ url('appointee_show', { 'id':  appointment.appointee.id  }) }}">{{ appointment.appointee.forenames | title }} {{ appointment.appointee.surname | title }}</a></td>
+              <td>{{ appointment.type }}</td>
+              <td>{{ appointment.appointmentDateSource }}</td>
+            </tr>  
         
-        </tbody>
-        </table>
- 
-    <!-- <div class="span-5">
-        <h3>Non-executive directors</h3>
-        <p>Coming soon</p>
-    </div>
-    <div class="span-5 last">
-        <h3>Related companies</h3>
-        <p>Coming soon</p>
-    </div> -->
+        {% endfor %}
     
-    <br><hr>
-    
-    <div class="item">
-        <span class="key">Short URL: </span>
-        <span class="value"><a rel="nofollow" href="http://whoruns.it/c/{{ company.id }}">http://whoruns.it/c/{{ company.id }}</a></span><br>
-        <span class="key">Alternative presentations:</span>
-        <span class="value"><a rel="alternate" type="application/json" href="{{ url('company_show', {'id': company.id ,'_format': 'json'} ) }}">JSON</a>, <a rel="alternate" type="application/rdf+xml" href="{{ url('company_show', {'id': company.id ,'_format': 'rdf'} ) }}">RDF</a></span>
-        <div class="small">Please read the <a href="{{ url('api') }}">API notes</a></div>
-    </div>
+    </tbody>
+    </table>
 
-    <p class="notice">
-        <strong>Disclaimer:</strong><br>The contents of this page are a matter of <strong>public record</strong>, used under license from Companies House. The appointments shown are presumed correct on the date listed by Companies House, and may no longer be current. 
+
+    <div class="notice">
+        <strong>Disclaimer:</strong>
+        <ul>
+          <li>The contents of this page are a matter of <strong>public record</strong>, used under license from Companies House. </li>
+          <li>The appointments shown are presumed correct on the date listed by Companies House, and may no longer be current. </li>
+        </ul>
         <a href="{{ url('faq') }}">Find out more…</a>
-    </p>
+    </div>
     
 {% endblock %}
