@@ -106,7 +106,12 @@
  					    {% endif %}
  					</td>
  					<td>{{ appointment.type }}</td>
-					<td><A href="{{ url( 'company_show', { 'id': appointment.companyId }) }}">{{ appointment.company.name | title}}</a></td>
+					<td>
+					  <a href="{{ url( 'company_show', { 'id': appointment.companyId }) }}">{{ appointment.company.name | title}}</a>
+					  {% if appointment.company.status == 'Dissolved' %}
+					  <span class="company-status small quiet">{{ appointment.company.status }}</span>
+					  {% endif %}
+					</td>
 				</tr>
 				
  			{% endfor %} 
