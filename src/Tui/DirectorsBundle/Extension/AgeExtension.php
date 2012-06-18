@@ -6,7 +6,7 @@ class AgeExtension extends \Twig_Extension
 {
     public function getFunctions() {
         return array(
-            'age_bracket'  => new \Twig_Filter_Method($this, 'age_bracket'),
+            'age_bracket'  => new \Twig_Function_Method($this, 'age_bracket'),
         );
     }
 
