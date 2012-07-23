@@ -19,17 +19,16 @@ class AppointeeController extends Controller
      */
     public function showAppointeeAction($id, $_format)
     {
-		// If revision specified, fetch it
-		$revision = intval($this->getRequest()->query->get('v', null));
+        // If revision specified, fetch it
+        $revision = intval($this->getRequest()->query->get('v', null));
 
-		$em = $this->getDoctrine()->getEntityManager();
-	  $appointee = $em->getRepository('TuiDirectorsBundle:Appointee')->retrieveByRevision($id, $revision);
-	  
-		if (!$appointee)
-		{
-			throw $this->createNotFoundException('The appointee does not exist');
-		}
-	
+        $em = $this->getDoctrine()->getEntityManager();
+        $appointee = $em->getRepository('TuiDirectorsBundle:Appointee')->retrieveByRevision($id, $revision);
+        
+        if (!$appointee) {
+            throw $this->createNotFoundException('The appointee does not exist');
+        }
+
         // Configure HTTP Cache
         $response = new Response();
         $response->setCache(array(
@@ -40,8 +39,7 @@ class AppointeeController extends Controller
             'public'        => true,
         ));
         $response->headers->set('Link', '<http://whoruns.it/a/'.$appointee->getId().'>; rel=shorturl');
-        if ($response->isNotModified($this->get('request')))
-        {
+        if ($response->isNotModified($this->get('request'))) {
             return $response;
         }
 
@@ -62,8 +60,7 @@ class AppointeeController extends Controller
 
         $offset = 0;
         $numAppointments = $this->container->getParameter('appointments_page_length');
-        if ($page <= ceil($totalCompanyApps/$numAppointments) && $page > 1 )
-        {
+        if ($page <= ceil($totalCompanyApps/$numAppointments) && $page > 1 ) {
             $offset = ($page - 1) * $numAppointments;
         }
        
@@ -73,8 +70,7 @@ class AppointeeController extends Controller
 
 
       
-        if ($_format == 'json')
-        {
+        if ($_format == 'json') {
           
             $output = array(
                 "id"                => $appointee->getId(),
@@ -94,8 +90,7 @@ class AppointeeController extends Controller
                 "url"               => $this->generateUrl('appointee_show', array('id' => $appointee->getId(), '_format' => 'json'), TRUE),
             );
           
-            foreach ($companyAppointments as $appointment)
-            {
+            foreach ($companyAppointments as $appointment) {
                 $company = $appointment->getCompany();
         
                 $output["company_appointments"][] = array(
@@ -121,10 +116,8 @@ class AppointeeController extends Controller
 
 
             $output['urls'] = array();
-            if ($output['appointment_page_count'] > 1)
-            {
-                if ($page < $output['appointment_page_count'])
-                {
+            if ($output['appointment_page_count'] > 1) {
+                if ($page < $output['appointment_page_count']) {
                     $output['urls']['next_page'] = $this->jsonUrl(
                         $this->generateUrl('appointee_show', array('id' => $appointee->getId(), '_format' => 'json', 'page' => $page + 1)), 
                         'Appointees page '.($page+1), 
@@ -132,8 +125,7 @@ class AppointeeController extends Controller
                     );
                 }                
 
-                if ($page > 1)
-                {
+                if ($page > 1) {
                     $output['urls']['prev_page'] = $this->jsonUrl(
                         $this->generateUrl('appointee_show', array('id' => $appointee->getId(), '_format' => 'json', 'page' => $page - 1)), 
                         'Appointees page '.($page-1), 
