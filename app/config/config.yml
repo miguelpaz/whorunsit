@@ -73,7 +73,7 @@ swiftmailer:
 
 services:
     search:
-        class: SphinxClient
+        class: Tui\DirectorsBundle\Extension\SphinxClient
         calls:
             - [setArrayResult, [true]]
             - [setLimits, [0, %search_page_length%, 1000]]

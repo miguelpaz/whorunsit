@@ -4,7 +4,7 @@ namespace Tui\DirectorsBundle\Extension;
 
 use Doctrine\DBAL\Connection;
 use Symfony\Component\Routing\Router;
-use Symfony\Bundle\DoctrineBundle\Registry;
+use Doctrine\Bundle\DoctrineBundle\Registry;
 
 class DirectorSearchExtension
 {
@@ -18,7 +18,7 @@ class DirectorSearchExtension
     
     
     
-    public function __construct(\SphinxClient $search, Connection $connection, Router $router, Registry $doctrine)
+    public function __construct(SphinxClient $search, Connection $connection, Router $router, Registry $doctrine)
     {
         $this->search = $search;
         $this->dbh    = $connection;
@@ -233,14 +233,13 @@ class DirectorSearchExtension
           $q = $this->em->createQuery('SELECT c FROM TuiDirectorsBundle:Company c WHERE '.$ex->in('c.id', $ids));
           $companies = $q->getResult();
 
-
           // Get truncated appointees for companies
           $r = $this->em->getRepository('TuiDirectorsBundle:Company');
 
           
-          foreach($companies as $c)
+          foreach($companies as $idx => $c)
           {
-              $company_appointees[ $c->getId() ] = $r->getAbbreviatedAppointees($c, 5);
+              $company_appointees[ 'key' . $c->getId() ] = $r->getAbbreviatedAppointees($c, 5);
           }
         }
         
@@ -274,7 +273,7 @@ class DirectorSearchExtension
           
           foreach($appointees as $a)
           {
-              $appointee_companies[ $a->getId() ] = $r->getAbbreviatedCompanies($a, 5);
+              $appointee_companies[ 'key' . $a->getId() ] = $r->getAbbreviatedCompanies($a, 5);
           }
         }
         

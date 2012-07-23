@@ -27,7 +27,7 @@
             </span>
         </dt>
         <dd><p>
-            {% for c in appointee_companies[a.id] %}
+            {% for c in appointee_companies[a.key] %}
                 <span class="search-person-company quiet">{{ c.name | title | truncate(40)}}</span>{% if not loop.last %},{% endif %}
             {% endfor %}
         </p></dd>
@@ -58,7 +58,7 @@
       {% for c in companies %}
         <dt class="status-{{ c.status | lower | replace({' ':'-', '/':'-' }) }}"><a href="{{ url('company_show', {'id': c.id}) }}">{{ c.name }}</a></dt>
         <dd><p>
-            {% for a in company_appointees[c.id] %}
+            {% for a in company_appointees[c.key] %}
                 <span class="search-company-person quiet">{{ a.forenames | title }} {{ a.surname | title }}</span>{% if not loop.last %},{% endif %}{% if loop.index == 5 %}, …{% endif %}
             {% else %}
                 <span class="search-company-person quiet">n/a</span>

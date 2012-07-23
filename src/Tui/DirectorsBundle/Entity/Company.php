@@ -155,4 +155,9 @@ class Company
     {
         return $this->companyAppointments;
     }
+    
+    public function getKey()
+    {
+        return 'key'.$this->getId();
+    }
 }

@@ -571,4 +571,9 @@ class Appointee
     {
         $this->companyAppointments[] = $companyAppointments;
     }
+    
+    public function getKey()
+    {
+        return 'key' . $this->getId();
+    }
 }

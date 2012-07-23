@@ -26,7 +26,7 @@
         </span>
     </dt>
     <dd><p>
-        {% for c in appointee_companies[a.id] %}
+        {% for c in appointee_companies[a.key] %}
             <span class="search-person-company quiet">{{ c.name | title | truncate(40)}}</span>{% if not loop.last %},{% endif %}
         {% endfor %}
     </p></dd>
