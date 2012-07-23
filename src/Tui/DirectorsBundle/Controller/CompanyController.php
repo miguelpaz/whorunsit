@@ -15,7 +15,7 @@ class CompanyController extends Controller
 
     /**
      * @Route("/companies/{id}.{_format}", name="company_show", defaults={"_format" = "html"}, requirements={"_format" = "html|json|rdf"})
-     * @ParamConverter("id", class="TuiDirectorsBundle:Company")
+     * @ParamConverter("company", class="TuiDirectorsBundle:Company")
      */
     public function showCompanyAction(Company $company, $_format)
     {
@@ -53,7 +53,6 @@ class CompanyController extends Controller
             $offset = ($page - 1) * $numAppointments;
         }
                
-              
         // Get all the appointments for this page
         $companyAppointments = $r->getAppointments($company, $numAppointments, $offset);
         
