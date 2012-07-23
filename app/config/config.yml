@@ -1,5 +1,5 @@
 imports:
-    - { resource: parameters.ini }
+    - { resource: parameters.yml }
     - { resource: security.yml }
 
 parameters:
@@ -10,17 +10,25 @@ parameters:
 
 framework:
     secret:        %secret%
-    charset:       UTF-8
-    router:        { resource: "%kernel.root_dir%/config/routing.yml" }
+    router:        
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_parameters: %kernel.debug%
     form:            true
     csrf_protection: true
     validation:      { enable_annotations: true }
     templating:      { engines: ['twig'] } #assets_version: SomeVersionScheme
     translator: { fallback: en }
+    default_locale:   %locale%
     session:
-        default_locale: %locale%
-        lifetime:       3600
-        auto_start:     true
+        # storage_id: session.storage.native
+        # handler_id: session.handler.native_file
+        # cookie_lifetime:   3600
+        # cookie_path:       \
+        # cookie_domain:     example.com
+        # cookie_secure:     true
+        # cookie_httponly:   true
+    trust_proxy_headers: false
+    
 
 # Twig Configuration
 twig:
@@ -29,6 +37,7 @@ twig:
 
 # Assetic Configuration
 assetic:
+    bundles: []
     debug:          %kernel.debug%
     use_controller: false
     filters:
@@ -55,14 +64,11 @@ doctrine:
 
 # Swiftmailer Configuration
 swiftmailer:
+    spool: { type: memory }
     transport: %mailer_transport%
     host:      %mailer_host%
     username:  %mailer_user%
     password:  %mailer_password%
-
-jms_security_extra:
-    secure_controllers:  true
-    secure_all_services: false
 
 
 services:
