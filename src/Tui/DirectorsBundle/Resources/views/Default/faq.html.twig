@@ -2,6 +2,21 @@
 
 {% block title %}FAQ - Who runs it?{% endblock %}
 
+{% block rightcol %}
+<h2>Table of contents</h2>
+<ul>
+    <li><a href="#what">What is this?</a></li>
+    <li><a href="#incomplete">Is this all the data?</a></li>
+    <li><a href="#out-of-date">My information's out of date!</a></li>
+    <li><a href="#takedown">These are my personal details, I want them taken down!</a></li>
+    <li><a href="#atrisk">Are there any circumstances under which you'll remove data?</a></li>
+    <li><a href="#too-old">How up to date is it?</a></li>
+    <li><a href="#commercial">Non-commercial use</a></li>
+    <li><a href="#data">Can I have the original data files?</a></li>
+    <li><a href="#who">Who are you?</a></li>
+</ul>
+{% endblock %}
+
 {% block leftcol %}
 <h2>FAQ</h2> 
  
@@ -16,6 +31,12 @@
       <p>Companies that are currently active (not dissolved) are linked to <a href="http://opencorporates.com/">OpenCorporates</a>, who are A) lovely, and B) have richer information on companies than is available in our data files.</p> 
     </dd> 
 
+    <dt id="out-of-date">My information's out of date!</dt>
+    <dd>
+        <p>We'd love to update your details! However Companies House currently charges between £3600 and £4000 for a snapshot of their data, so we can't afford to do it often. A daily feed costs roughly £50,000 a year. We can't update invididual records either, for both resource and legal reasons. If your information is out of date, you should inform Companies House of any changes, and we'll pick them up the next time we obtain a snapshot from them.</p>
+    </dd>
+
+
     <dt id="takedown">These are my personal details, I want them taken down!</dt>
 
     <dd>
@@ -29,13 +50,13 @@
       <p>But we won't remove your data from our site. Here's why:</p>
 
       <ul>
-        <li>The information held on this site is a reproduction of the public record, which means the data <em>must</em> be made freely available to the public, and <em>anyone</em> is entitled to view it for (almost) any reason. Many companies make a business of providing this information to others. Removing it from our site won't remove it from the public record and won't make you any safer. You <em>have</em> to file these details with Companies House, and they <em>have</em> to make them available to the public. This is one of the mechanisms through which private companies are held accountable to the public.</li>
+        <li>The information held on this site is a historical snapshot of the public record. Public record means the data <em>must</em> be made freely available to the public, and <em>anyone</em> is entitled to view it for (almost) any reason. Many companies make a business of providing this information to others. Removing it from our site won't remove it from theirs or from the public record, and won't make you any safer. You <em>have</em> to file these details with Companies House, and they <em>have</em> to make them available to the public. This is one of the mechanisms through which private companies are held accountable to the public.</li>
 
         <li>Please don't threaten us with the Data Protection Act. The Data Protection Act has an exemption for the information collected and distributed by Companies House. And regardless of whether <em>we</em> show your information, it will still be legally and publicly available elsewhere.</li>
 
         <li>Your full name, date of birth, directorships, home and service addresses, even company accounts are all available to private companies and individuals. Anyone can request these from Companies House and there are other public records too, like the electoral roll, the register of births and deaths, the land registry, etc.</li>
 
-        <li>This is a public resource made up of public data. People have a right to know even if you think they don't; the information is already out there on other sites and company databases, available to anyone who asks. The only difference is that we don't charge for access. We think that you're better off knowing what other people can see about you, so you aren't under any illusions.</li>
+        <li>This is a public resource made up of public data. People have a right to know even if you'd rather they didn't; the information is already out there on other sites and company databases, available to anyone who asks. The only difference is that we don't charge for access. We think that you're better off knowing what other people can see about you, so you aren't under any illusions.</li>
 
       </ul>
     </dd>
@@ -54,9 +75,6 @@
   
     <dt id="data">Can I just have the original data files?</dt> 
     <dd><p>Unfortunately the sales agreement we have signed with Companies House does not allow us to distribute the data files. We can, however, redistribute the full contents of them in a different format (strange but true, and anyway believe me, you don't want them in the original format). Besides, we'd like to keep the data here so everyone can share the annotations.</p></dd> 
-  
-    <dt id="annot">What are annotations?</dt> 
-    <dd><p>We're hoping to enrich the data by linking it to other places. If you know a particular company or person has, for example, a Wikipedia page, you can add it as an annotation. By linking our data to Wikipedia, TheyWorkForYou, etc, we can enrich both sites. </p></dd> 
   
     <dt id="who">Who are you?</dt> 
     <dd><p>We're: Matt, Jake, Sam, Neil &amp; Graeme. We've worked on a number of projects that focus on the conjunction of business and politics, most notably <a href="http://whoknowswho.channel4.com/">a project</a> we pitched to Channel 4 in 2009 and subsequently <a href="http://whoknowswho.googlecode.com/">open-sourced</a>. We also worked on a UK release of <a href="http://littlesis.org/local/uk">LittleSis</a>. You may also be interested in our <a href="http://guardian.mapofpower.com/">Guardian/Calais news mashup</a>.</p></dd> 
