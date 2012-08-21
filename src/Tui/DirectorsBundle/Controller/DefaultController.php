@@ -31,6 +31,16 @@ class DefaultController extends Controller
         return array();
     }
 
+    /**
+     * @Route("/closing", name="closing")
+     * @Template()
+     */
+  
+    public function closingAction()
+    {
+        return array();
+    }
+
 
     /**
      * @Route("/faq", name="faq")
