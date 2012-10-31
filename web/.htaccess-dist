@@ -1,22 +1,12 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
-    RewriteCond %{HTTP_HOST} ^whoruns\.it$
-    RewriteCond %{REQUEST_URI} ^/c/
-    RewriteRule ^c/(.*)$ http://www.whorunsit.org/companies/$1 [R=301,QSA,L]
-
-    RewriteCond %{HTTP_HOST} ^whoruns\.it$
-    RewriteCond %{REQUEST_URI} ^/a/
-    RewriteRule ^a/(.*)$ http://www.whorunsit.org/appointees/$1 [R=301,QSA,L]
-
-
-    RewriteCond %{HTTP_HOST} !^localhost
-    RewriteCond %{HTTP_HOST} !^www\.whorunsit\.org$
-    RewriteRule ^(.*)$ http://www.whorunsit.org/$1 [R=301,QSA,L]
-
+    # RewriteCond %{HTTP_HOST} !^localhost
+    # RewriteCond %{HTTP_HOST} !^www\.whorunsit\.org$
+    # RewriteRule ^(.*)$ http://www.whorunsit.org/$1 [R=301,QSA,L]
 
     RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^(.*)$ app.php [QSA,L]
+    RewriteRule ^(.*)$ index.html [L]
 </IfModule>
 
 ErrorDocument 403 /403.html
